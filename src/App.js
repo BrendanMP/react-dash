@@ -1,25 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  // Link
+} from "react-router-dom";
+
+import 'mapbox-gl/dist/mapbox-gl.css';
+
+import Home from './pages/Home';
+import Controller from './pages/Controller';
+import Map from './pages/Map';
+import Socket from './pages/Socket';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Switch>
+          <Route path="/map">
+            <Map/>
+          </Route>
+          <Route path="/socket">
+            <Socket/>
+          </Route>
+          <Route path="/controller">
+            <Controller/>
+          </Route>
+          <Route path="/">
+            <Home/>
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
