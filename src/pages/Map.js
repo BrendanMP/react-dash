@@ -8,7 +8,7 @@ class Map extends Component {
   render() {
     return (
       <div>
-        <Deck/>
+        <Deck time={0}/>
       </div>
     )
   }

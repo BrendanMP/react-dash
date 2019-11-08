@@ -1,4 +1,5 @@
 import React from 'react'
+import {addSeconds, format} from 'date-fns';
 import InputRange from 'react-input-range';
 
 const ANIMATION_SPEED = 30;
@@ -7,36 +8,53 @@ class RangeSlider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: {
-        min: 0,
-        max: 50
-      },
+      value: 0,
+      interval: null,
+      date: new Date('2019-10-10 0:00'),
       isPlaying: false,
     };
-    this._updateRange = this._updateRange.bind(this);
-    this._animationFrame = null;
+    this.updateRange = this.updateRange.bind(this);
+    this._play = this._play.bind(this);
   }
 
-  _updateRange(value) {
+  updateRange(value) {
     this.setState({
       value
     })
+    this.props.rangeChange(value);
   }
 
+  _play = () => {
+
+
+
+    if (this.state.value < 86400) {
+      this.updateRange(this.state.value + 3)
+    } else {
+      this.updateRange(0)
+    }
+
+    if (!this.isPlaying) {
+      this.setState({isPlaying: true})
+      this._animationFrame = window.requestAnimationFrame(this._play.bind(this));
+    } else {
+      this.setState({isPlaying: false})
+    }
+  }
 
   render() {
-    const {min, max} = this.props.value;
     return (
       <div className='d-flex flex-grow-1 align-content-center'>
         <div className='mr-4'>
-          <button className="btn" onClick={this._animate}>Play</button>
+          <button className="btn" onClick={this._play}>Play</button>
         </div>
         <div className='flex-grow-1 d-flex align-items-center'>
           <InputRange
+            formatLabel={value => format(addSeconds(this.state.date, value || 0), 'MMM dd h:mm a')}
             minValue={0}
-            maxValue={100}
+            maxValue={86400}
             value={this.state.value}
-            onChange={value => this._updateRange(value)}
+            onChange={value => this.updateRange(value)}
           />
         </div>
       </div>

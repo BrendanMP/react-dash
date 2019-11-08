@@ -12,6 +12,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import Home from './pages/Home';
 import Controller from './pages/Controller';
 import Map from './pages/Map';
+import Test from './pages/Test';
 import Socket from './pages/Socket';
 
 function App() {
@@ -19,6 +20,9 @@ function App() {
     <Router>
       <div className="App">
         <Switch>
+          <Route path="/test">
+            <Test/>
+          </Route>
           <Route path="/map">
             <Map/>
           </Route>

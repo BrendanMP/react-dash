@@ -1,42 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="346c2016-fe7e-4c89-ad7b-2fc1e4f4089c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Deck.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/RangeSlider.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Voice.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/charts/BarChart.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/charts/LineChart.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/bounds.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/communes.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/dots.geojson" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/dots.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/incidents.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/points.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/roads.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/trips.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/images/COA.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Home.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Map.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Socket.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scss/_base.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scss/_variables.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scss/main.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scss/old-deck.jsx" afterDir="false" />
+    <list default="true" id="346c2016-fe7e-4c89-ad7b-2fc1e4f4089c" name="Default Changelist" comment="Initial commit">
+      <change afterPath="$PROJECT_DIR$/errors.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fetchTrips.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/adbijan/Trip_1.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/adbijan/directions.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/adbijan/directions_api.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/adbijan/mygeodata (2).zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/adbijan/nyc-trips.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/adbijan/path.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/adbijan/point_trip.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/adbijan/trips-2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/adbijan/trips-csv.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/adbijan/trips-json-2.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/adbijan/trips_directions_api.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trips.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/serviceWorker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Deck.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Deck.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/RangeSlider.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RangeSlider.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Voice.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Voice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/adbijan/communes.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/adbijan/communes.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/adbijan/incidents.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/adbijan/incidents.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/adbijan/trips.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/adbijan/trips.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Map.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Map.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scss/main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/scss/main.scss" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -61,7 +57,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="TEXT&#10;JSON" />
     <property name="javascript.nodejs.core.library.configured.version" value="12.13.0" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/data/adbijan" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -73,12 +69,15 @@
     <property name="settings.editor.selected.configurable" value="settings.nodejs" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/data/adbijan" />
+      <recent name="$USER_HOME$/Desktop" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/scss" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/data/adbijan" />
+      <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -110,8 +109,17 @@
       <updated>1572800672629</updated>
       <workItem from="1572800673914" duration="759000" />
       <workItem from="1572801510094" duration="577000" />
-      <workItem from="1572802132539" duration="69083000" />
+      <workItem from="1572802132539" duration="87106000" />
+      <workItem from="1573082785024" duration="60161000" />
     </task>
+    <task id="LOCAL-00001" summary="Initial commit">
+      <created>1573019559766</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1573019559766</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -132,27 +140,37 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Initial commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/Deck.js</url>
-          <line>19</line>
-          <properties lambdaOrdinal="-1" />
+          <line>3122</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" log-message="true" suspend="NONE" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/Deck.js</url>
-          <line>235</line>
-          <properties lambdaOrdinal="-1" />
+          <line>3389</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/scss/old-deck.jsx</url>
           <line>229</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/components/Deck.js</url>
+          <line>3159</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/pages/Test.js</url>
+          <line>76</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

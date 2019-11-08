@@ -1,7 +1,22 @@
 import React, {Component} from 'react';
 
+import axios from 'axios';
+
+import googleMapsClient from '@google/maps';
+
 import BarChart from '../components/charts/BarChart';
 import LineChart from "../components/charts/LineChart";
+
+
+googleMapsClient.createClient({
+  key: 'AIzaSyDu0pWPJJZTJowhPaUJvSralWi3tGjZofw'
+})
+
+// https://maps.googleapis.com/maps/api/directions/json?origin=Disneyland&destination=Universal+Studios+Hollywood&key=AIzaSyDu0pWPJJZTJowhPaUJvSralWi3tGjZofw
+
+// https://maps.googleapis.com/maps/api/directions/json?origin=5.2544696%2C-3.9296293&destination=5.3036192%2C-4.00463&key=AIzaSyDu0pWPJJZTJowhPaUJvSralWi3tGjZofw
+
+
 
 class Home extends Component {
   constructor(props) {
@@ -33,9 +48,18 @@ class Home extends Component {
     }
   }
 
+  componentDidMount() {
+    
+    
+    
+
+  }
+
+
   render() {
     return(
       <div className='container py-5 px-5'>
+
         <BarChart
           data={this.state.chartData.data}
         />
