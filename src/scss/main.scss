@@ -1,6 +1,16 @@
 @import "base";
 @import "~bootstrap/scss/bootstrap";
 
+html {
+  font-size: 1vw;
+}
+
+a {
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 .mapboxgl-map {
   .mapboxgl-ctrl-logo {
     display: none;
@@ -24,7 +34,6 @@
     left: 1rem;
   }
 }
-
 
 .controller {
   position: fixed;
@@ -79,7 +88,6 @@
     background: rgba($gray-900, 0.5);
   }
 }
-
 
 .input-range__slider {
   -webkit-appearance: none;
@@ -136,6 +144,7 @@
 .input-range__label--max {
   bottom: -1.4rem;
   position: absolute;
+  display: none;
 }
 
 .input-range__label--min {
@@ -148,7 +157,7 @@
 
 .input-range__label--value {
   position: absolute;
-  top: -1.8rem;
+  top: -2.5rem;
 }
 
 .input-range__label-container {
@@ -208,4 +217,135 @@
   width: 3rem;
   margin-right: 1rem;
   height: auto;
+}
+
+.page {
+  font-size: 1vw;
+  padding: 1rem 0;
+  header {
+    margin-bottom: 1rem;
+    h1 {
+      font-size: 3vw;
+      font-weight: 400;
+    }
+  }
+}
+
+.card {
+  border-radius: 0;
+  background: $gray-900;
+  margin-bottom: 0.5rem;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+
+.finance-dashboard {
+  font-size: 1.2vw;
+  display: flex;
+  min-height: 100vh;
+
+  header {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin: 2rem 0;
+    padding: 1rem 0;
+    color: $gray-400;
+  }
+
+  main {
+    flex: 1 1 auto;
+    background: $gray-800;
+    height: 100vh;
+    overflow: auto;
+    position: relative;
+    section {
+      position: absolute;
+      width: 100%;
+      top: 0;
+      left: 0;
+      padding: 1rem 3rem;
+      height: 100%;
+      transform: translate(100%, 0);
+      transition: transform 800ms ease-in-out;
+      background: $gray-800;
+      &.active {
+        transform: translate(0,0);
+      }
+    }
+  }
+  .nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 0 1 15%;
+    background: $black;
+    a {
+      display: block;
+      padding: 1.5rem 5rem;
+      text-transform: uppercase;
+      color: $gray-500;
+      transition: color 300ms ease;
+      &:hover, &.active {
+        color: $gray-400;
+      }
+    }
+
+    &--list {
+      background: $gray-900;
+      font-size: 1.5vw;
+      a {
+        text-align: center;
+        margin: 0.5rem;
+      }
+    }
+
+    &--icons {
+      padding: 0;
+      background: $black;
+      flex: 0 1 auto;
+      a {
+        padding: 2rem 3rem;
+      }
+      svg {
+        width: 2.5rem;
+        height: auto;
+        display: block;
+        stroke: $gray-300;
+      }
+      .active {
+        background: $gray-900;
+      }
+    }
+    ul {
+      display: block;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+  }
+}
+
+
+.panel {
+  background: $gray-900;
+  display: flex;
+  margin-bottom: 1rem;
+  .panel-rank {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 3rem;
+    font-size: 4rem;
+    line-height: 1;
+    background: rgba($black, 0.5);
+  }
+  .panel-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem;
+  }
 }

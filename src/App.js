@@ -9,10 +9,10 @@ import {
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import Home from './pages/Home';
+import Finance from './pages/finance/Finance';
 import Controller from './pages/Controller';
 import Map from './pages/Map';
-import Test from './pages/Test';
+import TripDeck from './pages/TripDeck';
 import Socket from './pages/Socket';
 
 function App() {
@@ -20,8 +20,8 @@ function App() {
     <Router>
       <div className="App">
         <Switch>
-          <Route path="/test">
-            <Test/>
+          <Route path="/finance/home">
+            <Finance/>
           </Route>
           <Route path="/map">
             <Map/>
@@ -33,7 +33,7 @@ function App() {
             <Controller/>
           </Route>
           <Route path="/">
-            <Home/>
+            <TripDeck/>
           </Route>
         </Switch>
       </div>

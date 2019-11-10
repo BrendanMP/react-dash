@@ -8,7 +8,7 @@ class RangeSlider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 0,
+      value: 40000,
       interval: null,
       date: new Date('2019-10-10 0:00'),
       isPlaying: false,
@@ -26,10 +26,8 @@ class RangeSlider extends React.Component {
 
   _play = () => {
 
-
-
     if (this.state.value < 86400) {
-      this.updateRange(this.state.value + 3)
+      this.updateRange(this.state.value + 10)
     } else {
       this.updateRange(0)
     }

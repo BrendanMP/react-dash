@@ -1,38 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="346c2016-fe7e-4c89-ad7b-2fc1e4f4089c" name="Default Changelist" comment="Initial commit">
-      <change afterPath="$PROJECT_DIR$/errors.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fetchTrips.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/Trip_1.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/directions.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/directions_api.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/mygeodata (2).zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/nyc-trips.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/path.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/point_trip.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/trips-2.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/trips-csv.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/trips-json-2.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/adbijan/trips_directions_api.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trips.json" afterDir="false" />
+    <list default="true" id="346c2016-fe7e-4c89-ad7b-2fc1e4f4089c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/display/Display.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/adbijan/mygeodata.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/adbijan/reseau_arc.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/adbijan/reseau_noeud.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/adbijan/voire_nord.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/finance/finance.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/finance/Finance.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/traffic/Traffic.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/errors.json" beforeDir="false" afterPath="$PROJECT_DIR$/errors.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fetchTrips.js" beforeDir="false" afterPath="$PROJECT_DIR$/fetchTrips.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Deck.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Deck.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/RangeSlider.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RangeSlider.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Voice.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Voice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/adbijan/communes.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/adbijan/communes.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/adbijan/incidents.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/adbijan/incidents.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/adbijan/mygeodata (2).zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/adbijan/trips-json-2.zip" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/data/adbijan/trips.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/adbijan/trips.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Map.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Map.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/TripDeck.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scss/_base.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/scss/_base.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scss/_variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/scss/_variables.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scss/main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/scss/main.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trips.json" beforeDir="false" afterPath="$PROJECT_DIR$/trips.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -110,7 +101,7 @@
       <workItem from="1572800673914" duration="759000" />
       <workItem from="1572801510094" duration="577000" />
       <workItem from="1572802132539" duration="87106000" />
-      <workItem from="1573082785024" duration="60161000" />
+      <workItem from="1573082785024" duration="86676000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1573019559766</created>
@@ -119,7 +110,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573019559766</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Trips layer">
+      <created>1573244573825</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1573244573825</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -139,9 +137,11 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
+    <MESSAGE value="Trips layer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Trips layer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -167,10 +167,16 @@
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/pages/Test.js</url>
-          <line>76</line>
+          <url>file://$PROJECT_DIR$/src/pages/TripDeck.js</url>
+          <line>109</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/pages/TripDeck.js</url>
+          <line>68</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
