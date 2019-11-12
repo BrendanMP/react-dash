@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  BrowserRouter as Router,
+  HashRouter,
   Switch,
   Route,
 } from "react-router-dom";
@@ -16,7 +16,7 @@ import Accidents from './pages/accidents/Accidents';
 
 function App() {
   return (
-    <Router>
+    <HashRouter>
       <div className="App">
         <Switch>
           <Route path="/finance/home">
@@ -45,7 +45,7 @@ function App() {
           </Route>
         </Switch>
       </div>
-    </Router>
+    </HashRouter>
   );
 }
 
