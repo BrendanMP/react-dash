@@ -17,9 +17,12 @@ const MAPBOX_TOKEN =
 const transitionInterpolator = new LinearInterpolator(['bearing']);
 
 const colorRange = [
-  [255, 193, 7],
-  [253, 126, 20],
-  [220, 53, 69],
+  [1, 152, 189],
+  [73, 227, 206],
+  [216, 254, 181],
+  [254, 237, 177],
+  [254, 173, 84],
+  [254, 120, 78],
 ];
 
 const material = new PhongMaterial({
