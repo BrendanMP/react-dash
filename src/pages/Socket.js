@@ -7,6 +7,7 @@ class Socket extends Component {
     this.state = {
       endpoint: '0.0.0.0:3030'
     }
+    this._send = this._send.bind(this)
   }
 
   _send() {
@@ -20,10 +21,12 @@ class Socket extends Component {
       document.body.style.backgroundColor = 'green'
     })
   }
+
   render() {
     return (
       <div>
         <div className="container my-5">Socket</div>
+        <button onClick={this._send}></button>
       </div>
     )
   }

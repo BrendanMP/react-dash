@@ -1,0 +1,206 @@
+[
+  {
+    "geocoded_waypoints" : [
+      {
+        "geocoder_status" : "OK",
+        "place_id" : "ChIJNyuRZFHpwQ8RgPmm1NTFqE8",
+        "types" : [ "street_address" ]
+      },
+      {
+        "geocoder_status" : "OK",
+        "place_id" : "ChIJb3EE8f7rwQ8RGjdqfltdEHY",
+        "types" : [ "premise" ]
+      }
+    ],
+    "routes" : [
+      {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 5.3014101,
+            "lng" : -3.9909546
+          },
+          "southwest" : {
+            "lat" : 5.2902546,
+            "lng" : -4.0032125
+          }
+        },
+        "copyrights" : "Map data ©2019",
+        "legs" : [
+          {
+            "distance" : {
+              "text" : "2.9 km",
+              "value" : 2891
+            },
+            "duration" : {
+              "text" : "10 mins",
+              "value" : 575
+            },
+            "end_address" : "GSO Warehouse, Boulevard Valéry Giscard d'Estaing, Abidjan, Côte d'Ivoire",
+            "end_location" : {
+              "lat" : 5.301288,
+              "lng" : -3.9909546
+            },
+            "start_address" : "117 Boulevard de Marseille, Abidjan, Côte d'Ivoire",
+            "start_location" : {
+              "lat" : 5.2902546,
+              "lng" : -3.993432
+            },
+            "steps" : [
+              {
+                "distance" : {
+                  "text" : "0.2 km",
+                  "value" : 187
+                },
+                "duration" : {
+                  "text" : "1 min",
+                  "value" : 23
+                },
+                "end_location" : {
+                  "lat" : 5.2909874,
+                  "lng" : -3.9949557
+                },
+                "html_instructions" : "Head \u003cb\u003enorthwest\u003c/b\u003e on \u003cb\u003eBoulevard de Marseille\u003c/b\u003e toward \u003cb\u003eRue de l'Industrie\u003c/b\u003e",
+                "polyline" : {
+                  "points" : "agh_@|}jWGPO^cAlCw@pB"
+                },
+                "start_location" : {
+                  "lat" : 5.2902546,
+                  "lng" : -3.993432
+                },
+                "travel_mode" : "DRIVING"
+              },
+              {
+                "distance" : {
+                  "text" : "1.1 km",
+                  "value" : 1120
+                },
+                "duration" : {
+                  "text" : "3 mins",
+                  "value" : 168
+                },
+                "end_location" : {
+                  "lat" : 5.2961385,
+                  "lng" : -4.0032125
+                },
+                "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eRue de l'Industrie\u003c/b\u003e",
+                "maneuver" : "turn-right",
+                "polyline" : {
+                  "points" : "ukh_@ngkWi@MYCQAK@K@GBIDGDKNQ^q@xAgA`CqAtCkBfEeBrDi@jAa@z@q@xAiAfC_@x@ABu@pBUj@Uh@M`@eA`Ca@~@"
+                },
+                "start_location" : {
+                  "lat" : 5.2909874,
+                  "lng" : -3.9949557
+                },
+                "travel_mode" : "DRIVING"
+              },
+              {
+                "distance" : {
+                  "text" : "0.3 km",
+                  "value" : 255
+                },
+                "duration" : {
+                  "text" : "1 min",
+                  "value" : 59
+                },
+                "end_location" : {
+                  "lat" : 5.2982764,
+                  "lng" : -4.0024066
+                },
+                "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eBoulevard Mamadou Konaté\u003c/b\u003e",
+                "maneuver" : "turn-right",
+                "polyline" : {
+                  "points" : "{ki_@`{lWaBk@]M_A]UIOGSEOE]IA?aC_@"
+                },
+                "start_location" : {
+                  "lat" : 5.2961385,
+                  "lng" : -4.0032125
+                },
+                "travel_mode" : "DRIVING"
+              },
+              {
+                "distance" : {
+                  "text" : "82 m",
+                  "value" : 82
+                },
+                "duration" : {
+                  "text" : "1 min",
+                  "value" : 20
+                },
+                "end_location" : {
+                  "lat" : 5.2984662,
+                  "lng" : -4.0016939
+                },
+                "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e at the 1st cross street at \u003cb\u003eBoulevard Valéry Giscard d'Estaing\u003c/b\u003e",
+                "maneuver" : "turn-right",
+                "polyline" : {
+                  "points" : "gyi_@`vlWM}@Kg@Ki@"
+                },
+                "start_location" : {
+                  "lat" : 5.2982764,
+                  "lng" : -4.0024066
+                },
+                "travel_mode" : "DRIVING"
+              },
+              {
+                "distance" : {
+                  "text" : "1.0 km",
+                  "value" : 989
+                },
+                "duration" : {
+                  "text" : "4 mins",
+                  "value" : 262
+                },
+                "end_location" : {
+                  "lat" : 5.3012656,
+                  "lng" : -3.9932595
+                },
+                "html_instructions" : "Continue onto \u003cb\u003eBoulevard Valéry Giscard d'Estaing\u003c/b\u003e",
+                "polyline" : {
+                  "points" : "mzi_@pqlWU{@i@yBIYi@qB]uAOm@k@{Bo@iC_@yA}AkGGYAIAGCMEi@Cg@AUCMAOOk@W}@]}AE[E[AWCYCICKCECEAAGIEEGGGMCIAKCQ"
+                },
+                "start_location" : {
+                  "lat" : 5.2984662,
+                  "lng" : -4.0016939
+                },
+                "travel_mode" : "DRIVING"
+              },
+              {
+                "distance" : {
+                  "text" : "0.3 km",
+                  "value" : 258
+                },
+                "duration" : {
+                  "text" : "1 min",
+                  "value" : 43
+                },
+                "end_location" : {
+                  "lat" : 5.301288,
+                  "lng" : -3.9909546
+                },
+                "html_instructions" : "Continue onto \u003cb\u003eBoulevard Valéry Giscard d'Estaing\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the right\u003c/div\u003e",
+                "polyline" : {
+                  "points" : "}kj_@z|jWMaBIaAC[?W?W@c@BS@OLu@?K?IAW?M?I@M@K"
+                },
+                "start_location" : {
+                  "lat" : 5.3012656,
+                  "lng" : -3.9932595
+                },
+                "travel_mode" : "DRIVING"
+              }
+            ],
+            "traffic_speed_entry" : [],
+            "via_waypoint" : []
+          }
+        ],
+        "overview_polyline" : {
+          "points" : "agh_@|}jWsCpHcAQ]?SDQJ]n@yBzEmI|Q}DvIcBjEsAbDa@~@aBk@}Ak@e@QcAUaC_@M}@WqAsBaIiCiKgCiKOgBEc@Q{@u@{CKw@Eq@GUQWMMKW]aECs@@{@Dc@LaAAy@BY"
+        },
+        "summary" : "Rue de l'Industrie and Boulevard Valéry Giscard d'Estaing",
+        "warnings" : [],
+        "waypoint_order" : []
+      }
+    ],
+    "status" : "OK",
+    "start_time": 150
+  }
+]

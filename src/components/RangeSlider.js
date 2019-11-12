@@ -2,13 +2,11 @@ import React from 'react'
 import {addSeconds, format} from 'date-fns';
 import InputRange from 'react-input-range';
 
-const ANIMATION_SPEED = 30;
-
 class RangeSlider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 40000,
+      value: this.props.time,
       interval: null,
       date: new Date('2019-10-10 0:00'),
       isPlaying: false,
@@ -25,9 +23,8 @@ class RangeSlider extends React.Component {
   }
 
   _play = () => {
-
     if (this.state.value < 86400) {
-      this.updateRange(this.state.value + 10)
+      this.updateRange(this.state.value + (this.props.speed || 5))
     } else {
       this.updateRange(0)
     }
@@ -37,6 +34,7 @@ class RangeSlider extends React.Component {
       this._animationFrame = window.requestAnimationFrame(this._play.bind(this));
     } else {
       this.setState({isPlaying: false})
+      this._animationFrame = null;
     }
   }
 
@@ -48,7 +46,7 @@ class RangeSlider extends React.Component {
         </div>
         <div className='flex-grow-1 d-flex align-items-center'>
           <InputRange
-            formatLabel={value => format(addSeconds(this.state.date, value || 0), 'MMM dd h:mm a')}
+            formatLabel={value => format(addSeconds(this.state.date, value || 0), 'h:mm a')}
             minValue={0}
             maxValue={86400}
             value={this.state.value}

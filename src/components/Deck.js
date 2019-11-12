@@ -19,12 +19,7 @@ import {PhongMaterial} from '@luma.gl/core';
 import geojsonLength from 'geojson-length'
 import COMMUNES_JSON from '../data/adbijan/communes.json';
 import DOTS_JSON from '../data/adbijan/dots.json';
-// import PATH_JSON from '../data/adbijan/path.json';
-// import TRIPS_JSON from '../data/adbijan/Trip_1.json';
-// import NYC_JSON from '../data/adbijan/nyc-trips.json';
 import INCIDENTS_JSON from '../data/adbijan/incidents.json';
-// import TRIP_CSV from '../data/adbijan/trips-csv'
-// import axios from "axios";
 
 function distance(lat1, lon1, lat2, lon2, unit) {
   if ((lat1 === lat2) && (lon1 === lon2)) {
@@ -3236,8 +3231,8 @@ class Deck extends React.Component {
           [this.props.time, 5000]
         ],
         filterSoftRange: [
-          [0, this.props.time - 100],
-          [this.props.time + 100, 5000]
+          [0, this.props.time - 20],
+          [this.props.time + 20, 5000]
         ],
         extensions: [
           new DataFilterExtension({filterSize: 2})

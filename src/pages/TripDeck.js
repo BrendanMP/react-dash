@@ -12,7 +12,7 @@ import DeckGL, {
 import {StaticMap} from 'react-map-gl';
 import InputRange from 'react-input-range';
 import polyline from 'google-polyline';
-import simplify from 'simplify-js';
+// import simplify from 'simplify-js';
 import {PhongMaterial} from '@luma.gl/core';
 
 import TRIPS_JSON from '../data/adbijan/trips.json';
@@ -49,6 +49,74 @@ function distanceBetween(lat1, lon1, lat2, lon2, unit) {
   }
 }
 
+function round(value, decimals) {
+  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+}
+
+var Line = function( p1, p2 ) {
+  this.p1 = p1;
+  this.p2 = p2;
+
+  this.distanceToPoint = function( point ) {
+    // slope
+    var m = ( this.p2[0] - this.p1[0]  ) / ( this.p2[1]  - this.p1[1]  ),
+      // y offset
+      b = this.p1[0]  - ( m * this.p1[1]  ),
+      d = [];
+    // distance to the linear equation
+    d.push( Math.abs( point[0]  - ( m * point[1]  ) - b ) / Math.sqrt( Math.pow( m, 2 ) + 1 ) );
+    // distance to p1
+    d.push( Math.sqrt( Math.pow( ( point[1] - this.p1[1] ), 2 ) + Math.pow( ( point[0]  - this.p1[0]  ), 2 ) ) );
+    // distance to p2
+    d.push( Math.sqrt( Math.pow( ( point[1] - this.p2[1] ), 2 ) + Math.pow( ( point[0]  - this.p2[0]  ), 2 ) ) );
+    // return the smallest distance
+    return d.sort( function( a, b ) {
+      return ( a - b ); //causes an array to be sorted numerically and ascending
+    } )[0];
+  };
+};
+
+var simplify = function(points, tolerance) {
+  var douglasPeucker = function( points, tolerance ) {
+    if ( points.length <= 2 ) {
+      return [points[0]];
+    }
+    var returnPoints = [],
+      // make line from start to end
+      line = new Line( points[0], points[points.length - 1] ),
+      // find the largest distance from intermediate poitns to this line
+      maxDistance = 0,
+      maxDistanceIndex = 0,
+      p;
+    for( var i = 1; i <= points.length - 2; i++ ) {
+      var distance = line.distanceToPoint( points[ i ] );
+      if( distance > maxDistance ) {
+        maxDistance = distance;
+        maxDistanceIndex = i;
+      }
+    }
+    // check if the max distance is greater than our tollerance allows
+    if ( maxDistance >= tolerance ) {
+      p = points[maxDistanceIndex];
+      line.distanceToPoint( p, true );
+      // include this point in the output
+      returnPoints = returnPoints.concat( douglasPeucker( points.slice( 0, maxDistanceIndex + 1 ), tolerance ) );
+      // returnPoints.push( points[maxDistanceIndex] );
+      returnPoints = returnPoints.concat( douglasPeucker( points.slice( maxDistanceIndex, points.length ), tolerance ) );
+    } else {
+      // ditching this point
+      p = points[maxDistanceIndex];
+      line.distanceToPoint( p, true );
+      returnPoints = [points[0]];
+    }
+    return returnPoints;
+  };
+  var result = douglasPeucker( points, tolerance );
+  // always have to push the very last point on so it doesn't get left off
+  result.push( points[points.length - 1 ] );
+  return result;
+};
+
 const transitionInterpolator = new LinearInterpolator(['bearing']);
 
 const colorRange = [
@@ -66,45 +134,45 @@ const material = new PhongMaterial({
   shininess: 60,
   specularColor: [51, 51, 51]
 });
+
 const TRIPS = TRIPS_JSON.map((item) => {
   const TRIP = item.routes[0].legs[0];
+  const TRIP_DISTANCE = TRIP.distance.value;
+  const TRIP_DURATION = TRIP.duration.value;
+
   const OFFSET = item.start_time;
   const START_TIME = 1577836800 - OFFSET;
-
   let total = START_TIME;
   let duration = 0;
-  const TRIP_ARRAY = []
+  let TRIP_ARRAY = []
   const STEPS = TRIP.steps.map(step => {
     const step_distance = step.distance.value;
     const step_duration = step.duration.value;
     const line = polyline.decode(step.polyline.points) ;
-    const line_simplified = simplify(line, 0.0001);
-
-    const points = []
-    line.forEach((point, i) => {
-      if (line[i + 1]) {
-        const next_point = line[i + 1];
+    const line_simplified = simplify(line, 0.00001);
+    const points = [];
+    line_simplified.forEach((point, i) => {
+      if (line_simplified[i + 1]) {
+        const next_point = line_simplified[i + 1];
         const distance_between = distanceBetween(point[0], point[1], next_point[0], next_point[1], 'K') * 1000;
         const percent = distance_between / step_distance;
-        duration = Number((percent * step_duration).toFixed(2));
+        duration = round(percent * step_duration, 0);
       }
       const timestamp = total;
       total = duration + total;
 
-      TRIP_ARRAY.unshift({
-        coordinates: point,
-        timestamp
-      })
+      if (line_simplified[i - 1] && line_simplified[i - 1].timestamp !== timestamp) {
+        TRIP_ARRAY.push({
+          coordinates: point,
+          timestamp
+        })
+      }
     });
   });
   return {
     trip: TRIP_ARRAY
   }
 })
-
-TRIPS.sort(function(a, b) {
-  return a[0] > b[0] ? 1 : -1;
-});
 
 const MAPBOX_TOKEN =
   'pk.eyJ1IjoiYnJlbmRhbi10cmFuc2l0bGFicyIsImEiOiJjazI5aHptaWEwdzJzM25vMnB0aHhqcjNlIn0.oZFZBkbrnOrF80fkS3xNgQ';
@@ -132,11 +200,11 @@ class TripDeck extends Component {
       new TripsLayer({
         id: 'trips-layer',
         data: TRIPS,
-        opacity: 1,
-        widthMinPixels: 2,
+        opacity: 0.5,
+        widthMinPixels: 3,
         rounded: false,
-        miterLimit: 100,
-        trailLength: 200,
+        miterLimit: 30,
+        trailLength: 100,
         autoHighlight: true,
         currentTime: this.state.time,
         widthUnits: 'meters',
@@ -164,7 +232,7 @@ class TripDeck extends Component {
 
   _animate() {
     if (this.state.time < 86400) {
-      this._updateTime(this.state.time + 0.1)
+      this._updateTime(this.state.time + 0.0005)
     } else {
       this._updateTime(0)
     }

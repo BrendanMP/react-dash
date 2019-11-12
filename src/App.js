@@ -4,16 +4,15 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  // Link
 } from "react-router-dom";
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import Finance from './pages/finance/Finance';
-import Controller from './pages/Controller';
-import Map from './pages/Map';
-import TripDeck from './pages/TripDeck';
-import Socket from './pages/Socket';
+import Traffic from './pages/traffic/Traffic';
+import Incidents from './pages/incidents/Incidents';
+import Accidents from './pages/accidents/Accidents';
+
 
 function App() {
   return (
@@ -23,17 +22,26 @@ function App() {
           <Route path="/finance/home">
             <Finance/>
           </Route>
-          <Route path="/map">
-            <Map/>
+          <Route path="/traffic/controller">
+            <Traffic controller={true}/>
           </Route>
-          <Route path="/socket">
-            <Socket/>
+          <Route path="/traffic/">
+            <Traffic/>
           </Route>
-          <Route path="/controller">
-            <Controller/>
+          <Route path="/accidents/controller">
+            <Accidents controller={true}/>
+          </Route>
+          <Route path="/accidents/">
+            <Accidents/>
+          </Route>
+          <Route path="/incidents/controller">
+            <Incidents controller={true}/>
+          </Route>
+          <Route path="/incidents/">
+            <Incidents/>
           </Route>
           <Route path="/">
-            <TripDeck/>
+            <Traffic controller={true}/>
           </Route>
         </Switch>
       </div>
