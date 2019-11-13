@@ -241,6 +241,9 @@ class Traffic extends Component {
         getColor: d => {
           return colorRange[d.percentile - 1]
         },
+        parameters: {
+          depthTest: false
+        }
       }),
       new GeoJsonLayer({
         id: 'communes-fill',
@@ -286,18 +289,18 @@ class Traffic extends Component {
   }
 
   _updateTime(value) {
-    const active = this.state.trips.filter((trip) => {
-      if (
-        value > trip.start &&
-        value < trip.end
-      ) {
-        return trip
-      }
-    })
+    // const active = this.state.trips.filter((trip) => {
+    //   if (
+    //     value > trip.start &&
+    //     value < trip.end
+    //   ) {
+    //     return trip
+    //   }
+    // })
 
     this.setState({
       time: value,
-      active
+      active: []
     })
   }
 
