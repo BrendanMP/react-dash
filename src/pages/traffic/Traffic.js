@@ -180,6 +180,23 @@ TRIPS = TRIPS.map((trip, i) => {
 const MAPBOX_TOKEN =
   'pk.eyJ1IjoiYnJlbmRhbi10cmFuc2l0bGFicyIsImEiOiJjazI5aHptaWEwdzJzM25vMnB0aHhqcjNlIn0.oZFZBkbrnOrF80fkS3xNgQ';
 
+class TrafficController extends MapController {
+  constructor(options = {}) {
+    super(options);
+    this.events = ['pointermove'];
+  }
+
+  handleEvent(event) {
+    console.log(event)
+    if (event.type === 'pointermove') {
+      // do something
+      console.log('hello')
+    } else {
+      super.handleEvent(event);
+    }
+  }
+}
+
 function ActiveTrip(props) {
   const fade = useSpring({opacity: 1, transform: 'translate(0,0)', from: {opacity: 0, transform: 'translate(-100%,0)'}})
   return (
@@ -333,7 +350,7 @@ class Traffic extends Component {
         <DeckGL
           viewState={viewState}
           layers={this._renderLayers()}
-          controller={{type: MapController, doubleClickZoom: false}}
+          controller={{type: TrafficController, doubleClickZoom: false}}
           onViewStateChange={this._onViewStateChange}
         >
           <StaticMap
@@ -357,7 +374,7 @@ class Traffic extends Component {
         {
           this.props.controller ?
             <div style={{position: 'fixed', bottom: '2rem', left: '2rem', width: 'calc(100vw - 4rem)'}}>
-              <RangeSlider speed={2} rangeChange={this._updateTime} time={this.state.time}/>
+              <RangeSlider speed={10} rangeChange={this._updateTime} time={this.state.time}/>
             </div>
             :
             <div></div>
