@@ -227,7 +227,7 @@ class Traffic extends Component {
         widthMinPixels: 3,
         rounded: false,
         miterLimit: 30,
-        trailLength: 100,
+        trailLength: 500,
         autoHighlight: true,
         currentTime: this.state.time,
         getPath: d => {
@@ -264,6 +264,7 @@ class Traffic extends Component {
         filled: false,
         opacity: 0.05,
         lineWidthMinPixels: 2,
+        getWidth: 2,
         getLineColor: [32, 201, 151],
       }),
     ]
