@@ -17,6 +17,7 @@ import Alerts from '../../components/deck/Alerts';
 // import INCIDENT_JSON from '../../data/adbijan/incidents';
 import INCIDENT_JSON from '../../data/adbijan/incidents_points.json';
 import INCIDENT_TRIP_JSON from '../../data/adbijan/incidents_responders.json';
+import TRIPS_JSON from "../../data/adbijan/trips";
 
 const transitionInterpolator = new LinearInterpolator(['bearing']);
 
@@ -123,15 +124,18 @@ const colorRange = [
 
 const INCIDENT_POINTS = INCIDENT_JSON.incidents;
 
-const TRIPS = INCIDENT_TRIP_JSON.map((trip) => {
-  const TRIP = trip.routes[0].legs[0];
+
+
+let TRIPS = INCIDENT_TRIP_JSON.map((item) => {
+  const TRIP = item.routes[0].legs[0];
   const TRIP_DISTANCE = TRIP.distance.value;
-  const TRIP_DURATION = TRIP.duration_in_traffic.value * 1.5;
-  const OFFSET = trip.start_time;
+  const TRIP_DURATION = TRIP.duration_in_traffic.value;
+
+  const OFFSET = item.start_time;
   const START_TIME = OFFSET - 1577836800;
   let total = START_TIME;
   let duration = 0;
-  let TRIP_ARRAY = []
+  let trip = []
   const STEPS = TRIP.steps.map(step => {
     const step_distance = step.distance.value;
     const step_duration = step.duration.value;
@@ -149,7 +153,7 @@ const TRIPS = INCIDENT_TRIP_JSON.map((trip) => {
       total = duration + total;
 
       if (line_simplified[i - 1] && line_simplified[i - 1].timestamp !== timestamp) {
-        TRIP_ARRAY.push({
+        trip.push({
           coordinates: point,
           timestamp
         })
@@ -157,10 +161,14 @@ const TRIPS = INCIDENT_TRIP_JSON.map((trip) => {
     });
   });
   return {
-    trip: TRIP_ARRAY
+    trip,
+    start: START_TIME,
+    end: START_TIME + TRIP_DURATION,
+    origin: TRIP.start_address,
+    destination: TRIP.end_address,
+    speed: round((TRIP_DISTANCE / TRIP_DURATION) * 3.6, 0)
   }
 })
-
 
 const MAPBOX_TOKEN =
   'pk.eyJ1IjoiYnJlbmRhbi10cmFuc2l0bGFicyIsImEiOiJjazI5aHptaWEwdzJzM25vMnB0aHhqcjNlIn0.oZFZBkbrnOrF80fkS3xNgQ';
@@ -172,7 +180,6 @@ const INITIAL_VIEWSTATE = {
   bearing: 0,
   pitch: 13 * 3,
 }
-
 
 class Incidents extends Component {
   constructor(props) {
@@ -195,12 +202,30 @@ class Incidents extends Component {
 
   _renderLayers = () => {
     return [
+      new TripsLayer({
+        id: 'incident-reponse',
+        data: TRIPS,
+        opacity: 1,
+        widthMinPixels: 5,
+        rounded: true,
+        trailLength: 100,
+        autoHighlight: true,
+        currentTime: this.state.time,
+        widthUnits: 'meters',
+        getPath: d => d.trip.map(p => [p.coordinates[1], p.coordinates[0]]),
+        getTimestamps: d => d.trip.map(p => p.timestamp),
+        getColor: d => {
+          return colorRange[5]
+        },
+        parameters: {
+          depthTest: false
+        }
+      }),
       new ScatterplotLayer({
         id: 'incidents',
         data: INCIDENT_POINTS,
-        getRadius: d => {
-          return 100
-        },
+        opacity: 1,
+        getRadius: d => d.properties.severity * 2,
         getPosition: d => d.geometry.coordinates,
         getFillColor: d => {
           if (d.properties.status === 'detected') return [220, 53, 69];
@@ -226,32 +251,6 @@ class Incidents extends Component {
           new DataFilterExtension({filterSize: 2})
         ]
       }),
-      new TripsLayer({
-        id: 'incident-reponse',
-        data: TRIPS,
-        opacity: 1,
-        widthMinPixels: 5,
-        rounded: false,
-        miterLimit: 30,
-        trailLength: 100,
-        autoHighlight: true,
-        currentTime: this.state.time,
-        widthUnits: 'meters',
-        getPath: d => {
-          return d.trip.map(p => {
-            return [p.coordinates[1], p.coordinates[0]]
-          })
-        },
-        getTimestamps: d => d.trip.map(p => {
-          return p.timestamp
-        }),
-        getColor: d => {
-          return colorRange[5]
-        },
-        parameters: {
-          depthTest: false
-        }
-      }),
     ]
   }
 
@@ -271,7 +270,10 @@ class Incidents extends Component {
         value > incident.properties.start_timestamp &&
         value < incident.properties.end_timestamp
       ) {
-        if (incident.properties.start_timestamp === this.state.time) {
+        if (
+          incident.properties.start_timestamp === this.state.time &&
+          incident.properties.status === 'detected'
+        ) {
           this._flyToIncident(incident)
           this.setState({focussed: incident})
         }
