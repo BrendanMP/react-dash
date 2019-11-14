@@ -14,8 +14,8 @@ import socketIOClient from 'socket.io-client';
 import RangeSlider from '../../components/RangeSlider';
 import Alerts from '../../components/deck/Alerts';
 
-import INCIDENT_JSON from '../../data/adbijan/incidents';
-import INCIDENT_JSON_V2 from '../../data/adbijan/incidents_points.json';
+// import INCIDENT_JSON from '../../data/adbijan/incidents';
+import INCIDENT_JSON from '../../data/adbijan/incidents_points.json';
 import INCIDENT_TRIP_JSON from '../../data/adbijan/incidents_responders.json';
 
 const transitionInterpolator = new LinearInterpolator(['bearing']);
@@ -121,12 +121,12 @@ const colorRange = [
   [254, 120, 78]
 ];
 
-const INCIDENT_POINTS = INCIDENT_JSON_V2.incidents;
+const INCIDENT_POINTS = INCIDENT_JSON.incidents;
 
 const TRIPS = INCIDENT_TRIP_JSON.map((trip) => {
   const TRIP = trip.routes[0].legs[0];
   const TRIP_DISTANCE = TRIP.distance.value;
-  const TRIP_DURATION = TRIP.duration.value;
+  const TRIP_DURATION = TRIP.duration_in_traffic.value * 1.5;
   const OFFSET = trip.start_time;
   const START_TIME = OFFSET - 1577836800;
   let total = START_TIME;
@@ -156,13 +156,11 @@ const TRIPS = INCIDENT_TRIP_JSON.map((trip) => {
       }
     });
   });
-  
-  console.log(TRIP_ARRAY)
-  
   return {
     trip: TRIP_ARRAY
   }
 })
+
 
 const MAPBOX_TOKEN =
   'pk.eyJ1IjoiYnJlbmRhbi10cmFuc2l0bGFicyIsImEiOiJjazI5aHptaWEwdzJzM25vMnB0aHhqcjNlIn0.oZFZBkbrnOrF80fkS3xNgQ';
@@ -189,9 +187,10 @@ class Incidents extends Component {
     this._onViewStateChange = this._onViewStateChange.bind(this)
     this._updateTime = this._updateTime.bind(this)
     this._flyTo = this._flyTo.bind(this)
+    this._flyToIncident = this._flyToIncident.bind(this)
+    this._zoomOut = this._zoomOut.bind(this)
     this._resetCamera = this._resetCamera.bind(this)
     this._rotateCamera = this._rotateCamera.bind(this)
-    this._flyToIncident = this._flyToIncident.bind(this)
   }
 
   _renderLayers = () => {
@@ -256,49 +255,6 @@ class Incidents extends Component {
     ]
   }
 
-  _rotateCamera() {
-    const bearing = this.state.viewState.bearing + 120;
-    this.setState({
-      viewState: {
-        ...this.state.viewState,
-        bearing,
-        transitionDuration: 90000,
-        transitionInterpolator,
-        onTransitionEnd: this._rotateCamera,
-      },
-    });
-  }
-
-  _flyTo(bounds) {
-    this.setState({
-      viewState: {
-        ...this.state.viewState,
-        longitude: bounds.longitude || this.state.viewState.longitude,
-        latitude: bounds.latitude || this.state.viewState.latitude,
-        zoom: bounds.zoom || this.state.viewState.zoom,
-        pitch: bounds.pitch || this.state.viewState.pitch,
-        bearing: 0,
-        transitionDuration: 800,
-        transitionInterpolator: new FlyToInterpolator({curve: 5}),
-        transitionEasing: (t) => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
-      }
-    });
-  }
-
-  _resetCamera() {
-    this.setState({
-      ...this.state.viewState,
-      longitude: INITIAL_VIEWSTATE.longitude || this.state.viewState.longitude,
-      latitude: INITIAL_VIEWSTATE.latitude || this.state.viewState.latitude,
-      zoom: INITIAL_VIEWSTATE.zoom || this.state.viewState.zoom,
-      pitch: INITIAL_VIEWSTATE.pitch || this.state.viewState.pitch,
-      bearing: 0,
-      transitionDuration: 800,
-      transitionInterpolator: new FlyToInterpolator({curve: 5}),
-      transitionEasing: (t) => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
-    });
-  }
-
   _onViewStateChange({viewState}) {
     viewState.pitch = viewState.zoom * 3;
     this.setState({viewState});
@@ -329,6 +285,40 @@ class Incidents extends Component {
     })
   }
 
+  _rotateCamera() {
+    const bearing = this.state.viewState.bearing + 120;
+    this.setState({
+      viewState: {
+        ...this.state.viewState,
+        bearing,
+        transitionDuration: 90000,
+        transitionInterpolator,
+        onTransitionEnd: this._rotateCamera,
+      },
+    });
+  }
+
+  _flyTo(bounds, zoomOut) {
+    this.setState({
+      viewState: {
+        ...this.state.viewState,
+        longitude: bounds.longitude || this.state.viewState.longitude,
+        latitude: bounds.latitude || this.state.viewState.latitude,
+        zoom: bounds.zoom || this.state.viewState.zoom,
+        pitch: bounds.pitch || this.state.viewState.pitch,
+        bearing: 0,
+        transitionDuration: 2000,
+        transitionInterpolator: new FlyToInterpolator({curve: 5}),
+        transitionEasing: (t) => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
+        onTransitionEnd: () => {
+          if (zoomOut) {
+            setTimeout(() => this._zoomOut(), 1200)
+          }
+        }
+      }
+    });
+  }
+
   _flyToIncident(incident) {
     this.setState({focussed: incident})
     const bounds = {
@@ -336,7 +326,35 @@ class Incidents extends Component {
       longitude: incident.geometry.coordinates[0],
       zoom: 15,
     }
-    this._flyTo(bounds);
+    this._flyTo(bounds, true);
+  }
+
+  _zoomOut() {
+    this.setState({
+      viewState: {
+        ...this.state.viewState,
+        zoom: this.state.viewState.zoom  - 1,
+        transitionDuration: 1000,
+        transitionInterpolator: new FlyToInterpolator({curve: 5}),
+        transitionEasing: (t) => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
+      }
+    });
+  }
+
+  _resetCamera() {
+    this.setState({
+      viewState: {
+        ...this.state.viewState,
+        longitude: INITIAL_VIEWSTATE.longitude || this.state.viewState.longitude,
+        latitude: INITIAL_VIEWSTATE.latitude || this.state.viewState.latitude,
+        zoom: INITIAL_VIEWSTATE.zoom || this.state.viewState.zoom,
+        pitch: INITIAL_VIEWSTATE.pitch || this.state.viewState.pitch,
+        bearing: 0,
+        transitionDuration: 800,
+        transitionInterpolator: new FlyToInterpolator({curve: 5}),
+        transitionEasing: (t) => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
+      }
+    });
   }
 
   componentDidMount() {
@@ -363,7 +381,6 @@ class Incidents extends Component {
           ></StaticMap>
         </DeckGL>
         <div style={{position: 'fixed', top: '2rem', left: '2rem'}}>
-          <h2>{this.state.time}</h2>
           <Alerts alerts={this.state.active} clicked={this._flyToIncident}/>
         </div>
         <div style={{position: 'fixed', top: '2rem', right: '2rem', width: '25vw'}}>
@@ -390,7 +407,11 @@ class Incidents extends Component {
           }
         </div>
         <div style={{position: 'fixed', bottom: '2rem', left: '2rem', width: 'calc(100vw - 4rem)'}}>
-          <RangeSlider speed={2} rangeChange={this._updateTime} time={this.state.time}/>
+          <RangeSlider
+            speed={1}
+            rangeChange={this._updateTime}
+            time={this.state.time}
+          />
         </div>
       </div>
     )

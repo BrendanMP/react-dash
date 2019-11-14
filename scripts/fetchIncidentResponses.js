@@ -2,7 +2,7 @@
 const fs = require('fs');
 const axios = require('axios');
 const trips = [
-  [1577868480, "https://maps.googleapis.com/maps/api/directions/json?origin=5.29007%2C-4.00885&destination=5.306575%2C-3.99661&arrival_time=1577869183&key=AIzaSyCMwXLgXPsk8NbF3obJtM0MVE9uFG_Po1g"],
+  [1577868480, "https://maps.googleapis.com/maps/api/directions/json?origin=5.29007%2C-4.00885&destination=5.306575%2C-3.99661&departure_time=1577868480&key=AIzaSyCMwXLgXPsk8NbF3obJtM0MVE9uFG_Po1g"],
 ]
 
 async function asyncForEach(array, callback) {

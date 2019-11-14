@@ -24,7 +24,7 @@ function AlertList(props) {
           {alert.properties.status}
           <span>&nbsp;</span>
         </h5>
-        <h5 className='text-muted mb-2' style={{lineHeight: 1}}>
+        <h5 className='text-muted mb-2 text-capitalize' style={{lineHeight: 1}}>
           <Typed
             strings={[`${alert.properties.type}`]}
             typeSpeed={1}
@@ -35,7 +35,7 @@ function AlertList(props) {
         </h5>
         <h5 className='text-muted mb-0' style={{lineHeight: 1}}>
           <Typed
-            strings={[`${format(addSeconds(timestamp, alert.properties.start_timestamp), 'h:mm a')} in ${alert.properties.commune}`]}
+            strings={[`${format(addSeconds(timestamp, alert.properties.start_timestamp), 'h:mm a')}`]}
             typeSpeed={1}
             startDelay={100}
             showCursor={false}
