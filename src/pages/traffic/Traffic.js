@@ -47,11 +47,11 @@ function distanceBetween(lat1, lon1, lat2, lon2, unit) {
   }
 }
 
-function round(value, decimals) {
+const round = function round(value, decimals) {
   return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 }
 
-function Line(p1, p2) {
+const Line = function(p1, p2) {
   this.p1 = p1;
   this.p2 = p2;
 
@@ -74,8 +74,8 @@ function Line(p1, p2) {
   };
 };
 
-var simplify = function (points, tolerance) {
-  var douglasPeucker = function (points, tolerance) {
+const simplify = function (points, tolerance) {
+  const douglasPeucker = function (points, tolerance) {
     if (points.length <= 2) {
       return [points[0]];
     }
@@ -109,8 +109,7 @@ var simplify = function (points, tolerance) {
     }
     return returnPoints;
   };
-  var result = douglasPeucker(points, tolerance);
-  // always have to push the very last point on so it doesn't get left off
+  const result = douglasPeucker(points, tolerance);
   result.push(points[points.length - 1]);
   return result;
 };
@@ -126,7 +125,7 @@ const colorRange = [
 let TRIPS = TRIPS_JSON.map((item) => {
   const TRIP = item.routes[0].legs[0];
   const TRIP_DISTANCE = TRIP.distance.value;
-  const TRIP_DURATION = TRIP.duration.value;
+  const TRIP_DURATION = TRIP.duration_in_traffic.value;
 
   const OFFSET = item.start_time;
   const START_TIME = 1577836800 - OFFSET;
@@ -170,10 +169,10 @@ let TRIPS = TRIPS_JSON.map((item) => {
 TRIPS.sort((a, b) => (a.speed > b.speed) ? 1 : -1);
 
 TRIPS = TRIPS.map((trip, i) => {
-  const third = TRIPS.length/3;
+  const quarter = TRIPS.length / 4;
   trip.percentile = 1
-  if (i > third ) trip.percentile = 2
-  if (i > third * 2 ) trip.percentile = 3
+  if (i > quarter * 2) trip.percentile = 2
+  if (i > quarter * 3) trip.percentile = 3
   return trip
 })
 
@@ -187,7 +186,6 @@ class TrafficController extends MapController {
   }
 
   handleEvent(event) {
-    console.log(event)
     if (event.type === 'pointermove') {
       // do something
       console.log('hello')
@@ -203,9 +201,11 @@ function ActiveTrip(props) {
     <animated.div style={fade}>
       <div className='panel mb-2' style={{lineHeight: 1.2}}>
         <div className="panel-body p-3 px-4">
-          <div><strong className='mr-2'>Origin</strong> {props.trip.origin.substring(0, props.trip.origin.indexOf(','))}</div>
+          <div><strong className='mr-2'>Origin</strong> {props.trip.origin.substring(0, props.trip.origin.indexOf(','))}
+          </div>
           <div><strong
-            className='mr-2'>Destination</strong> {props.trip.destination.substring(0, props.trip.destination.indexOf(','))}</div>
+            className='mr-2'>Destination</strong> {props.trip.destination.substring(0, props.trip.destination.indexOf(','))}
+          </div>
           <div><strong className='mr-2'>Avg Speed</strong> {props.trip.speed}kmph</div>
         </div>
       </div>
@@ -222,7 +222,7 @@ class Traffic extends Component {
         longitude: -4.013425118889425,
         zoom: 12,
         bearing: 0,
-        pitch: 12 * 3,
+        pitch: 12 * 3.2,
       },
       time: 39640,
       date: new Date('2019-10-10 0:00'),
@@ -289,7 +289,7 @@ class Traffic extends Component {
 
   _onViewStateChange({viewState}) {
     const viewstate = viewState;
-    viewState.pitch = viewState.zoom * 3;
+    viewState.pitch = viewState.zoom * 3.2;
     this.setState({viewState});
   }
 
@@ -301,24 +301,24 @@ class Traffic extends Component {
         bearing,
         transitionDuration: 90000,
         transitionInterpolator,
-        onTransitionEnd: this._rotateCamera,
+        // onTransitionEnd: this._rotateCamera,
       },
     });
   }
 
   _updateTime(value) {
-    // const active = this.state.trips.filter((trip) => {
-    //   if (
-    //     value > trip.start &&
-    //     value < trip.end
-    //   ) {
-    //     return trip
-    //   }
-    // })
+    const active = this.state.trips.filter((trip) => {
+      if (
+        value > trip.start &&
+        value < trip.end
+      ) {
+        return trip
+      }
+    })
 
     this.setState({
       time: value,
-      active: []
+      active: active
     })
   }
 
@@ -337,6 +337,10 @@ class Traffic extends Component {
         onTransitionEnd: this._rotateCamera
       }
     });
+  }
+
+  _getAverageSpeed() {
+
   }
 
   componentDidMount() {
@@ -363,18 +367,20 @@ class Traffic extends Component {
         </DeckGL>
         <div style={{position: 'fixed', top: '2rem', right: '2rem', width: '20vw'}}>
           <div className="panel">
-            <div className="panel-body lead mb-0">{format(addSeconds(date, time || 0), 'h:mm a')}</div>
+            <div className="panel-body mb-0 p-3">{format(addSeconds(date, time || 0), 'h:mm a')}</div>
           </div>
         </div>
         <div style={{position: 'fixed', top: '2rem', left: '2rem', width: '25vw'}}>
-          {this.state.active.map((trip, i) => (
-            <ActiveTrip trip={trip} index={i} key={i}/>
-          ))}
+          <div className="panel">
+            <div className="panel-body p-3">
+              <strong className="mr-3">Active Trips</strong> {this.state.active.length}
+            </div>
+          </div>
         </div>
         {
           this.props.controller ?
             <div style={{position: 'fixed', bottom: '2rem', left: '2rem', width: 'calc(100vw - 4rem)'}}>
-              <RangeSlider speed={10} rangeChange={this._updateTime} time={this.state.time}/>
+              <RangeSlider speed={5} rangeChange={this._updateTime} time={this.state.time}/>
             </div>
             :
             <div></div>

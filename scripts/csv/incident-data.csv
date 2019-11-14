@@ -1,0 +1,2 @@
+id,type,commune,severity,cars_damaged,cars_totalled,fatalities,cars_delayed,incident_origin,incident_latitude,incident_longitude,response_origin,response_latitude,response_longitude,detected_start,detected_delay,detected_trip_duration,response_start,response_duration,clearing_start,clearing_duration,clearing_end
+1,accident,Triechville,40,12,3,unknown,600,Avenue de Marcory,5.30657,-3.9966,Cité du Personnel,5.29007,-4.00885,1577868300,180,703,1577869183,1200,1577870383,600,1577870983

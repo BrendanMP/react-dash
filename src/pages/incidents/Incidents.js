@@ -14,8 +14,9 @@ import socketIOClient from 'socket.io-client';
 import RangeSlider from '../../components/RangeSlider';
 import Alerts from '../../components/deck/Alerts';
 
-import INCIDENT_JSON from '../../data/adbijan/incidents_points';
-import INCIDENT_TRIP_JSON from '../../data/adbijan/reponders.json';
+import INCIDENT_JSON from '../../data/adbijan/incidents';
+import INCIDENT_JSON_V2 from '../../data/adbijan/incidents_points.json';
+import INCIDENT_TRIP_JSON from '../../data/adbijan/incidents_responders.json';
 
 const transitionInterpolator = new LinearInterpolator(['bearing']);
 
@@ -51,7 +52,6 @@ function round(value, decimals) {
 const Line = function (p1, p2) {
   this.p1 = p1;
   this.p2 = p2;
-
   this.distanceToPoint = function (point) {
     // slope
     var m = (this.p2[0] - this.p1[0]) / (this.p2[1] - this.p1[1]),
@@ -121,17 +121,14 @@ const colorRange = [
   [254, 120, 78]
 ];
 
-const INCIDENT_POINTS = [];
-INCIDENT_JSON.incidents.forEach((incident) => {
-  INCIDENT_POINTS.push(incident);
-})
+const INCIDENT_POINTS = INCIDENT_JSON_V2.incidents;
 
 const TRIPS = INCIDENT_TRIP_JSON.map((trip) => {
   const TRIP = trip.routes[0].legs[0];
   const TRIP_DISTANCE = TRIP.distance.value;
   const TRIP_DURATION = TRIP.duration.value;
   const OFFSET = trip.start_time;
-  const START_TIME = 1577836800 - OFFSET;
+  const START_TIME = OFFSET - 1577836800;
   let total = START_TIME;
   let duration = 0;
   let TRIP_ARRAY = []
@@ -159,6 +156,9 @@ const TRIPS = INCIDENT_TRIP_JSON.map((trip) => {
       }
     });
   });
+  
+  console.log(TRIP_ARRAY)
+  
   return {
     trip: TRIP_ARRAY
   }
@@ -175,12 +175,13 @@ const INITIAL_VIEWSTATE = {
   pitch: 13 * 3,
 }
 
+
 class Incidents extends Component {
   constructor(props) {
     super(props)
     this.state = {
       viewState: INITIAL_VIEWSTATE,
-      time: 0,
+      time: 31500,
       incidents: INCIDENT_JSON,
       active: [],
       focussed: null
@@ -198,9 +199,8 @@ class Incidents extends Component {
       new ScatterplotLayer({
         id: 'incidents',
         data: INCIDENT_POINTS,
-        extruded: true,
         getRadius: d => {
-          return d.properties.severity * 5
+          return 100
         },
         getPosition: d => d.geometry.coordinates,
         getFillColor: d => {
@@ -209,17 +209,19 @@ class Incidents extends Component {
           if (d.properties.status === 'clearing') return [32, 201, 151];
           return colorRange[2]
         },
-        getFilterValue: d => [
-          d.properties.start_timestamp,
-          d.properties.end_timestamp
-        ],
+        getFilterValue: d => {
+          return [
+            d.properties.start_timestamp,
+            d.properties.end_timestamp
+          ]
+        },
         filterRange: [
           [0, this.state.time],
-          [this.state.time, 5000]
+          [this.state.time, 86400]
         ],
         filterSoftRange: [
           [0, this.state.time - 50],
-          [this.state.time + 50, 5000]
+          [this.state.time + 50, 86400]
         ],
         extensions: [
           new DataFilterExtension({filterSize: 2})
@@ -247,6 +249,9 @@ class Incidents extends Component {
         getColor: d => {
           return colorRange[5]
         },
+        parameters: {
+          depthTest: false
+        }
       }),
     ]
   }
@@ -358,6 +363,7 @@ class Incidents extends Component {
           ></StaticMap>
         </DeckGL>
         <div style={{position: 'fixed', top: '2rem', left: '2rem'}}>
+          <h2>{this.state.time}</h2>
           <Alerts alerts={this.state.active} clicked={this._flyToIncident}/>
         </div>
         <div style={{position: 'fixed', top: '2rem', right: '2rem', width: '25vw'}}>
