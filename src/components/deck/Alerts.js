@@ -4,6 +4,15 @@ import {TransitionGroup, CSSTransition} from 'react-transition-group'
 import Typed from 'react-typed';
 import {useSpring, animated} from 'react-spring'
 
+const round = function round(value, decimals) {
+  return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+}
+
+function eta(seconds) {
+  const timestamp = new Date('1-1-2020');
+  const minuntes = round(seconds / 60, 0)
+  return round(seconds / 60, 0) + 'min'
+}
 
 function AlertList(props) {
   const alerts = props.alerts;
@@ -21,26 +30,19 @@ function AlertList(props) {
     >
       <div className="panel-body py-3 px-4">
         <h5 style={{lineHeight: 1}} className={'text-uppercase mb-2'}>
-          {alert.properties.status}
+          {alert.properties.type} {alert.properties.status} &mdash; {format(addSeconds(timestamp, alert.properties.start_timestamp), 'h:mm a')}
           <span>&nbsp;</span>
         </h5>
         <h5 className='text-muted mb-2 text-capitalize' style={{lineHeight: 1}}>
-          <Typed
-            strings={[`${alert.properties.type}`]}
-            typeSpeed={1}
-            startDelay={100}
-            showCursor={false}
-          />
-          <span>&nbsp;</span>
-        </h5>
-        <h5 className='text-muted mb-0' style={{lineHeight: 1}}>
-          <Typed
-            strings={[`${format(addSeconds(timestamp, alert.properties.start_timestamp), 'h:mm a')}`]}
-            typeSpeed={1}
-            startDelay={100}
-            showCursor={false}
-          />
-          <span>&nbsp;</span>
+          {
+            alert.properties.status === 'detected' ?
+              <div>
+                RESPONSE TEAM ETA &mdash; {eta(alert.properties.end_timestamp - props.time)}
+              </div>
+              :
+              <div></div>
+          }
+
         </h5>
       </div>
     </div>
@@ -53,6 +55,7 @@ class Alerts extends Component {
       <AlertList
         alerts={this.props.alerts}
         clicked={this.props.clicked}
+        time={this.props.time}
       />
     )
   }

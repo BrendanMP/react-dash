@@ -383,7 +383,7 @@ class Incidents extends Component {
           ></StaticMap>
         </DeckGL>
         <div style={{position: 'fixed', top: '2rem', left: '2rem'}}>
-          <Alerts alerts={this.state.active} clicked={this._flyToIncident}/>
+          <Alerts alerts={this.state.active} clicked={this._flyToIncident} time={this.state.time}/>
         </div>
         <div style={{position: 'fixed', top: '2rem', right: '2rem', width: '25vw'}}>
           {this.state.focussed ?
