@@ -65,15 +65,13 @@ class RangeSlider extends React.Component {
     return (
       <div className='d-flex flex-grow-1 align-content-center'>
         <div className='mr-0'>
-          <button className="btn px-0">
-            {
-              !fullScreen ?
-                <button className='btn' onClick={this._openFullscreen}>
-                  <FullScreen/>
-                </button>
-                : null
-            }
-          </button>
+          {
+            !fullScreen ?
+              <button className='btn mr-4' onClick={this._openFullscreen}>
+                <FullScreen/>
+              </button>
+              : null
+          }
           <button className="btn px-0" onClick={this._toggle}>
             { !isPlaying ?
               <div><Play/></div>

@@ -206,6 +206,7 @@ let TRAFFIC = INCIDENT_TRAFFIC_JSON.map((item) => {
       }
     });
   });
+
   return {
     trip,
     start: START_TIME,
@@ -237,8 +238,13 @@ class Incidents extends Component {
       incidents: INCIDENT_JSON,
       active: [],
       focussed: null,
-      trailLength: 5000,
-      fullScreen : false,
+      fullScreen: false,
+
+      traffic: {
+        opacity: 0.05,
+        color: colorRange[5],
+        trailLength: 5000
+      }
     }
     this._onViewStateChange = this._onViewStateChange.bind(this)
     this._updateTime = this._updateTime.bind(this)
@@ -248,16 +254,18 @@ class Incidents extends Component {
     this._resetCamera = this._resetCamera.bind(this)
     this._rotateCamera = this._rotateCamera.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this._toggleTraffic = this._toggleTraffic.bind(this)
+    this._renderPopup = this._renderPopup.bind(this)
   }
 
   _renderLayers = () => [
     new TripsLayer({
       id: 'incident-traffic',
       data: TRAFFIC,
-      opacity: 0.1,
+      opacity: this.state.traffic.opacity,
       widthMinPixels: 5,
       rounded: true,
-      trailLength: this.state.trailLength,
+      trailLength: this.state.traffic.trailLength,
       autoHighlight: true,
       currentTime: this.state.time,
       widthUnits: 'meters',
@@ -273,6 +281,11 @@ class Incidents extends Component {
         pointerX: info.x,
         pointerY: info.y
       }),
+      transitionEasing: (t) => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
+      transitions: {
+        opacity: 1200,
+        trailLength: 4000,
+      },
       parameters: {
         depthTest: false
       }
@@ -342,12 +355,23 @@ class Incidents extends Component {
   _renderTooltip() {
     const {hoveredObject, pointerX, pointerY} = this.state || {};
     return hoveredObject && (
-      <div className='panel' style={{position: 'absolute', transform: "translateY(calc(-100% - 1rem))", zIndex: 10, pointerEvents: 'none', left: pointerX+5, top: pointerY+5}}>
+      <div className='panel' style={{
+        position: 'absolute',
+        transform: "translateY(calc(-100% - 1rem))",
+        zIndex: 10,
+        pointerEvents: 'none',
+        left: pointerX + 5,
+        top: pointerY + 5
+      }}>
         <div className="panel-body p-2">
           {hoveredObject.destination}
         </div>
       </div>
     );
+  }
+
+  _renderPopup() {
+
   }
 
   _onViewStateChange({viewState}) {
@@ -380,7 +404,6 @@ class Incidents extends Component {
         return incident
       }
     })
-
     this.setState({
       time: value,
       active,
@@ -435,7 +458,7 @@ class Incidents extends Component {
     this.setState({
       viewState: {
         ...this.state.viewState,
-        zoom: this.state.viewState.zoom  - 1,
+        zoom: this.state.viewState.zoom - 1,
         transitionDuration: 1000,
         transitionInterpolator: new FlyToInterpolator({curve: 5}),
         transitionEasing: (t) => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
@@ -459,18 +482,35 @@ class Incidents extends Component {
     });
   }
 
+  _toggleTraffic() {
+
+    if (this.state.traffic.trailLength) {
+      this.setState({
+        traffic: {
+          opacity: 0.2,
+          trailLength: 0
+        }
+      })
+    } else {
+      this.setState({
+        traffic: {
+          opacity: 0.2,
+          trailLength: 5000
+        }
+      })
+    }
+  }
+
   handleChange(event) {
     this.setState({trailLength: event.target.value});
   }
 
   componentDidMount() {
-    // openFullscreen()
-    // setTimeout(() => this._rotateCamera(), 200)
   }
 
   render() {
     const {mapStyle = 'mapbox://styles/brendan-transitlabs/ck2m1hpe701041cpgdrcqtduz'} = this.props;
-    const {viewState, focussed, fullScreen} = this.state;
+    const {viewState, focussed} = this.state;
     const timestamp = new Date('1-1-2020');
     return (
       <div>
@@ -488,48 +528,30 @@ class Incidents extends Component {
             mapboxApiAccessToken={MAPBOX_TOKEN}
           ></StaticMap>
         </DeckGL>
-        { this._renderTooltip() }
+        {this._renderTooltip()}
         <div style={{position: 'fixed', top: '2rem', left: '2rem'}}>
           <Alerts alerts={this.state.active} clicked={this._flyToIncident} time={this.state.time}/>
         </div>
         <div style={{position: 'fixed', top: '2rem', right: '2rem', width: '15vw'}}>
-          {this.state.focussed ?
-            <div className="panel flex-column panel--warning">
-              <div className="p-4 pb-0">
-                <h3 className='mb-0 font-weight-lighter text-warning'>Incident Analytics</h3>
-              </div>
-              <div className="panel-body px-4 pb-4 pt-0">
-
-                <div className="mb-3">
-                  <h6>Status</h6>
-                  <h5>Detected @ 8:45 AM</h5>
+          <button className="btn" onClick={this._toggleTraffic}>Toggle Traffic Opacity</button>
+          {
+            this.state.focussed ?
+              <div className="panel flex-column panel--warning">
+                <div className="p-4 pb-0">
+                  <h3 className='mb-0 font-weight-lighter text-warning'>Incident Analytics</h3>
                 </div>
-
-                <div className="mb-3">
-                  <h6>Status</h6>
-                  <h5 className='text-capitalize'>{focussed.properties.status}</h5>
+                <div className="panel-body px-4 pb-4 pt-0">
+                  <div className="mb-3">
+                    <h6>Status</h6>
+                    <h5>Detected @ 8:45 AM</h5>
+                  </div>
+                  <div className="mb-3">
+                    <h6>Status</h6>
+                    <h5 className='text-capitalize'>{focussed.properties.status}</h5>
+                  </div>
                 </div>
-
-
-                {/*<div className="mb-4">*/}
-                {/*  <h6>Status</h6>*/}
-                {/*  <h5 className='text-capitalize'>*/}
-                {/*    {focussed.properties.status} @ {format(addSeconds(timestamp, focussed.properties.start_timestamp), 'h:mm a')}*/}
-                {/*  </h5>*/}
-                {/*</div>*/}
-                {/*<div className="mb-4">*/}
-                {/*  <h5>Response Team Origin</h5>*/}
-                {/*  <h5>{focussed.properties.response_origin}</h5>*/}
-                {/*</div>*/}
-
-                {/*<div className="mb-4">*/}
-                {/*  <h6>Response Team ETA</h6>*/}
-                {/*  <h5>{format(addSeconds(timestamp, focussed.properties.end_timestamp), 'h:mm a')}</h5>*/}
-                {/*</div>*/}
-
               </div>
-            </div>
-            : null
+              : null
           }
         </div>
         <div style={{position: 'fixed', bottom: '2rem', left: '2rem', width: 'calc(100vw - 4rem)'}}>
