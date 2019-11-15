@@ -183,7 +183,7 @@ let TRAFFIC = INCIDENT_TRAFFIC_JSON.map((item) => {
   let trip = []
   const STEPS = TRIP.steps.map(step => {
     const step_distance = step.distance.value;
-    const step_duration = step.duration.value;
+    const step_duration = step.duration.value + (step.duration.value * 1.5);
     const line = polyline.decode(step.polyline.points);
     const line_simplified = simplify(line, 0.00001);
     const points = [];
@@ -245,19 +245,6 @@ class Incidents extends Component {
     this._rotateCamera = this._rotateCamera.bind(this)
   }
 
-  // _renderTrafficLayer = ()  => {
-  //   return new GeoJsonLayer({
-  //     id: 'traffic-stroke',
-  //     data: INCIDENT_TRAFFIC_JSON,
-  //     stroked: true,
-  //     opacity: 1,
-  //     lineWidthMinPixels: 2,
-  //     getLineColor: d => {
-  //       return colorRange[4]
-  //     },
-  //   })
-  // }
-
   _renderLayers = () => [
     new TripsLayer({
       id: 'incident-traffic',
@@ -272,7 +259,7 @@ class Incidents extends Component {
       getPath: d => d.trip.map(p => [p.coordinates[1], p.coordinates[0]]),
       getTimestamps: d => d.trip.map(p => p.timestamp),
       getColor: d => {
-        return colorRange[3]
+        return colorRange[5]
       },
       parameters: {
         depthTest: false
@@ -291,7 +278,7 @@ class Incidents extends Component {
       getPath: d => d.trip.map(p => [p.coordinates[1], p.coordinates[0]]),
       getTimestamps: d => d.trip.map(p => p.timestamp),
       getColor: d => {
-        return colorRange[5]
+        return colorRange[1]
       },
       parameters: {
         depthTest: false
