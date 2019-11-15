@@ -17,7 +17,6 @@ import {addSeconds, format} from "date-fns";
 import RangeSlider from '../../components/RangeSlider';
 import Alerts from '../../components/deck/Alerts';
 
-import { ReactComponent as FullScreen } from '../../images/fullscreen.svg';
 
 import INCIDENT_JSON from '../../data/adbijan/incidents_points.json';
 import INCIDENT_TRIP_JSON from '../../data/adbijan/incidents_responders.json';
@@ -249,14 +248,6 @@ class Incidents extends Component {
     this._resetCamera = this._resetCamera.bind(this)
     this._rotateCamera = this._rotateCamera.bind(this)
     this.handleChange = this.handleChange.bind(this)
-    this._openFullscreen = this._openFullscreen.bind(this)
-  }
-
-
-  _openFullscreen() {
-    const elem = document.documentElement;
-    elem.requestFullscreen();
-    this.setState({fullScreen: true})
   }
 
   _renderLayers = () => [
@@ -499,14 +490,6 @@ class Incidents extends Component {
         </DeckGL>
         { this._renderTooltip() }
         <div style={{position: 'fixed', top: '2rem', left: '2rem'}}>
-          {
-            !fullScreen ?
-              <button className='btn' onClick={this._openFullscreen}>
-                <FullScreen/>
-              </button>
-              : null
-          }
-
           <Alerts alerts={this.state.active} clicked={this._flyToIncident} time={this.state.time}/>
         </div>
         <div style={{position: 'fixed', top: '2rem', right: '2rem', width: '15vw'}}>

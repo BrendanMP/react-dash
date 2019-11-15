@@ -3,6 +3,7 @@ import {addSeconds, format} from 'date-fns';
 import InputRange from 'react-input-range';
 import { ReactComponent as Play } from '../images/play.svg';
 import { ReactComponent as Pause } from '../images/pause.svg';
+import { ReactComponent as FullScreen } from '../images/fullscreen.svg';
 
 class RangeSlider extends React.Component {
   constructor(props) {
@@ -13,11 +14,13 @@ class RangeSlider extends React.Component {
       isPlaying: false,
       speed: this.props.speed,
       speedModifier: 1,
+      fullScreen: false
     };
     this._updateRange = this._updateRange.bind(this);
     this._animate = this._animate.bind(this);
     this._toggle = this._toggle.bind(this);
     this._toggleSpeed = this._toggleSpeed.bind(this);
+    this._openFullscreen = this._openFullscreen.bind(this);
     this._animationFrame = null;
   }
 
@@ -43,7 +46,6 @@ class RangeSlider extends React.Component {
     }
     this.setState({isPlaying: !isPlaying});
   }
-
   _toggleSpeed() {
     if (this.state.speedModifier === 1) {
       this.setState({speedModifier: 2})
@@ -52,11 +54,26 @@ class RangeSlider extends React.Component {
     }
   }
 
+  _openFullscreen() {
+    const elem = document.documentElement;
+    elem.requestFullscreen();
+    this.setState({fullScreen: true})
+  }
+
   render() {
-    const {isPlaying} = this.state;
+    const {isPlaying, fullScreen} = this.state;
     return (
       <div className='d-flex flex-grow-1 align-content-center'>
         <div className='mr-0'>
+          <button className="btn px-0">
+            {
+              !fullScreen ?
+                <button className='btn' onClick={this._openFullscreen}>
+                  <FullScreen/>
+                </button>
+                : null
+            }
+          </button>
           <button className="btn px-0" onClick={this._toggle}>
             { !isPlaying ?
               <div><Play/></div>
