@@ -127,9 +127,51 @@ const colorRange = [
 
 const INCIDENT_POINTS = INCIDENT_JSON.incidents;
 
-
-
 let TRIPS = INCIDENT_TRIP_JSON.map((item) => {
+  const TRIP = item.routes[0].legs[0];
+  const TRIP_DISTANCE = TRIP.distance.value;
+  const TRIP_DURATION = TRIP.duration_in_traffic.value;
+
+  const OFFSET = item.start_time;
+  const START_TIME = OFFSET - 1577836800;
+  let total = START_TIME;
+  let duration = 0;
+  let trip = []
+  const STEPS = TRIP.steps.map(step => {
+    const step_distance = step.distance.value;
+    const step_duration = step.duration.value;
+    const line = polyline.decode(step.polyline.points);
+    const line_simplified = simplify(line, 0.00001);
+    const points = [];
+    line_simplified.forEach((point, i) => {
+      if (line_simplified[i + 1]) {
+        const next_point = line_simplified[i + 1];
+        const distance_between = distanceBetween(point[0], point[1], next_point[0], next_point[1], 'K') * 1000;
+        const percent = distance_between / step_distance;
+        duration = round(percent * step_duration, 0);
+      }
+      const timestamp = total;
+      total = duration + total;
+
+      if (line_simplified[i - 1] && line_simplified[i - 1].timestamp !== timestamp) {
+        trip.push({
+          coordinates: point,
+          timestamp
+        })
+      }
+    });
+  });
+  return {
+    trip,
+    start: START_TIME,
+    end: START_TIME + TRIP_DURATION,
+    origin: TRIP.start_address,
+    destination: TRIP.end_address,
+    speed: round((TRIP_DISTANCE / TRIP_DURATION) * 3.6, 0)
+  }
+})
+
+let TRAFFIC = INCIDENT_TRAFFIC_JSON.map((item) => {
   const TRIP = item.routes[0].legs[0];
   const TRIP_DISTANCE = TRIP.distance.value;
   const TRIP_DURATION = TRIP.duration_in_traffic.value;
@@ -203,70 +245,92 @@ class Incidents extends Component {
     this._rotateCamera = this._rotateCamera.bind(this)
   }
 
-  _renderLayers = () => {
-    return [
-      new GeoJsonLayer({
-        id: 'traffic-stroke',
-        data: INCIDENT_TRAFFIC_JSON,
-        stroked: true,
-        opacity: 1,
-        lineWidthMinPixels: 2,
-        getLineColor: colorRange[5],
-      }),
-      new TripsLayer({
-        id: 'incident-reponse',
-        data: TRIPS,
-        opacity: 1,
-        widthMinPixels: 5,
-        rounded: true,
-        trailLength: 100,
-        autoHighlight: true,
-        currentTime: this.state.time,
-        widthUnits: 'meters',
-        getPath: d => d.trip.map(p => [p.coordinates[1], p.coordinates[0]]),
-        getTimestamps: d => d.trip.map(p => p.timestamp),
-        getColor: d => {
-          return colorRange[5]
-        },
-        parameters: {
-          depthTest: false
-        }
-      }),
-      new ScatterplotLayer({
-        id: 'incidents',
-        data: INCIDENT_POINTS,
-        opacity: 1,
-        getRadius: d => d.properties.severity * 2,
-        getPosition: d => d.geometry.coordinates,
-        getFillColor: d => {
-          if (d.properties.status === 'detected') return [220, 53, 69];
-          if (d.properties.status === 'responding') return [255, 193, 7];
-          if (d.properties.status === 'clearing') return [32, 201, 151];
-          return colorRange[2]
-        },
-        getFilterValue: d => {
-          return [
-            d.properties.start_timestamp,
-            d.properties.end_timestamp
-          ]
-        },
-        filterRange: [
-          [0, this.state.time],
-          [this.state.time, 86400]
-        ],
-        filterSoftRange: [
-          [0, this.state.time - 50],
-          [this.state.time + 50, 86400]
-        ],
-        extensions: [
-          new DataFilterExtension({filterSize: 2})
-        ],
-        parameters: {
-          depthTest: false
-        }
-      }),
-    ]
-  }
+  // _renderTrafficLayer = ()  => {
+  //   return new GeoJsonLayer({
+  //     id: 'traffic-stroke',
+  //     data: INCIDENT_TRAFFIC_JSON,
+  //     stroked: true,
+  //     opacity: 1,
+  //     lineWidthMinPixels: 2,
+  //     getLineColor: d => {
+  //       return colorRange[4]
+  //     },
+  //   })
+  // }
+
+  _renderLayers = () => [
+    new TripsLayer({
+      id: 'incident-traffic',
+      data: TRAFFIC,
+      opacity: 1,
+      widthMinPixels: 5,
+      rounded: true,
+      trailLength: 1000,
+      autoHighlight: true,
+      currentTime: this.state.time,
+      widthUnits: 'meters',
+      getPath: d => d.trip.map(p => [p.coordinates[1], p.coordinates[0]]),
+      getTimestamps: d => d.trip.map(p => p.timestamp),
+      getColor: d => {
+        return colorRange[3]
+      },
+      parameters: {
+        depthTest: false
+      }
+    }),
+    new TripsLayer({
+      id: 'incident-reponse',
+      data: TRIPS,
+      opacity: 1,
+      widthMinPixels: 5,
+      rounded: true,
+      trailLength: 100,
+      autoHighlight: true,
+      currentTime: this.state.time,
+      widthUnits: 'meters',
+      getPath: d => d.trip.map(p => [p.coordinates[1], p.coordinates[0]]),
+      getTimestamps: d => d.trip.map(p => p.timestamp),
+      getColor: d => {
+        return colorRange[5]
+      },
+      parameters: {
+        depthTest: false
+      }
+    }),
+    new ScatterplotLayer({
+      id: 'incidents',
+      data: INCIDENT_POINTS,
+      opacity: 1,
+      getRadius: d => d.properties.severity * 2,
+      getPosition: d => d.geometry.coordinates,
+      getFillColor: d => {
+        if (d.properties.status === 'detected') return [220, 53, 69];
+        if (d.properties.status === 'responding') return [255, 193, 7];
+        if (d.properties.status === 'clearing') return [32, 201, 151];
+        return colorRange[2]
+      },
+      getFilterValue: d => {
+        return [
+          d.properties.start_timestamp,
+          d.properties.end_timestamp
+        ]
+      },
+      filterRange: [
+        [0, this.state.time],
+        [this.state.time, 86400]
+      ],
+      filterSoftRange: [
+        [0, this.state.time - 50],
+        [this.state.time + 50, 86400]
+      ],
+      extensions: [
+        new DataFilterExtension({filterSize: 2})
+      ],
+      parameters: {
+        depthTest: false
+      }
+    }),
+  ]
 
   _onViewStateChange({viewState}) {
     const {focussed} = this.state;
@@ -298,6 +362,10 @@ class Incidents extends Component {
         return incident
       }
     })
+
+    if (active !== this.state.active) {
+
+    }
 
     this.setState({
       time: value,
