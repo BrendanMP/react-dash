@@ -5,7 +5,7 @@
       "properties": {
         "id": "9323877e-3edd-41fe-a569-9f3a66d41880",
         "status": "detected",
-        "type": "accident",
+        "type": "Severe Accident",
         "start_timestamp": 31500,
         "end_timestamp": 32632,
         "cars_damaged": "12",
@@ -28,7 +28,7 @@
       "properties": {
         "id": "17e0c899-fdd4-4458-a6b0-a22ac1d5849a",
         "status": "responding",
-        "type": "accident",
+        "type": "Severe Accident",
         "start_timestamp": 32632,
         "end_timestamp": 33683,
         "cars_damaged": "12",
@@ -51,7 +51,7 @@
       "properties": {
         "id": "630bfb8e-c7a4-4b9c-bbf0-d5832e2e16ef",
         "status": "clearing",
-        "type": "accident",
+        "type": "Severe Accident",
         "start_timestamp": 33683,
         "end_timestamp": 34283,
         "cars_damaged": "12",

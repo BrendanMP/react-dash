@@ -17,7 +17,7 @@ csv()
           properties: {
             id: uuidv4(),
             status: 'detected',
-            type: 'accident',
+            type: incident.type,
             start_timestamp: incident.detected_start - OFFSET,
             end_timestamp: incident.response_start - OFFSET,
             cars_damaged: incident.cars_damaged,

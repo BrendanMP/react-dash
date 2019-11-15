@@ -4,21 +4,23 @@ import DeckGL, {
   TripsLayer,
   ScatterplotLayer,
   FlyToInterpolator,
-  LinearInterpolator
+  LinearInterpolator,
+  GeoJsonLayer,
+  PathLayer
 } from 'deck.gl'
 import {StaticMap} from 'react-map-gl';
 import {DataFilterExtension} from '@deck.gl/extensions';
 import polyline from 'google-polyline';
 import socketIOClient from 'socket.io-client';
+import {addSeconds, format} from "date-fns";
 
 import RangeSlider from '../../components/RangeSlider';
 import Alerts from '../../components/deck/Alerts';
 
-// import INCIDENT_JSON from '../../data/adbijan/incidents';
 import INCIDENT_JSON from '../../data/adbijan/incidents_points.json';
 import INCIDENT_TRIP_JSON from '../../data/adbijan/incidents_responders.json';
-import TRIPS_JSON from "../../data/adbijan/trips";
-import {addSeconds, format} from "date-fns";
+import INCIDENT_TRAFFIC_JSON from '../../data/adbijan/incidents_traffic.json';
+import COMMUNES_JSON from "../../data/adbijan/communes";
 
 const transitionInterpolator = new LinearInterpolator(['bearing']);
 
@@ -161,8 +163,6 @@ let TRIPS = INCIDENT_TRIP_JSON.map((item) => {
       }
     });
   });
-  
-  console.log(trip)
   return {
     trip,
     start: START_TIME,
@@ -205,6 +205,14 @@ class Incidents extends Component {
 
   _renderLayers = () => {
     return [
+      new GeoJsonLayer({
+        id: 'traffic-stroke',
+        data: INCIDENT_TRAFFIC_JSON,
+        stroked: true,
+        opacity: 1,
+        lineWidthMinPixels: 2,
+        getLineColor: colorRange[5],
+      }),
       new TripsLayer({
         id: 'incident-reponse',
         data: TRIPS,
@@ -261,8 +269,12 @@ class Incidents extends Component {
   }
 
   _onViewStateChange({viewState}) {
+    const {focussed} = this.state;
     viewState.pitch = viewState.zoom * 3;
-    this.setState({viewState});
+    this.setState({
+      viewState,
+      focussed: viewState.zoom >= INITIAL_VIEWSTATE.zoom ? focussed : null
+    });
   }
 
   _animate() {
@@ -401,19 +413,19 @@ class Incidents extends Component {
               <div className="panel-body p-3 ">
 
                 <div className="mb-4">
-                  <h5>Status</h5>
-                  <div className='text-capitalize'>
+                  <h6>Status</h6>
+                  <h5 className='text-capitalize'>
                     {focussed.properties.status} @ {format(addSeconds(timestamp, focussed.properties.start_timestamp), 'h:mm a')}
-                  </div>
+                  </h5>
                 </div>
                 <div className="mb-4">
                   <h5>Response Team Origin</h5>
-                  <div>{focussed.properties.response_origin}</div>
+                  <h5>{focussed.properties.response_origin}</h5>
                 </div>
 
                 <div className="mb-4">
-                  <h5>Response Team ETA</h5>
-                  {format(addSeconds(timestamp, focussed.properties.end_timestamp), 'h:mm a')}
+                  <h6>Response Team ETA</h6>
+                  <h5>{format(addSeconds(timestamp, focussed.properties.end_timestamp), 'h:mm a')}</h5>
                 </div>
 
 

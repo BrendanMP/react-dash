@@ -29,19 +29,20 @@ function AlertList(props) {
       key={i}
     >
       <div className="panel-body py-3 px-4">
-        <h5 style={{lineHeight: 1.2}} className={'text-uppercase mb-2'}>
-          {alert.properties.type} {alert.properties.status} &mdash; {format(addSeconds(timestamp, alert.properties.start_timestamp), 'h:mm a')}
+        <h4 style={{lineHeight: 1}} className='text-uppercase mb-3'>{alert.properties.type}</h4>
+        <h5 style={{lineHeight: 1}} className='text-capitalize mb-2 text-muted'>
+          {alert.properties.status} @ {format(addSeconds(timestamp, alert.properties.start_timestamp), 'h:mm a')}
           <span>&nbsp;</span>
         </h5>
         <h5 className='text-muted text-capitalize mb-0' style={{lineHeight: 1}}>
           {
             alert.properties.status === 'detected' ?
               <div>
-                RESPONSE TEAM ETA &mdash; {eta(alert.properties.end_timestamp - props.time)}
+                Response Team ETA &mdash; {eta(alert.properties.end_timestamp - props.time)}
               </div>
               :
               <div>
-                ETA TO RESOLUTION &mdash; {eta(alert.properties.end_timestamp - props.time)}
+                ETA to Resolution &mdash; {eta(alert.properties.end_timestamp - props.time)}
               </div>
           }
         </h5>
