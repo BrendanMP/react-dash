@@ -183,7 +183,7 @@ let TRAFFIC = INCIDENT_TRAFFIC_JSON.map((item) => {
   let trip = []
   const STEPS = TRIP.steps.map(step => {
     const step_distance = step.distance.value;
-    const step_duration = step.duration.value + (step.duration.value * 5);
+    const step_duration = step.duration.value + (step.duration.value * 2);
     const line = polyline.decode(step.polyline.points);
     const line_simplified = simplify(line, 0.00001);
     const points = [];
@@ -252,7 +252,7 @@ class Incidents extends Component {
       opacity: 1,
       widthMinPixels: 5,
       rounded: true,
-      trailLength: 5000,
+      trailLength: 2000,
       autoHighlight: true,
       currentTime: this.state.time,
       widthUnits: 'meters',
