@@ -2,7 +2,7 @@
 @import "~bootstrap/scss/bootstrap";
 
 html {
-  font-size: 1vw;
+  font-size: 0.8vw;
 }
 
 a {
@@ -335,6 +335,12 @@ a {
   margin-bottom: 1rem;
 
   perspective: 500rem;
+
+
+  &--warning {
+    border-top: 2px solid transparent;
+    border-color: $yellow;
+  }
 
   &--alert {
     cursor: pointer;

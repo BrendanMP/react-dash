@@ -17,6 +17,8 @@ import {addSeconds, format} from "date-fns";
 import RangeSlider from '../../components/RangeSlider';
 import Alerts from '../../components/deck/Alerts';
 
+import { ReactComponent as FullScreen } from '../../images/fullscreen.svg';
+
 import INCIDENT_JSON from '../../data/adbijan/incidents_points.json';
 import INCIDENT_TRIP_JSON from '../../data/adbijan/incidents_responders.json';
 import INCIDENT_TRAFFIC_JSON from '../../data/adbijan/incidents_traffic.json';
@@ -183,7 +185,7 @@ let TRAFFIC = INCIDENT_TRAFFIC_JSON.map((item) => {
   let trip = []
   const STEPS = TRIP.steps.map(step => {
     const step_distance = step.distance.value;
-    const step_duration = step.duration.value + (step.duration.value * 2);
+    const step_duration = step.duration.value + (step.duration.value * 5);
     const line = polyline.decode(step.polyline.points);
     const line_simplified = simplify(line, 0.00001);
     const points = [];
@@ -226,6 +228,7 @@ const INITIAL_VIEWSTATE = {
   pitch: 13 * 3,
 }
 
+
 class Incidents extends Component {
   constructor(props) {
     super(props)
@@ -235,6 +238,8 @@ class Incidents extends Component {
       incidents: INCIDENT_JSON,
       active: [],
       focussed: null,
+      trailLength: 5000,
+      fullScreen : false,
     }
     this._onViewStateChange = this._onViewStateChange.bind(this)
     this._updateTime = this._updateTime.bind(this)
@@ -243,24 +248,40 @@ class Incidents extends Component {
     this._zoomOut = this._zoomOut.bind(this)
     this._resetCamera = this._resetCamera.bind(this)
     this._rotateCamera = this._rotateCamera.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this._openFullscreen = this._openFullscreen.bind(this)
+  }
+
+
+  _openFullscreen() {
+    const elem = document.documentElement;
+    elem.requestFullscreen();
+    this.setState({fullScreen: true})
   }
 
   _renderLayers = () => [
     new TripsLayer({
       id: 'incident-traffic',
       data: TRAFFIC,
-      opacity: 1,
+      opacity: 0.1,
       widthMinPixels: 5,
       rounded: true,
-      trailLength: 2000,
+      trailLength: this.state.trailLength,
       autoHighlight: true,
       currentTime: this.state.time,
       widthUnits: 'meters',
+      pickable: true,
+      highlightColor: [...colorRange[5], 1],
       getPath: d => d.trip.map(p => [p.coordinates[1], p.coordinates[0]]),
       getTimestamps: d => d.trip.map(p => p.timestamp),
       getColor: d => {
         return colorRange[5]
       },
+      onHover: info => this.setState({
+        hoveredObject: info.object,
+        pointerX: info.x,
+        pointerY: info.y
+      }),
       parameters: {
         depthTest: false
       }
@@ -271,7 +292,7 @@ class Incidents extends Component {
       opacity: 1,
       widthMinPixels: 5,
       rounded: true,
-      trailLength: 100,
+      trailLength: 300,
       autoHighlight: true,
       currentTime: this.state.time,
       widthUnits: 'meters',
@@ -288,6 +309,7 @@ class Incidents extends Component {
       id: 'incidents',
       data: INCIDENT_POINTS,
       opacity: 1,
+      pickable: true,
       getRadius: d => d.properties.severity * 2,
       getPosition: d => d.geometry.coordinates,
       getFillColor: d => {
@@ -301,6 +323,13 @@ class Incidents extends Component {
           d.properties.start_timestamp,
           d.properties.end_timestamp
         ]
+      },
+      onHover: info => {
+        return this.setState({
+          hoveredObject: info.object,
+          pointerX: info.x,
+          pointerY: info.y
+        })
       },
       filterRange: [
         [0, this.state.time],
@@ -318,6 +347,17 @@ class Incidents extends Component {
       }
     }),
   ]
+
+  _renderTooltip() {
+    const {hoveredObject, pointerX, pointerY} = this.state || {};
+    return hoveredObject && (
+      <div className='panel' style={{position: 'absolute', transform: "translateY(calc(-100% - 1rem))", zIndex: 10, pointerEvents: 'none', left: pointerX+5, top: pointerY+5}}>
+        <div className="panel-body p-2">
+          {hoveredObject.destination}
+        </div>
+      </div>
+    );
+  }
 
   _onViewStateChange({viewState}) {
     const {focussed} = this.state;
@@ -349,10 +389,6 @@ class Incidents extends Component {
         return incident
       }
     })
-
-    if (active !== this.state.active) {
-
-    }
 
     this.setState({
       time: value,
@@ -432,13 +468,18 @@ class Incidents extends Component {
     });
   }
 
+  handleChange(event) {
+    this.setState({trailLength: event.target.value});
+  }
+
   componentDidMount() {
+    // openFullscreen()
     // setTimeout(() => this._rotateCamera(), 200)
   }
 
   render() {
     const {mapStyle = 'mapbox://styles/brendan-transitlabs/ck2m1hpe701041cpgdrcqtduz'} = this.props;
-    const {viewState, focussed} = this.state;
+    const {viewState, focussed, fullScreen} = this.state;
     const timestamp = new Date('1-1-2020');
     return (
       <div>
@@ -456,48 +497,53 @@ class Incidents extends Component {
             mapboxApiAccessToken={MAPBOX_TOKEN}
           ></StaticMap>
         </DeckGL>
+        { this._renderTooltip() }
         <div style={{position: 'fixed', top: '2rem', left: '2rem'}}>
+          {
+            !fullScreen ?
+              <button className='btn' onClick={this._openFullscreen}>
+                <FullScreen/>
+              </button>
+              : null
+          }
+
           <Alerts alerts={this.state.active} clicked={this._flyToIncident} time={this.state.time}/>
         </div>
-        <div style={{position: 'fixed', top: '2rem', right: '2rem', width: '25vw'}}>
+        <div style={{position: 'fixed', top: '2rem', right: '2rem', width: '15vw'}}>
           {this.state.focussed ?
-            <div className="panel flex-column">
-              <div className="p-3 pb-0">
-                <h3 className='mb-0 font-weight-lighter'>Incident Analytics</h3>
+            <div className="panel flex-column panel--warning">
+              <div className="p-4 pb-0">
+                <h3 className='mb-0 font-weight-lighter text-warning'>Incident Analytics</h3>
               </div>
-              <div className="panel-body p-3 ">
+              <div className="panel-body px-4 pb-4 pt-0">
 
-                <div className="mb-4">
+                <div className="mb-3">
                   <h6>Status</h6>
-                  <h5 className='text-capitalize'>
-                    {focussed.properties.status} @ {format(addSeconds(timestamp, focussed.properties.start_timestamp), 'h:mm a')}
-                  </h5>
-                </div>
-                <div className="mb-4">
-                  <h5>Response Team Origin</h5>
-                  <h5>{focussed.properties.response_origin}</h5>
+                  <h5>Detected @ 8:45 AM</h5>
                 </div>
 
-                <div className="mb-4">
-                  <h6>Response Team ETA</h6>
-                  <h5>{format(addSeconds(timestamp, focussed.properties.end_timestamp), 'h:mm a')}</h5>
+                <div className="mb-3">
+                  <h6>Status</h6>
+                  <h5 className='text-capitalize'>{focussed.properties.status}</h5>
                 </div>
 
 
+                {/*<div className="mb-4">*/}
+                {/*  <h6>Status</h6>*/}
+                {/*  <h5 className='text-capitalize'>*/}
+                {/*    {focussed.properties.status} @ {format(addSeconds(timestamp, focussed.properties.start_timestamp), 'h:mm a')}*/}
+                {/*  </h5>*/}
+                {/*</div>*/}
+                {/*<div className="mb-4">*/}
+                {/*  <h5>Response Team Origin</h5>*/}
+                {/*  <h5>{focussed.properties.response_origin}</h5>*/}
+                {/*</div>*/}
 
-                {/*<p>Casualties: UNKNOWN <br/> Estimate: 3</p>*/}
-                {/*<p>Response team deployed</p>*/}
-                {/*<p>*/}
-                {/*  Arriving from {this.state.focussed.properties.response_origin} <br/>*/}
-                {/*  Estimated time: 12 minutes*/}
-                {/*</p>*/}
-                {/*<p>*/}
-                {/*  Estimated time to clear intersection: <br/>*/}
-                {/*  29 Minutes*/}
-                {/*</p>*/}
-                {/*<p className='mb-0'>*/}
-                {/*  Intersection cleared, traffic returned to normal*/}
-                {/*</p>*/}
+                {/*<div className="mb-4">*/}
+                {/*  <h6>Response Team ETA</h6>*/}
+                {/*  <h5>{format(addSeconds(timestamp, focussed.properties.end_timestamp), 'h:mm a')}</h5>*/}
+                {/*</div>*/}
+
               </div>
             </div>
             : null
