@@ -18,6 +18,7 @@ import Alerts from '../../components/deck/Alerts';
 import INCIDENT_JSON from '../../data/adbijan/incidents_points.json';
 import INCIDENT_TRIP_JSON from '../../data/adbijan/incidents_responders.json';
 import TRIPS_JSON from "../../data/adbijan/trips";
+import {addSeconds, format} from "date-fns";
 
 const transitionInterpolator = new LinearInterpolator(['bearing']);
 
@@ -160,6 +161,8 @@ let TRIPS = INCIDENT_TRIP_JSON.map((item) => {
       }
     });
   });
+  
+  console.log(trip)
   return {
     trip,
     start: START_TIME,
@@ -189,7 +192,7 @@ class Incidents extends Component {
       time: 31500,
       incidents: INCIDENT_JSON,
       active: [],
-      focussed: null
+      focussed: null,
     }
     this._onViewStateChange = this._onViewStateChange.bind(this)
     this._updateTime = this._updateTime.bind(this)
@@ -249,7 +252,10 @@ class Incidents extends Component {
         ],
         extensions: [
           new DataFilterExtension({filterSize: 2})
-        ]
+        ],
+        parameters: {
+          depthTest: false
+        }
       }),
     ]
   }
@@ -365,7 +371,8 @@ class Incidents extends Component {
 
   render() {
     const {mapStyle = 'mapbox://styles/brendan-transitlabs/ck2m1hpe701041cpgdrcqtduz'} = this.props;
-    const {viewState} = this.state;
+    const {viewState, focussed} = this.state;
+    const timestamp = new Date('1-1-2020');
     return (
       <div>
         <DeckGL
@@ -387,22 +394,43 @@ class Incidents extends Component {
         </div>
         <div style={{position: 'fixed', top: '2rem', right: '2rem', width: '25vw'}}>
           {this.state.focussed ?
-            <div className="panel">
-              <div className="panel-body p-3">
-                <h4 className='mb-3'>Incident Information</h4>
-                <p>Casualties: UNKNOWN <br/> Estimate: 3</p>
-                <p>Response team deployed</p>
-                <p>
-                  Arriving from {this.state.focussed.properties.commune} <br/>
-                  Estimated time: 12 minutes
-                </p>
-                <p>
-                  Estimated time to clear intersection: <br/>
-                  29 Minutes
-                </p>
-                <p className='mb-0'>
-                  Intersection cleared, traffic returned to normal
-                </p>
+            <div className="panel flex-column">
+              <div className="p-3 pb-0">
+                <h3 className='mb-0 font-weight-lighter'>Incident Analytics</h3>
+              </div>
+              <div className="panel-body p-3 ">
+
+                <div className="mb-4">
+                  <h5>Status</h5>
+                  <div className='text-capitalize'>
+                    {focussed.properties.status} @ {format(addSeconds(timestamp, focussed.properties.start_timestamp), 'h:mm a')}
+                  </div>
+                </div>
+                <div className="mb-4">
+                  <h5>Response Team Origin</h5>
+                  <div>{focussed.properties.response_origin}</div>
+                </div>
+
+                <div className="mb-4">
+                  <h5>Response Team ETA</h5>
+                  {format(addSeconds(timestamp, focussed.properties.end_timestamp), 'h:mm a')}
+                </div>
+
+
+
+                {/*<p>Casualties: UNKNOWN <br/> Estimate: 3</p>*/}
+                {/*<p>Response team deployed</p>*/}
+                {/*<p>*/}
+                {/*  Arriving from {this.state.focussed.properties.response_origin} <br/>*/}
+                {/*  Estimated time: 12 minutes*/}
+                {/*</p>*/}
+                {/*<p>*/}
+                {/*  Estimated time to clear intersection: <br/>*/}
+                {/*  29 Minutes*/}
+                {/*</p>*/}
+                {/*<p className='mb-0'>*/}
+                {/*  Intersection cleared, traffic returned to normal*/}
+                {/*</p>*/}
               </div>
             </div>
             : null

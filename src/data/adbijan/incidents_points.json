@@ -3,15 +3,17 @@
     {
       "type": "feature",
       "properties": {
-        "id": "13004a98-1f30-469f-9af9-7f19c72dab4d",
+        "id": "9323877e-3edd-41fe-a569-9f3a66d41880",
         "status": "detected",
         "type": "accident",
         "start_timestamp": 31500,
-        "end_timestamp": 32651,
+        "end_timestamp": 32532,
         "cars_damaged": "12",
         "cars_delayed": "600",
         "fatalities": "unknown",
-        "severity": "40"
+        "severity": "40",
+        "incident_origin": "Avenue de Marcory",
+        "response_origin": "Cité du Personnel"
       },
       "geometry": {
         "type": "Point",
@@ -24,15 +26,17 @@
     {
       "type": "feature",
       "properties": {
-        "id": "d08988bd-fc8c-43af-ac8a-19eb1737f83d",
+        "id": "17e0c899-fdd4-4458-a6b0-a22ac1d5849a",
         "status": "responding",
         "type": "accident",
-        "start_timestamp": 32651,
-        "end_timestamp": 33403,
+        "start_timestamp": 32532,
+        "end_timestamp": 33583,
         "cars_damaged": "12",
         "cars_delayed": "600",
         "fatalities": "unknown",
-        "severity": "40"
+        "severity": "40",
+        "incident_origin": "Avenue de Marcory",
+        "response_origin": "Cité du Personnel"
       },
       "geometry": {
         "type": "Point",
@@ -45,15 +49,17 @@
     {
       "type": "feature",
       "properties": {
-        "id": "d1f4cdc2-537f-4d60-a544-65cdd7e59228",
+        "id": "630bfb8e-c7a4-4b9c-bbf0-d5832e2e16ef",
         "status": "clearing",
         "type": "accident",
-        "start_timestamp": 33403,
-        "end_timestamp": 34003,
+        "start_timestamp": 33583,
+        "end_timestamp": 34183,
         "cars_damaged": "12",
         "cars_delayed": "600",
         "fatalities": "unknown",
-        "severity": "40"
+        "severity": "40",
+        "incident_origin": "Avenue de Marcory",
+        "response_origin": "Cité du Personnel"
       },
       "geometry": {
         "type": "Point",

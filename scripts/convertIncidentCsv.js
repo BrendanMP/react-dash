@@ -24,7 +24,9 @@ csv()
             cars_totaled: incident.cars_totaled,
             cars_delayed: incident.cars_delayed,
             fatalities: incident.fatalities,
-            severity: incident.severity
+            severity: incident.severity,
+            incident_origin: incident.incident_origin,
+            response_origin: incident.response_origin,
           },
           geometry: {
             type: "Point",
@@ -46,7 +48,9 @@ csv()
             cars_totaled: incident.cars_totaled,
             cars_delayed: incident.cars_delayed,
             fatalities: incident.fatalities,
-            severity: incident.severity
+            severity: incident.severity,
+            incident_origin: incident.incident_origin,
+            response_origin: incident.response_origin,
           },
           geometry: {
             type: "Point",
@@ -68,7 +72,9 @@ csv()
             cars_totaled: incident.cars_totaled,
             cars_delayed: incident.cars_delayed,
             fatalities: incident.fatalities,
-            severity: incident.severity
+            severity: incident.severity,
+            incident_origin: incident.incident_origin,
+            response_origin: incident.response_origin,
           },
           geometry: {
             type: "Point",
