@@ -2,11 +2,17 @@
 const fs = require('fs');
 const axios = require('axios');
 const trips = [
-  [1577868300,	"https://maps.googleapis.com/maps/api/directions/json?origin=5.306319%2C-3.996992&destination=5.293871%2C-3.992884&departure_time=1577868300&key=AIzaSyCMwXLgXPsk8NbF3obJtM0MVE9uFG_Po1g"],
-  [1577868300,	"https://maps.googleapis.com/maps/api/directions/json?origin=5.306319%2C-3.996992&destination=5.29605%2C-4.003404&departure_time=1577868300&key=AIzaSyCMwXLgXPsk8NbF3obJtM0MVE9uFG_Po1g"],
-  [1577868300,	"https://maps.googleapis.com/maps/api/directions/json?origin=5.306319%2C-3.996992&destination=5.303486%2C-4.014267&departure_time=1577868300&key=AIzaSyCMwXLgXPsk8NbF3obJtM0MVE9uFG_Po1g"],
-  [1577868300,	"https://maps.googleapis.com/maps/api/directions/json?origin=5.306319%2C-3.996992&destination=5.289512%2C-3.990776&departure_time=1577868300&key=AIzaSyCMwXLgXPsk8NbF3obJtM0MVE9uFG_Po1g"],
-  [1577868300,	"https://maps.googleapis.com/maps/api/directions/json?origin=5.306319%2C-3.996992&destination=5.296146%2C-3.981608&departure_time=1577868300&key=AIzaSyCMwXLgXPsk8NbF3obJtM0MVE9uFG_Po1g"],
+  // [1577868300,	"https://maps.googleapis.com/maps/api/directions/json?origin=5.306319%2C-3.996992&destination=5.293871%2C-3.992884&departure_time=1577868300&key=AIzaSyCMwXLgXPsk8NbF3obJtM0MVE9uFG_Po1g"],
+  // [1577868300,	"https://maps.googleapis.com/maps/api/directions/json?origin=5.306319%2C-3.996992&destination=5.29605%2C-4.003404&departure_time=1577868300&key=AIzaSyCMwXLgXPsk8NbF3obJtM0MVE9uFG_Po1g"],
+  // [1577868300,	"https://maps.googleapis.com/maps/api/directions/json?origin=5.306319%2C-3.996992&destination=5.303486%2C-4.014267&departure_time=1577868300&key=AIzaSyCMwXLgXPsk8NbF3obJtM0MVE9uFG_Po1g"],
+  // [1577868300,	"https://maps.googleapis.com/maps/api/directions/json?origin=5.306319%2C-3.996992&destination=5.289512%2C-3.990776&departure_time=1577868300&key=AIzaSyCMwXLgXPsk8NbF3obJtM0MVE9uFG_Po1g"],
+  // [1577868300,	"https://maps.googleapis.com/maps/api/directions/json?origin=5.306319%2C-3.996992&destination=5.296146%2C-3.981608&departure_time=1577868300&key=AIzaSyCMwXLgXPsk8NbF3obJtM0MVE9uFG_Po1g"],
+
+  [1577868300,	"https://maps.googleapis.com/maps/api/directions/json?origin=5.293871%2C-3.992884&destination=5.306319%2C-3.996992&departure_time=1577868300&key=AIzaSyCMwXLgXPsk8NbF3obJtM0MVE9uFG_Po1g"],
+  [1577868300,	"https://maps.googleapis.com/maps/api/directions/json?origin=5.29605%2C-4.003404&destination=5.306319%2C-3.996992&departure_time=1577868300&key=AIzaSyCMwXLgXPsk8NbF3obJtM0MVE9uFG_Po1g"],
+  [1577868300,	"https://maps.googleapis.com/maps/api/directions/json?origin=5.303486%2C-4.014267&destination=5.306319%2C-3.996992&departure_time=1577868300&key=AIzaSyCMwXLgXPsk8NbF3obJtM0MVE9uFG_Po1g"],
+  [1577868300,	"https://maps.googleapis.com/maps/api/directions/json?origin=5.289512%2C-3.990776&destination=5.306319%2C-3.996992&departure_time=1577868300&key=AIzaSyCMwXLgXPsk8NbF3obJtM0MVE9uFG_Po1g"],
+  [1577868300,	"https://maps.googleapis.com/maps/api/directions/json?origin=5.296146%2C-3.981608&destination=5.306319%2C-3.996992&departure_time=1577868300&key=AIzaSyCMwXLgXPsk8NbF3obJtM0MVE9uFG_Po1g"],
 ]
 
 async function asyncForEach(array, callback) {

@@ -151,7 +151,7 @@ let TRIPS = TRIPS_JSON.map((item) => {
       if (line_simplified[i - 1] && line_simplified[i - 1].timestamp !== timestamp) {
         trip.push({
           coordinates: point,
-          timestamp
+          timestamp: timestamp
         })
       }
     });
@@ -159,7 +159,7 @@ let TRIPS = TRIPS_JSON.map((item) => {
   return {
     trip,
     start: START_TIME,
-    end: START_TIME + TRIP_DURATION,
+    end: START_TIME ,
     origin: TRIP.start_address,
     destination: TRIP.end_address,
     speed: round((TRIP_DISTANCE / TRIP_DURATION) * 3.6, 0)

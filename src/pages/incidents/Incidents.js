@@ -184,7 +184,7 @@ let TRAFFIC = INCIDENT_TRAFFIC_JSON.map((item) => {
   let trip = []
   const STEPS = TRIP.steps.map(step => {
     const step_distance = step.distance.value;
-    const step_duration = step.duration.value + (step.duration.value * 5);
+    const step_duration = step.duration.value / 100;
     const line = polyline.decode(step.polyline.points);
     const line_simplified = simplify(line, 0.00001);
     const points = [];
@@ -201,7 +201,7 @@ let TRAFFIC = INCIDENT_TRAFFIC_JSON.map((item) => {
       if (line_simplified[i - 1] && line_simplified[i - 1].timestamp !== timestamp) {
         trip.push({
           coordinates: point,
-          timestamp
+          timestamp: timestamp - TRIP_DURATION
         })
       }
     });
@@ -243,7 +243,7 @@ class Incidents extends Component {
       traffic: {
         opacity: 0.05,
         color: colorRange[5],
-        trailLength: 5000
+        trailLength: 0
       }
     }
     this._onViewStateChange = this._onViewStateChange.bind(this)
@@ -281,10 +281,10 @@ class Incidents extends Component {
         pointerX: info.x,
         pointerY: info.y
       }),
-      transitionEasing: (t) => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
+      // transitionEasing: (t) => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
       transitions: {
         opacity: 1200,
-        trailLength: 4000,
+        trailLength: 10000,
       },
       parameters: {
         depthTest: false
