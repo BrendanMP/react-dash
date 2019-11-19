@@ -195,7 +195,6 @@ class Traffic extends Component {
         widthUnits: "meters",
         getPath: d => d.trip.map(p => [p.coordinates[1], p.coordinates[0]]),
         getTimestamps: d => {
-          console.log(d.trip);
           return d.trip.map(p => p.timestamp);
         },
         getColor: d => colorRange[1],

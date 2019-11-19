@@ -17,8 +17,6 @@ import INCIDENT_RESPONSE_JSON from "../../data/adbijan/incidents_responders";
 const RESPONDERS = convertDirections(INCIDENT_RESPONSE_JSON);
 const TRAFFIC = convertDirections(INCIDENT_TRAFFIC_JSON, true);
 
-console.log(RESPONDERS);
-
 const DAY = new Date("1-1-2020");
 
 const EVENTS = [

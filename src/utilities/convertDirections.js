@@ -115,7 +115,7 @@ const convertDirections = (directions, offset) => {
       const TRIP_DURATION = TRIP.duration_in_traffic.value;
 
       const OFFSET = item.start_time;
-      const START_TIME = offset ? 1577836800 - OFFSET : OFFSET - 1577836800;
+      const START_TIME = 1577836800 - OFFSET;
       let total = START_TIME;
       let duration = 0;
       let trip = [];
