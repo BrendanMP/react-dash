@@ -205,7 +205,7 @@ class Traffic extends Component {
         <DeckGL
           viewState={viewState}
           layers={this._renderLayers()}
-          controller={{ type: TrafficController, doubleClickZoom: false }}
+          controller={{ type: MapController, doubleClickZoom: false }}
           onViewStateChange={this._onViewStateChange}
         >
           <StaticMap
