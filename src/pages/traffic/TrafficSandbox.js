@@ -150,7 +150,6 @@ class Traffic extends Component {
         radiusMaxPixels: 20,
         getPosition: d => d.geometry.coordinates,
         getFillColor: d => {
-          console.log(d.geometry.coordinates);
           if (d.properties.status === "detected") return [220, 53, 69];
           if (d.properties.status === "en_route") return [253, 126, 20];
           if (d.properties.status === "responding") return [255, 193, 7];
