@@ -8,8 +8,17 @@ import DeckGL, {
 } from "deck.gl";
 import { PhongMaterial } from "@luma.gl/core";
 import { StaticMap } from "react-map-gl";
-import COMMUNES_JSON from "../../data/adbijan/communes";
+
+import { ReactComponent as AccidentsIcon } from "../../images/accidents.svg";
+import { ReactComponent as FatalitiesIcon } from "../../images/fatalities.svg";
+import { ReactComponent as ResponseTimeIcon } from "../../images/response-time.svg";
+import { ReactComponent as NotResponsedIcon } from "../../images/not-responded.svg";
+
 import ACCIDENTS_JSON from "../../data/adbijan/accidents";
+import COMMUNES_JSON from "../../data/adbijan/communes";
+import Header from "../../components/deck/Header";
+import Alerts from "../../components/deck/Alerts";
+import Info from "../../components/deck/Info";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiYnJlbmRhbi10cmFuc2l0bGFicyIsImEiOiJjazI5aHptaWEwdzJzM25vMnB0aHhqcjNlIn0.oZFZBkbrnOrF80fkS3xNgQ";
@@ -46,14 +55,15 @@ class Accidents extends Component {
       time: 39640,
       date: new Date("2019-10-10 0:00"),
       active: [],
-      layers: {
-        hexagon: {
-          elevationScale: 0,
-          coverage: 1,
-          opacity: 0
-        }
-      }
+      layers: [
+        { name: "accidents", visible: false, label: "Accidents" },
+        { name: "fatalities", visible: false, label: "Fatalities" },
+        { name: "response_time", visible: false, label: "Response Time" },
+        { name: "not_responded", visible: false, label: "Not Responded" }
+      ],
+      hoveredObject: {}
     };
+    this._renderLayers = this._renderLayers.bind(this);
     this._onViewStateChange = this._onViewStateChange.bind(this);
     this._rotateCamera = this._rotateCamera.bind(this);
     this._flyTo = this._flyTo.bind(this);
@@ -72,8 +82,8 @@ class Accidents extends Component {
         transitionDuration: 800,
         transitionInterpolator: new FlyToInterpolator({ curve: 5 }),
         transitionEasing: t =>
-          t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
-        onTransitionEnd: this._rotateCamera
+          t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
+        // onTransitionEnd: this._rotateCamera
       }
     });
   }
@@ -87,26 +97,27 @@ class Accidents extends Component {
             position: "absolute",
             zIndex: 1,
             pointerEvents: "none",
-            left: pointerX,
-            top: pointerY
+            left: pointerX || -50,
+            top: pointerY || -50
           }}
         >
-          {hoveredObject.message}
+          {hoveredObject.points.length}
         </div>
       )
     );
   }
 
   _renderLayers = () => {
-    const { hexagon } = this.state.layers;
+    const active = this.state.layers.find(layer => layer.visible === true);
+
     return [
       new HexagonLayer({
-        id: "hex-layer",
+        id: "accident-layer",
         colorRange,
         material,
         data: ACCIDENTS_JSON.accidents,
         pickable: true,
-        opacity: 1,
+        opacity: active && active.name === "accidents" ? 1 : 0,
         stroked: true,
         filled: true,
         extruded: true,
@@ -114,21 +125,74 @@ class Accidents extends Component {
         getPosition: d => {
           return [Number(d.longitude), Number(d.latitude)];
         },
-        elevationScale: 1,
+        elevationScale: active && active.name === "accidents" ? 1 : 0,
         coverage: 1,
-        radius: 30,
+        radius: 90,
         transitions: {
-          elevationScale: 2400,
-          coverage: 1200,
-          opacity: 800
+          elevationScale: 2400
+          // opacity: 2400
         },
         getFillColor: d => [32, 201, 151],
-        onHover: info =>
+        onHover: info => {
           this.setState({
             hoveredObject: info.object,
             pointerX: info.x,
             pointerY: info.y
-          })
+          });
+        }
+      }),
+      new HexagonLayer({
+        id: "fatalities-layer",
+        colorRange,
+        material,
+        data: ACCIDENTS_JSON.accidents,
+        pickable: true,
+        opacity: active && active.name === "fatalities" ? 1 : 0,
+        stroked: true,
+        filled: true,
+        extruded: true,
+        lineWidthMinPixels: 1,
+        getPosition: d => {
+          return [Number(d.longitude), Number(d.latitude)];
+        },
+        elevationScale: active && active.name === "fatalities" ? 2 : 0,
+        coverage: 1,
+        radius: 90,
+        transitions: {
+          elevationScale: 2400,
+          coverage: 1200
+          // opacity: 800
+        },
+        getFillColor: d => [32, 201, 151],
+        onHover: info => {
+          this.setState({
+            hoveredObject: info.object,
+            pointerX: info.x,
+            pointerY: info.y
+          });
+        }
+      }),
+      new GeoJsonLayer({
+        id: "communes-fill",
+        data: COMMUNES_JSON,
+        stroked: false,
+        filled: true,
+        opacity: 0,
+        pickable: true,
+        onClick: info => {
+          const { bounds } = info.object.properties;
+          if (bounds) this._flyTo(bounds);
+        }
+      }),
+      new GeoJsonLayer({
+        id: "communes-stroke",
+        data: COMMUNES_JSON,
+        stroked: true,
+        filled: false,
+        opacity: 0.05,
+        lineWidthMinPixels: 2,
+        getWidth: 2,
+        getLineColor: [32, 201, 151]
       })
     ];
   };
@@ -152,61 +216,126 @@ class Accidents extends Component {
     });
   }
 
-  _addData = () => {
-    const state = this.state;
-    state.layers.hexagon.elevationScale = 1;
-    state.layers.hexagon.opacity = 1;
-    setTimeout(() => {
-      this.setState(state);
-      // this._rotateCamera();
-    }, 3000);
+  _addData = name => {
+    const { layers } = this.state;
+    const active = layers.map(layer => {
+      if (layer.name === name) {
+        layer.visible = true;
+      } else {
+        layer.visible = false;
+      }
+      return layer;
+    });
+
+    this.setState({ layers: active });
+
+    // const state = this.state;
+    // state.layers.hexagon.elevationScale = 1;
+    // state.layers.hexagon.opacity = 1;
   };
 
+  _renderTooltip() {
+    const { hoveredObject, pointerX, pointerY } = this.state || {};
+    return (
+      hoveredObject && (
+        <div
+          className="panel"
+          style={{
+            position: "absolute",
+            transform: "translateY(calc(-100% - 1rem))",
+            zIndex: 10,
+            pointerEvents: "none",
+            left: pointerX + 5,
+            top: pointerY + 5
+          }}
+        >
+          <div className="panel-body p-2">
+            {hoveredObject.points ? hoveredObject.points.length : null}
+          </div>
+        </div>
+      )
+    );
+  }
+
+  _onClickHandler = event => {
+    console.log(event.type);
+    const pickInfo = this.deckGL.pickObject({
+      x: event.clientX,
+      y: event.clientY,
+      layerIds: ["communes-fill"]
+    });
+
+    const { bounds } = pickInfo.object.properties;
+    // if (bounds) this._flyTo(bounds);
+  };
+
+  _renderButtonIcon(name) {
+    switch (name) {
+      case "accidents":
+        return <AccidentsIcon />;
+      case "fatalities":
+        return <FatalitiesIcon />;
+      case "response_time":
+        return <ResponseTimeIcon />;
+      case "not_responded":
+        return <NotResponsedIcon />;
+      default:
+        return "";
+    }
+  }
+
   componentDidMount() {
-    this._addData();
+    // this._addData();
   }
 
   render() {
     const {
       mapStyle = "mapbox://styles/brendan-transitlabs/ck2m1hpe701041cpgdrcqtduz"
     } = this.props;
-    const { viewState, time, date } = this.state;
+    const { viewState, time, day } = this.state;
     return (
-      <div>
-        <DeckGL
-          viewState={viewState}
-          layers={this._renderLayers()}
-          controller={{ type: MapController, doubleClickZoom: false }}
-          onViewStateChange={this._onViewStateChange}
-        >
-          <StaticMap
-            id="map"
-            reuseMaps
-            mapStyle={mapStyle}
-            preventStyleDiffing={true}
-            mapboxApiAccessToken={MAPBOX_TOKEN}
-          />
-        </DeckGL>
-        <div
-          style={{
-            position: "fixed",
-            top: "2rem",
-            right: "2rem",
-            width: "20vw"
-          }}
-        >
-          <div className="panel">
-            {/*<div className="panel-body lead mb-0">{format(addSeconds(date, time || 0), 'h:mm a')}</div>*/}
-          </div>
+      <div className="deck">
+        <div onClick={this._onClickHandler}>
+          <DeckGL
+            viewState={viewState}
+            layers={this._renderLayers()}
+            controller={{ type: MapController, doubleClickZoom: false }}
+            onViewStateChange={this._onViewStateChange}
+            ref={deck => {
+              this.deckGL = deck;
+            }}
+          >
+            <StaticMap
+              id="map"
+              reuseMaps
+              mapStyle={mapStyle}
+              preventStyleDiffing={true}
+              mapboxApiAccessToken={MAPBOX_TOKEN}
+            />
+          </DeckGL>
         </div>
-        <div
-          style={{
-            position: "fixed",
-            top: "2rem",
-            left: "2rem",
-            width: "25vw"
-          }}
-        ></div>
+        <header className="deck__header">
+          <Header day={day} time={time} />
+        </header>
+        <div className="deck__main">
+          <div className="deck__alerts d-flex flex-column justify-content-center">
+            {this.state.layers.map(layer => (
+              <div
+                className="panel panel-button"
+                onClick={() => this._addData(layer.name)}
+              >
+                <div className="panel-body panel-body--icon">
+                  {this._renderButtonIcon(layer.name)}
+                </div>
+                <div className="panel-body panel-body--text">
+                  <h4>{layer.label}</h4>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="deck__info">{/*<Info events={events} />*/}</div>
+        </div>
+        {this._renderTooltip()}
       </div>
     );
   }

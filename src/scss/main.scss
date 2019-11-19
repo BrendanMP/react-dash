@@ -202,9 +202,9 @@ a {
 }
 
 .COA {
-  width: 3rem;
-  margin-right: 1rem;
+  width: 8rem;
   height: auto;
+  padding: 0.5rem;
 }
 
 .page {
@@ -412,6 +412,30 @@ a {
   }
 }
 
+.panel-button {
+  cursor: pointer;
+  .panel-body {
+    &--text {
+
+    }
+    &--icon {
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+  }
+
+  &:hover {
+    color: $white;
+  }
+  h4 {
+    line-height: 1;
+    margin-bottom: 0;
+    font-size: 1rem;
+  }
+}
+
 .panel-enter {
   opacity: 0;
   transform: translate3d(-100%, 0, 10rem);
@@ -451,7 +475,6 @@ $deck-info-width: 18vw;
   right: 0;
   display: flex;
   flex-direction: column;
-  padding: 1rem;
   line-height: 1;
 
   .panel {

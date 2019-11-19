@@ -95,11 +95,15 @@ class Incidents extends Component {
         return event;
       }
     });
+
     this.setState({
       time: value,
-      events,
-      info
+      events
     });
+
+    if (info !== this.state.info) {
+      this.setState({ info });
+    }
   }
 
   componentDidMount() {

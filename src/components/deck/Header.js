@@ -1,13 +1,14 @@
-import React, { Component } from "react";
+import React from "react";
 import Clock from "./Clock";
+import { ReactComponent as COA } from "../../images/COA.svg";
 
 const Header = props => (
-  <div className="panel">
-    <div className="panel-body flex-grow-1 flex-row">
-      <div className="flex-grow-1">Header</div>
-      <div>
-        <Clock time={props.time} day={props.day} />
-      </div>
+  <div className="d-flex justify-content-between">
+    <COA />
+    <div className="p-3">
+      <button className="btn">Fullscreen</button>
+      <button className="btn">Rotate</button>
+      <button className="btn">Reset</button>
     </div>
   </div>
 );
