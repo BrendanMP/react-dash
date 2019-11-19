@@ -107,7 +107,7 @@ const distanceBetween = (lat1, lon1, lat2, lon2, unit) => {
   }
 };
 
-const convertDirections = (directions, reverse) => {
+const convertDirections = (directions, offset) => {
   if (directions) {
     return directions.map(item => {
       const TRIP = item.routes[0].legs[0];
@@ -115,15 +115,13 @@ const convertDirections = (directions, reverse) => {
       const TRIP_DURATION = TRIP.duration_in_traffic.value;
 
       const OFFSET = item.start_time;
-      const START_TIME = OFFSET - 1577836800;
+      const START_TIME = 1577836800 - OFFSET;
       let total = START_TIME;
       let duration = 0;
       let trip = [];
       const STEPS = TRIP.steps.map(step => {
         const step_distance = step.distance.value;
-        const step_duration = reverse
-          ? step.duration.value * 10
-          : step.duration.value;
+        const step_duration = step.duration.value;
         const line = polyline.decode(step.polyline.points);
         const line_simplified = simplify(line, 0.00001);
         const points = [];
@@ -143,14 +141,13 @@ const convertDirections = (directions, reverse) => {
           }
           const timestamp = total;
           total = duration + total;
-
           if (
             line_simplified[i - 1] &&
             line_simplified[i - 1].timestamp !== timestamp
           ) {
             trip.push({
               coordinates: point,
-              timestamp: reverse ? timestamp - TRIP_DURATION + 300 : timestamp
+              timestamp: offset ? timestamp : timestamp
             });
           }
         });

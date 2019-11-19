@@ -6,6 +6,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 import Finance from "./pages/finance/Finance";
 import Traffic from "./pages/traffic/Traffic";
+import TrafficSandbox from "./pages/traffic/TrafficSandbox";
 import Incidents from "./pages/incidents/Incidents";
 import Accidents from "./pages/accidents/Accidents";
 
@@ -16,6 +17,9 @@ function App() {
         <Switch>
           <Route path="/finance/home">
             <Finance />
+          </Route>
+          <Route path="/traffic/sandbox">
+            <TrafficSandbox controller={true} />
           </Route>
           <Route path="/traffic/controller">
             <Traffic controller={true} />

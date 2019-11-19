@@ -61,7 +61,8 @@ class Accidents extends Component {
         { name: "response_time", visible: false, label: "Response Time" },
         { name: "not_responded", visible: false, label: "Not Responded" }
       ],
-      hoveredObject: {}
+      hoveredObject: {},
+      elevationScale: 0
     };
     this._renderLayers = this._renderLayers.bind(this);
     this._onViewStateChange = this._onViewStateChange.bind(this);
@@ -88,90 +89,10 @@ class Accidents extends Component {
     });
   }
 
-  _renderTooltip() {
-    const { hoveredObject, pointerX, pointerY } = this.state || {};
-    return (
-      hoveredObject && (
-        <div
-          style={{
-            position: "absolute",
-            zIndex: 1,
-            pointerEvents: "none",
-            left: pointerX || -50,
-            top: pointerY || -50
-          }}
-        >
-          {hoveredObject.points.length}
-        </div>
-      )
-    );
-  }
-
   _renderLayers = () => {
     const active = this.state.layers.find(layer => layer.visible === true);
 
     return [
-      new HexagonLayer({
-        id: "accident-layer",
-        colorRange,
-        material,
-        data: ACCIDENTS_JSON.accidents,
-        pickable: true,
-        opacity: active && active.name === "accidents" ? 1 : 0,
-        stroked: true,
-        filled: true,
-        extruded: true,
-        lineWidthMinPixels: 1,
-        getPosition: d => {
-          return [Number(d.longitude), Number(d.latitude)];
-        },
-        elevationScale: active && active.name === "accidents" ? 1 : 0,
-        coverage: 1,
-        radius: 90,
-        transitions: {
-          elevationScale: 2400
-          // opacity: 2400
-        },
-        getFillColor: d => [32, 201, 151],
-        onHover: info => {
-          this.setState({
-            hoveredObject: info.object,
-            pointerX: info.x,
-            pointerY: info.y
-          });
-        }
-      }),
-      new HexagonLayer({
-        id: "fatalities-layer",
-        colorRange,
-        material,
-        data: ACCIDENTS_JSON.accidents,
-        pickable: true,
-        opacity: active && active.name === "fatalities" ? 1 : 0,
-        stroked: true,
-        filled: true,
-        extruded: true,
-        lineWidthMinPixels: 1,
-        getPosition: d => {
-          return [Number(d.longitude), Number(d.latitude)];
-        },
-        elevationScale: active && active.name === "fatalities" ? 2 : 0,
-        coverage: 1,
-        radius: 90,
-        transitions: {
-          elevationScale: 2400,
-          coverage: 1200
-          // opacity: 800
-        },
-        getFillColor: d => [32, 201, 151],
-        onHover: info => {
-          this.setState({
-            hoveredObject: info.object,
-            pointerX: info.x,
-            pointerY: info.y
-          });
-        }
-      }),
       new GeoJsonLayer({
         id: "communes-fill",
         data: COMMUNES_JSON,
@@ -193,6 +114,37 @@ class Accidents extends Component {
         lineWidthMinPixels: 2,
         getWidth: 2,
         getLineColor: [32, 201, 151]
+      }),
+      new HexagonLayer({
+        id: "hex-layer",
+        colorRange,
+        material,
+        data: active ? ACCIDENTS_JSON[active.name] : [],
+        pickable: true,
+        opacity: active ? 1 : 0,
+        stroked: true,
+        filled: true,
+        extruded: true,
+        lineWidthMinPixels: 1,
+        getPosition: d => {
+          return [Number(d.lng), Number(d.lat)];
+        },
+        elevationScale: this.state.elevationScale,
+        coverage: 1,
+        radius: 90,
+        transitions: {
+          elevationScale: 2400,
+          coverage: 1200
+        },
+        getFillColor: d => [32, 201, 151],
+        onHover: info => {
+          console.log(info);
+          this.setState({
+            hoveredObject: info.object,
+            pointerX: info.x,
+            pointerY: info.y
+          });
+        }
       })
     ];
   };
@@ -227,15 +179,16 @@ class Accidents extends Component {
       return layer;
     });
 
-    this.setState({ layers: active });
+    this.setState({ elevationScale: 0 });
 
-    // const state = this.state;
-    // state.layers.hexagon.elevationScale = 1;
-    // state.layers.hexagon.opacity = 1;
+    setTimeout(() => {
+      this.setState({ layers: active });
+    }, 1000);
   };
 
   _renderTooltip() {
     const { hoveredObject, pointerX, pointerY } = this.state || {};
+    console.log(hoveredObject);
     return (
       hoveredObject && (
         <div
@@ -250,7 +203,20 @@ class Accidents extends Component {
           }}
         >
           <div className="panel-body p-2">
-            {hoveredObject.points ? hoveredObject.points.length : null}
+            <div className="mb-3">
+              <h6>Accidents</h6>
+              {hoveredObject.points ? hoveredObject.points.length : null}
+            </div>
+
+            <div>
+              <h6>Fatalities</h6>
+              {hoveredObject.points
+                ? hoveredObject.points.reduce(
+                    (prev, next) => Number(prev) + Number(next.fatalities),
+                    0
+                  )
+                : null}
+            </div>
           </div>
         </div>
       )
@@ -258,7 +224,6 @@ class Accidents extends Component {
   }
 
   _onClickHandler = event => {
-    console.log(event.type);
     const pickInfo = this.deckGL.pickObject({
       x: event.clientX,
       y: event.clientY,
@@ -295,7 +260,7 @@ class Accidents extends Component {
     const { viewState, time, day } = this.state;
     return (
       <div className="deck">
-        <div onClick={this._onClickHandler}>
+        <div>
           <DeckGL
             viewState={viewState}
             layers={this._renderLayers()}

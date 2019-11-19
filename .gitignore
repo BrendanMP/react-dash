@@ -23,3 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 .idea
 workspace.xml
+
+/scripts/**/*.json
+/scripts/**/*.csv
