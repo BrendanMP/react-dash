@@ -19,8 +19,11 @@ import convertDirections from "../../utilities/convertDirections";
 import TRIPS_JSON from "../../data/adbijan/trips.json";
 import COMMUNES_JSON from "../../data/adbijan/communes";
 import INCIDENT_JSON from "../../data/adbijan/incidents_points.json";
+import INCIDENT_RESPONSE_JSON from "../../data/adbijan/incidents_responders";
 
 import RangeSlider from "../../components/RangeSlider";
+
+const RESPONDERS = convertDirections(INCIDENT_RESPONSE_JSON, true);
 
 const colorRange = [
   [220, 53, 69],
@@ -176,6 +179,26 @@ class Traffic extends Component {
           [this.state.time + 50, 86400]
         ],
         extensions: [new DataFilterExtension({ filterSize: 2 })],
+        parameters: {
+          depthTest: false
+        }
+      }),
+      new TripsLayer({
+        id: "incident-reponse",
+        data: RESPONDERS,
+        opacity: 1,
+        widthMinPixels: 5,
+        rounded: true,
+        trailLength: 100,
+        autoHighlight: true,
+        currentTime: this.state.time,
+        widthUnits: "meters",
+        getPath: d => d.trip.map(p => [p.coordinates[1], p.coordinates[0]]),
+        getTimestamps: d => {
+          console.log(d.trip);
+          return d.trip.map(p => p.timestamp);
+        },
+        getColor: d => colorRange[1],
         parameters: {
           depthTest: false
         }
