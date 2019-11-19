@@ -42,56 +42,31 @@ TRIPS = TRIPS.map((trip, i) => {
   return trip;
 });
 
-console.log(TRIPS);
-
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiYnJlbmRhbi10cmFuc2l0bGFicyIsImEiOiJjazI5aHptaWEwdzJzM25vMnB0aHhqcjNlIn0.oZFZBkbrnOrF80fkS3xNgQ";
 
 const transitionInterpolator = new LinearInterpolator(["bearing"]);
 
-class TrafficController extends MapController {
-  constructor(options = {}) {
-    super(options);
-    this.events = ["pointermove"];
-  }
-
-  handleEvent(event) {
-    if (event.type === "pointermove") {
-      // do something
-      console.log("hello");
-    } else {
-      super.handleEvent(event);
-    }
-  }
-}
-
 function ActiveTrip(props) {
-  const fade = useSpring({
-    opacity: 1,
-    transform: "translate(0,0)",
-    from: { opacity: 0, transform: "translate(-100%,0)" }
-  });
   return (
-    <animated.div style={fade}>
-      <div className="panel mb-2" style={{ lineHeight: 1.2 }}>
-        <div className="panel-body p-3 px-4">
-          <div>
-            <strong className="mr-2">Origin</strong>{" "}
-            {props.trip.origin.substring(0, props.trip.origin.indexOf(","))}
-          </div>
-          <div>
-            <strong className="mr-2">Destination</strong>{" "}
-            {props.trip.destination.substring(
-              0,
-              props.trip.destination.indexOf(",")
-            )}
-          </div>
-          <div>
-            <strong className="mr-2">Avg Speed</strong> {props.trip.speed}kmph
-          </div>
+    <div className="panel mb-2" style={{ lineHeight: 1.2 }}>
+      <div className="panel-body p-3 px-4">
+        <div>
+          <strong className="mr-2">Origin</strong>{" "}
+          {props.trip.origin.substring(0, props.trip.origin.indexOf(","))}
+        </div>
+        <div>
+          <strong className="mr-2">Destination</strong>{" "}
+          {props.trip.destination.substring(
+            0,
+            props.trip.destination.indexOf(",")
+          )}
+        </div>
+        <div>
+          <strong className="mr-2">Avg Speed</strong> {props.trip.speed}kmph
         </div>
       </div>
-    </animated.div>
+    </div>
   );
 }
 
@@ -194,9 +169,6 @@ class Traffic extends Component {
         return trip;
       }
     });
-
-    console.log(active);
-
     this.setState({
       time: value,
       active: active
@@ -220,8 +192,6 @@ class Traffic extends Component {
       }
     });
   }
-
-  _getAverageSpeed() {}
 
   componentDidMount() {}
 
