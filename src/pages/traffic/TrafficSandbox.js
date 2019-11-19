@@ -12,17 +12,15 @@ import DeckGL, {
 } from "deck.gl";
 import { StaticMap } from "react-map-gl";
 import { format, addSeconds } from "date-fns";
-import polyline from "google-polyline";
-import { useSpring, animated } from "react-spring";
+import { DataFilterExtension } from "@deck.gl/extensions";
 
-import TRIPS_JSON from "../../data/adbijan/trips.json";
-import RangeSlider from "../../components/RangeSlider";
-import COMMUNES_JSON from "../../data/adbijan/communes";
 import convertDirections from "../../utilities/convertDirections";
 
-const round = function round(value, decimals) {
-  return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
-};
+import TRIPS_JSON from "../../data/adbijan/trips.json";
+import COMMUNES_JSON from "../../data/adbijan/communes";
+import INCIDENT_JSON from "../../data/adbijan/incidents_points.json";
+
+import RangeSlider from "../../components/RangeSlider";
 
 const colorRange = [
   [220, 53, 69],
@@ -81,7 +79,7 @@ class Traffic extends Component {
         bearing: 0,
         pitch: 12 * 3.2
       },
-      time: 39640,
+      time: 31500,
       date: new Date("2019-10-10 0:00"),
       trips: TRIPS,
       active: []
@@ -94,6 +92,28 @@ class Traffic extends Component {
 
   _renderLayers = () => {
     return [
+      new GeoJsonLayer({
+        id: "communes-fill",
+        data: COMMUNES_JSON,
+        stroked: false,
+        filled: true,
+        opacity: 0,
+        pickable: true,
+        onClick: info => {
+          const { bounds } = info.object.properties;
+          if (bounds) this._flyTo(bounds);
+        }
+      }),
+      new GeoJsonLayer({
+        id: "communes-stroke",
+        data: COMMUNES_JSON,
+        stroked: true,
+        filled: false,
+        opacity: 0.05,
+        lineWidthMinPixels: 2,
+        getWidth: 2,
+        getLineColor: [32, 201, 151]
+      }),
       new TripsLayer({
         id: "trips-layer",
         data: TRIPS,
@@ -120,27 +140,46 @@ class Traffic extends Component {
           depthTest: false
         }
       }),
-      new GeoJsonLayer({
-        id: "communes-fill",
-        data: COMMUNES_JSON,
-        stroked: false,
-        filled: true,
-        opacity: 0,
+      new ScatterplotLayer({
+        id: "incidents",
+        data: INCIDENT_JSON.incidents,
+        opacity: 1,
         pickable: true,
-        onClick: info => {
-          const { bounds } = info.object.properties;
-          if (bounds) this._flyTo(bounds);
+        getRadius: 100,
+        radiusMinPixels: 15,
+        radiusMaxPixels: 20,
+        getPosition: d => d.geometry.coordinates,
+        getFillColor: d => {
+          console.log(d.geometry.coordinates);
+          if (d.properties.status === "detected") return [220, 53, 69];
+          if (d.properties.status === "en_route") return [253, 126, 20];
+          if (d.properties.status === "responding") return [255, 193, 7];
+          if (d.properties.status === "clearing") return [32, 201, 151];
+          return [255, 255, 255];
+        },
+        getFilterValue: d => [
+          d.properties.start_timestamp,
+          d.properties.end_timestamp
+        ],
+        onHover: info => {
+          return this.setState({
+            hoveredObject: info.object,
+            pointerX: info.x,
+            pointerY: info.y
+          });
+        },
+        filterRange: [
+          [-1, this.state.time],
+          [this.state.time, 86400]
+        ],
+        filterSoftRange: [
+          [-1, this.state.time - 50],
+          [this.state.time + 50, 86400]
+        ],
+        extensions: [new DataFilterExtension({ filterSize: 2 })],
+        parameters: {
+          depthTest: false
         }
-      }),
-      new GeoJsonLayer({
-        id: "communes-stroke",
-        data: COMMUNES_JSON,
-        stroked: true,
-        filled: false,
-        opacity: 0.05,
-        lineWidthMinPixels: 2,
-        getWidth: 2,
-        getLineColor: [32, 201, 151]
       })
     ];
   };
@@ -192,8 +231,6 @@ class Traffic extends Component {
       }
     });
   }
-
-  componentDidMount() {}
 
   render() {
     const {
