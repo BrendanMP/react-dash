@@ -27,14 +27,6 @@ a {
   }
 }
 
-.deck {
-  button {
-    position: fixed;
-    bottom: 1rem;
-    left: 1rem;
-  }
-}
-
 .controller {
   position: fixed;
   top: 0;
@@ -104,9 +96,7 @@ a {
   outline: none;
   position: absolute;
   top: 50%;
-  transition: box-shadow 0.3s ease-out, -webkit-transform 0.3s ease-out;
-  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
-  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, -webkit-transform 0.3s ease-out;
+  transition: box-shadow 0.3s ease-out;
   width: 1rem;
   flex: 1 1 auto;
 }
@@ -128,8 +118,7 @@ a {
 }
 
 .input-range__slider-container {
-  -webkit-transition: left 0.3s ease-out;
-  transition: left 0.3s ease-out;
+  //transition: left 0.3s ease-out;
 }
 
 .input-range__label {
@@ -176,8 +165,6 @@ a {
   display: block;
   height: 0.3rem;
   position: relative;
-  -webkit-transition: left 0.3s ease-out, width 0.3s ease-out;
-  transition: left 0.3s ease-out, width 0.3s ease-out;
 }
 
 .input-range--disabled .input-range__track {
@@ -206,6 +193,7 @@ a {
   position: relative;
   height: 0;
   padding-top: 50%;
+
   canvas {
     position: absolute;
     top: 0;
@@ -222,8 +210,10 @@ a {
 .page {
   font-size: 1vw;
   padding: 1rem 0;
+
   header {
     margin-bottom: 1rem;
+
     h1 {
       font-size: 3vw;
       font-weight: 400;
@@ -261,6 +251,7 @@ a {
     height: 100vh;
     overflow: auto;
     position: relative;
+
     section {
       position: absolute;
       width: 100%;
@@ -271,23 +262,27 @@ a {
       transform: translate(100%, 0);
       transition: transform 800ms ease-in-out;
       background: $gray-800;
+
       &.active {
-        transform: translate(0,0);
+        transform: translate(0, 0);
       }
     }
   }
+
   .nav {
     display: flex;
     flex-direction: column;
     justify-content: center;
     flex: 0 1 15%;
     background: $black;
+
     a {
       display: block;
       padding: 1.5rem 5rem;
       text-transform: uppercase;
       color: $gray-500;
       transition: color 300ms ease;
+
       &:hover, &.active {
         color: $gray-400;
       }
@@ -296,6 +291,7 @@ a {
     &--list {
       background: $gray-900;
       font-size: 1.5vw;
+
       a {
         text-align: center;
         margin: 0.5rem;
@@ -306,19 +302,23 @@ a {
       padding: 0;
       background: $black;
       flex: 0 1 auto;
+
       a {
         padding: 2rem 3rem;
       }
+
       svg {
         width: 2.5rem;
         height: auto;
         display: block;
         stroke: $gray-300;
       }
+
       .active {
         background: $gray-900;
       }
     }
+
     ul {
       display: block;
       margin: 0;
@@ -342,28 +342,55 @@ a {
     border-color: $yellow;
   }
 
+  &--info {
+    border-top: 2px solid transparent;
+    border-color: $gray-400;
+  }
+
   &--alert {
     cursor: pointer;
-    min-width: 22vw;
+    max-width: 22vw;
     border-top: 2px solid transparent;
-
-    h5 {
+    transition: border-color 100ms ease-in-out;
+    .h5 {
+      line-height: 1;
       font-size: 1.25rem;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      transition: color 100ms ease-in-out;
     }
+
     .panel-body {
       padding: 0.5rem;
     }
-    &.detected {
-      color: $red;
+
+    &--detected {
       border-color: $red;
+      .h5 {
+        color: $red;
+      }
     }
-    &.responding {
-      color: $yellow;
+
+    &--en_route {
+      border-color: $orange;
+      .h5 {
+        color: $orange;
+      }
+    }
+
+    &--responding {
       border-color: $yellow;
+      .h5 {
+        color: $yellow;
+      }
     }
-    &.clearing {
-      color: $teal;
+
+    &--clearing {
       border-color: $teal;
+      .h5 {
+        color: $teal;
+      }
+
     }
   }
 
@@ -376,6 +403,7 @@ a {
     line-height: 1;
     background: rgba($black, 0.5);
   }
+
   .panel-body {
     display: flex;
     flex-direction: column;
@@ -411,3 +439,197 @@ a {
     box-shadow: none;
   }
 }
+
+$deck-timeline-height: 3.5rem;
+$deck-info-width: 18vw;
+
+.deck {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  line-height: 1;
+
+  .panel {
+    pointer-events: auto;
+    .panel-body {
+      padding: 1rem;
+    }
+  }
+
+  &__header {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__main {
+    position: relative;
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  &__alerts {
+    width: 12vw;
+  }
+
+  &__info {
+    width: 20vw;
+  }
+  &__timeline {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.alerts {
+  width: 15vw;
+}
+
+.alert-enter {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.alert-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: transform 200ms ease-out, opacity 50ms ease-in;
+}
+
+.alert-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.alert-exit-active {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: transform 200ms ease-out, opacity 50ms ease-in;
+}
+
+.marker {
+  display: none;
+  padding: 0.5em;
+  text-transform: uppercase;
+  font-weight: $font-weight-bold;
+  position: fixed;
+  z-index: 100;
+  font-size: 16px;
+  white-space: nowrap;
+  transform: translateY(-50%);
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: calc(50% - 2px);
+    left: -30px;
+    width: 30px;
+    height: 2px;
+  }
+
+  &--detected {
+    display: block;
+    border: 2px solid $danger;
+    color: $danger;
+    &:after {
+      background: $danger;
+      animation-delay: 100ms;
+    }
+  }
+
+  &--en_route {
+    display: block;
+    border: 2px solid $orange;
+    color: $orange;
+    &:after {
+      background: $orange;
+      animation-delay: 100ms;
+    }
+  }
+}
+
+.info {
+  position: relative;
+  width: 100%;
+  .panel {
+    position: absolute;
+    top: 0;
+    width: 20vw;
+
+    .btn svg {
+      width: 1vw;
+      height: 1vw;
+    }
+  }
+  &__panel {
+    &-enter {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    &-enter-active {
+      opacity: 1;
+      transform: translateX(0);
+      transition: transform 300ms ease-out, opacity 50ms ease-in;
+    }
+    &-exit {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    &-exit-active {
+      opacity: 0;
+      transform: translateX(100%);
+      transition: transform 300ms ease-out, opacity 50ms ease-in;
+    }
+  }
+}
+
+@keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-out {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  10% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  90% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+}
+
+.pulse {
+  animation: pulse 500ms infinite alternate;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: .8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+

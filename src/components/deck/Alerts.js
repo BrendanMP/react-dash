@@ -1,66 +1,66 @@
-import React, {Component} from 'react';
-import {format, addSeconds} from 'date-fns';
-import {TransitionGroup, CSSTransition} from 'react-transition-group'
-import Typed from 'react-typed';
-import {useSpring, animated} from 'react-spring'
+import React, { Component, useState } from "react";
+import Typed from "react-typed";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-const round = function round(value, decimals) {
-  return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+function round(value, decimals) {
+  return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
 }
 
 function eta(seconds) {
-  const timestamp = new Date('1-1-2020');
-  const minuntes = round(seconds / 60, 0)
-  return round(seconds / 60, 0) + 'min'
+  return round(seconds / 60, 0) + "min";
 }
 
-function AlertList(props) {
-  const alerts = props.alerts;
-  const clicked = props.clicked;
-  const timestamp = new Date('1-1-2020');
+function alertEta(alert, time) {
+  if (alert.name === "detected") {
+    return "Dispatching Response Team";
+  }
 
-  const fade = useSpring({opacity: 1, from: {opacity: 0}})
+  if (alert.name === "en_route") {
+    return `Response Team ETA ${eta(alert.end - time)}`;
+  }
 
-  return alerts.map((alert, i) =>
-    <div
-      style={fade}
-      className={'panel panel--alert ' + alert.properties.status}
-      onClick={() => clicked(alert)}
-      key={i}
-    >
-      <div className="panel-body py-3 px-4">
-        <h4 style={{lineHeight: 1}} className='text-uppercase mb-3'>{alert.properties.type}</h4>
-        <h5 style={{lineHeight: 1}} className='text-capitalize mb-2 text-muted'>
-          {alert.properties.status} @ {format(addSeconds(timestamp, alert.properties.start_timestamp), 'h:mm a')}
-          <span>&nbsp;</span>
-        </h5>
-        <h5 className='text-muted text-capitalize mb-0' style={{lineHeight: 1}}>
-          {
-            alert.properties.status === 'detected' ?
-              <div>
-                Response Team ETA &mdash; {eta(alert.properties.end_timestamp - props.time)}
-              </div>
-              :
-              <div>
-                ETA to Resolution &mdash; {eta(alert.properties.end_timestamp - props.time)}
-              </div>
-          }
-        </h5>
-      </div>
-    </div>
-  );
-}
+  if (alert.name === "responding") {
+    return `Time to clear ${eta(alert.end - time)}`;
+  }
 
-class Alerts extends Component {
-  render() {
-    return (
-      <AlertList
-        alerts={this.props.alerts}
-        clicked={this.props.clicked}
-        time={this.props.time}
-      />
-    )
+  if (alert.name === "clearing") {
+    return `Time till cleared ${eta(alert.end - time)}`;
   }
 }
 
-export default Alerts
+const Alert = props => (
+  <div
+    className={`panel panel--alert panel--alert--${
+      props.alert.active ? props.alert.active.name : ""
+    }`}
+  >
+    <div className="panel-body">
+      <div
+        className={`h5 mb-3 ${
+          props.alert.active.name === "detected" ? "pulse" : ""
+        }`}
+      >
+        {props.alert.active ? props.alert.active.label : "&nbsp;"}
+      </div>
+      <div className="mb-2">{props.alert.type}</div>
+      <div>{alertEta(props.alert.active, props.time)}</div>
+    </div>
+  </div>
+);
+
+class Alerts extends Component {
+  render() {
+    const { events, time } = this.props;
+    return (
+      <TransitionGroup className="alerts">
+        {events.map((event, i) => (
+          <CSSTransition key={i} timeout={200} classNames="alert">
+            <Alert alert={event} time={time} key={i} />
+          </CSSTransition>
+        ))}
+      </TransitionGroup>
+    );
+  }
+}
+
+export default Alerts;

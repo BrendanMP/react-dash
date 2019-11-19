@@ -1,18 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import {
-  HashRouter,
-  Switch,
-  Route,
-} from "react-router-dom";
+import { HashRouter, Switch, Route } from "react-router-dom";
 
-import 'mapbox-gl/dist/mapbox-gl.css';
+import "mapbox-gl/dist/mapbox-gl.css";
 
-import Finance from './pages/finance/Finance';
-import Traffic from './pages/traffic/Traffic';
-import Incidents from './pages/incidents/Incidents';
-import Accidents from './pages/accidents/Accidents';
-
+import Finance from "./pages/finance/Finance";
+import Traffic from "./pages/traffic/Traffic";
+import Incidents from "./pages/incidents/Incidents";
+import Accidents from "./pages/accidents/Accidents";
 
 function App() {
   return (
@@ -20,28 +15,28 @@ function App() {
       <div className="App">
         <Switch>
           <Route path="/finance/home">
-            <Finance/>
+            <Finance />
           </Route>
           <Route path="/traffic/controller">
-            <Traffic controller={true}/>
+            <Traffic controller={true} />
           </Route>
           <Route path="/traffic/">
-            <Traffic/>
+            <Traffic />
           </Route>
           <Route path="/accidents/controller">
-            <Accidents controller={true}/>
+            <Accidents controller={true} />
           </Route>
           <Route path="/accidents/">
-            <Accidents/>
+            <Accidents />
           </Route>
           <Route path="/incidents/controller">
-            <Incidents controller={true}/>
+            <Incidents controller={true} />
           </Route>
           <Route path="/incidents/">
-            <Incidents/>
+            <Incidents />
           </Route>
           <Route path="/">
-            <Traffic controller={true}/>
+            <Traffic controller={true} />
           </Route>
         </Switch>
       </div>
