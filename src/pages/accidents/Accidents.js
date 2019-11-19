@@ -158,7 +158,7 @@ class Accidents extends Component {
     state.layers.hexagon.opacity = 1;
     setTimeout(() => {
       this.setState(state);
-      this._rotateCamera();
+      // this._rotateCamera();
     }, 3000);
   };
 
