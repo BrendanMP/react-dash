@@ -734,6 +734,11 @@ $deck-info-width: 18vw;
     padding: 7.5rem 4rem 0;
     flex: 1 1 auto;
     overflow: scroll;
+    h1 {
+      font-weight: 100;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
   }
 
   &__rankings {
