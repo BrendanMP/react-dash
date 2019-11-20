@@ -486,6 +486,11 @@ $deck-info-width: 18vw;
     position: relative;
     z-index: 3;
     height: 7.5rem;
+    .COA {
+      width: 9rem;
+      height: auto;
+      padding: 1.5rem;
+    }
   }
 
   &__main {
