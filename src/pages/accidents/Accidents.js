@@ -405,7 +405,7 @@ class Accidents extends Component {
         </div>
         {this._renderTooltip()}
         <div className={`deck__dashboard ${dashboard.active ? "active" : ""}`}>
-          <Dashboard title="Accident Analytics" data={dashboard.data} />
+          <Dashboard title="Accident Analytics" dashboard={dashboard} />
         </div>
       </div>
     );

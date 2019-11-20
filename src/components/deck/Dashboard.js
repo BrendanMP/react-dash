@@ -4,16 +4,16 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: props.data
+      dashboard: props.dashboard
     };
   }
 
   render() {
-    const { data } = this.state;
+    const { data } = this.state.dashboard;
     const { title } = this.props;
 
     return (
-      <div className="dashboard">
+      <div className={`dashboard`}>
         <div className="dashboard__nav">
           <button className="btn btn-lg text-left active">Aggregate</button>
           <button className="btn btn-lg text-left">Change</button>
@@ -26,9 +26,9 @@ class Dashboard extends Component {
             {data.map((item, i) => (
               <div className="dashboard__rankings">
                 <div className="panel">
-                  <div className="panel-body h3 mb-0 flex-grow-0">#{i + 1}</div>
+                  <div className="panel-body h4 mb-0 flex-grow-0">#{i + 1}</div>
                   <div className="panel-body flex-grow-1">
-                    <div className="flex-grow-1">
+                    <div className="flex-grow-1 d-flex align-items-center">
                       <span
                         className="mr-3 d-inline-block"
                         style={{ minWidth: "20rem" }}

@@ -537,7 +537,7 @@ $deck-info-width: 18vw;
     bottom: 0;
     right: 0;
     background: $gray-800;
-    transform: translate3d(0,100%, 50em) perspective(500px);
+    transform: translate3d(0,-100%, 50em) perspective(500px);
     transition: transform 600ms ease-in-out;
     &.active {
       transform: translate3d(0,0, 0);
@@ -743,6 +743,9 @@ $deck-info-width: 18vw;
 
   &__rankings {
     .panel-body {
+      > * {
+        line-height: 1;
+      }
       font-size: 1.2vw;
       display: flex;
       flex-direction: row;
