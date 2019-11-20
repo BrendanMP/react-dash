@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "31f3b19c1312f8dd6a2f6b6cbe35b7ac",
+    "revision": "0ff657776847bde48fa1af17894466a6",
     "url": "/react-dash/index.html"
   },
   {
@@ -8,16 +8,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/react-dash/static/css/2.d9a8a5a7.chunk.css"
   },
   {
-    "revision": "fb3df473e03b00c7c821",
-    "url": "/react-dash/static/css/main.06ac5e76.chunk.css"
+    "revision": "ee396ba80bc98470d62b",
+    "url": "/react-dash/static/css/main.172f104c.chunk.css"
   },
   {
     "revision": "2ba0c42cf293a12dc6c2",
     "url": "/react-dash/static/js/2.a9cd7081.chunk.js"
   },
   {
-    "revision": "fb3df473e03b00c7c821",
-    "url": "/react-dash/static/js/main.23f2e572.chunk.js"
+    "revision": "ee396ba80bc98470d62b",
+    "url": "/react-dash/static/js/main.3572a883.chunk.js"
   },
   {
     "revision": "928636bb49f0be7c3b34",
@@ -54,6 +54,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "d49f4730d169197e629794d38b4d7878",
     "url": "/react-dash/static/media/play.d49f4730.svg"
+  },
+  {
+    "revision": "3c4e8ff8d2a80aed8d3b9ad974900ca6",
+    "url": "/react-dash/static/media/rank.3c4e8ff8.svg"
   },
   {
     "revision": "46c07197d20b4238f1c4c9ca27be3a28",
