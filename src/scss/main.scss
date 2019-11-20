@@ -537,7 +537,6 @@ $deck-info-width: 18vw;
     bottom: 0;
     right: 0;
     background: $gray-800;
-    padding-top: 7.5rem;
     transform: translate3d(0,100%, 50em) perspective(500px);
     transition: transform 600ms ease-in-out;
     &.active {
@@ -705,27 +704,41 @@ $deck-info-width: 18vw;
 
   &__nav {
     flex: 0 1 auto;
-    padding: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-width: 20vw;
-
+    min-width: 15vw;
+    background: $gray-900;
     button {
       width: auto;
       flex: 0 0 auto;
+      padding: 1rem;
+      border-radius: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 1.5vw;
+
+      &:hover {
+        background: lighten($gray-900, 1%);
+        color: $gray-200;
+      }
+
+      &.active {
+        background: $gray-800;
+        color: $gray-200;
+      }
     }
   }
 
   &__content {
+    padding: 7.5rem 4rem 0;
     flex: 1 1 auto;
-    padding: 0 1rem;
     overflow: scroll;
   }
 
   &__rankings {
     .panel-body {
-      font-size: 2vw;
+      font-size: 1.2vw;
       display: flex;
       flex-direction: row;
       align-items: center;

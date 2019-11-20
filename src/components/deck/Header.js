@@ -5,13 +5,14 @@ import Fullscreen from "./Fullscreen";
 import { ReactComponent as COA } from "../../images/COA.svg";
 import { ReactComponent as Rotate } from "../../images/rotate.svg";
 import { ReactComponent as Reset } from "../../images/reset.svg";
+import { ReactComponent as Rank } from "../../images/rank.svg";
 
 const Header = props => (
   <div className="d-flex justify-content-between">
     <COA />
     <div className="p-3 controls">
       <button className="btn" onClick={() => props.clickedControl("dashboard")}>
-        Dashboard
+        <Rank />
       </button>
       <button className="btn" onClick={() => props.clickedControl("rotate")}>
         <Rotate />
