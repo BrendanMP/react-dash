@@ -13,7 +13,6 @@
     flex-direction: column;
     justify-content: space-between;
     background: darken($gray-900,2%);
-    box-shadow: -39px 0px 23px 32px rgba($black,0.5);
     position: relative;
     z-index: 3;
 
@@ -22,11 +21,11 @@
       width: 100%;
       &:hover {
         color: $gray-300;
-        background: lighten($gray-800, 1%);
+        background: lighten($gray-900,2%);
       }
       &.active {
         color: $gray-300;
-        background: lighten($gray-800, 2%);
+        background: lighten($gray-900,2%);
       }
     }
 
@@ -55,7 +54,6 @@
     flex-direction: column;
     justify-content: center;
     background: $gray-900;
-    box-shadow: -39px 0px 23px 32px rgba($black,0.5);
     button {
       padding: 1.5rem 2rem 1.5rem 3rem;
       font-size: 1rem;
