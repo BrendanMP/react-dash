@@ -131,11 +131,12 @@ class Accidents extends Component {
         elevationScale: this.state.elevationScale,
         coverage: 1,
         radius: 100,
-        transitionEasing: t =>
-          t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
+        // transitionEasing: t =>
+        // t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
+        transitionEasing: "linear",
         transitions: {
           elevationScale: 600,
-          opacity: 900
+          opacity: 700
         },
         getFillColor: d => [32, 201, 151],
         onHover: info => {
@@ -170,10 +171,11 @@ class Accidents extends Component {
 
   _addData = name => {
     const active = this.state.layers.find(layer => layer.name === name);
-    this.setState({ elevationScale: 0, opacity: 0 });
+    this.setState({ active, elevationScale: 0, opacity: 0 });
+
     setTimeout(() => {
-      this.setState({ active, elevationScale: 1, opacity: 1 });
-    }, 600);
+      this.setState({ elevationScale: 1, opacity: 1 });
+    }, 800);
   };
 
   _renderTooltip() {

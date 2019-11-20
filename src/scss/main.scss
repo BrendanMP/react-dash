@@ -419,7 +419,7 @@ a {
   max-width: 11vw;
   border-top: 1px solid $gray-600;
   transition: border-top-color 500ms ease-in-out;
-  margin-bottom: 0;
+  margin-bottom: 0.5rem;
 
   &.active {
     border-top-color: $gray-500;
