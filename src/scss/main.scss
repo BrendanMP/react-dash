@@ -492,6 +492,7 @@ $deck-info-width: 18vw;
   flex-direction: column;
   line-height: 1;
 
+
   .panel {
     pointer-events: auto;
     .panel-body {
@@ -501,7 +502,8 @@ $deck-info-width: 18vw;
 
   &__header {
     position: relative;
-    z-index: 1;
+    z-index: 3;
+    height: 7.5rem;
   }
 
   &__main {
@@ -520,9 +522,27 @@ $deck-info-width: 18vw;
   &__info {
     width: 20vw;
   }
+
   &__timeline {
     position: relative;
     z-index: 1;
+  }
+
+  &__dashboard {
+    position: absolute;
+    display: flex;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: $gray-800;
+    padding-top: 7.5rem;
+    transform: translate3d(0,100%, 50em) perspective(500px);
+    transition: transform 600ms ease-in-out;
+    &.active {
+      transform: translate3d(0,0, 0);
+    }
   }
 }
 
@@ -675,5 +695,41 @@ $deck-info-width: 18vw;
   display: flex;
   button {
     color: $gray-100;
+  }
+}
+
+
+.dashboard {
+  flex: 1 1 auto;
+  display: flex;
+
+  &__nav {
+    flex: 0 1 auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 20vw;
+
+    button {
+      width: auto;
+      flex: 0 0 auto;
+    }
+  }
+
+  &__content {
+    flex: 1 1 auto;
+    padding: 0 1rem;
+    overflow: scroll;
+  }
+
+  &__rankings {
+    .panel-body {
+      font-size: 2vw;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
 }

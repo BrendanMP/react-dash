@@ -10,6 +10,9 @@ const Header = props => (
   <div className="d-flex justify-content-between">
     <COA />
     <div className="p-3 controls">
+      <button className="btn" onClick={() => props.clickedControl("dashboard")}>
+        Dashboard
+      </button>
       <button className="btn" onClick={() => props.clickedControl("rotate")}>
         <Rotate />
       </button>

@@ -9,16 +9,20 @@ import DeckGL, {
 import { PhongMaterial } from "@luma.gl/core";
 import { StaticMap } from "react-map-gl";
 
+import ACCIDENTS_JSON from "../../data/adbijan/accidents";
+import COMMUNES_JSON from "../../data/adbijan/communes";
+
+import Header from "../../components/deck/Header";
+import Dashboard from "../../components/deck/Dashboard";
+
 import { ReactComponent as AccidentsIcon } from "../../images/accidents.svg";
 import { ReactComponent as FatalitiesIcon } from "../../images/fatalities.svg";
 import { ReactComponent as ResponseTimeIcon } from "../../images/response-time.svg";
 import { ReactComponent as NotResponsedIcon } from "../../images/not-responded.svg";
 
-import ACCIDENTS_JSON from "../../data/adbijan/accidents";
-import COMMUNES_JSON from "../../data/adbijan/communes";
-import Header from "../../components/deck/Header";
-import Alerts from "../../components/deck/Alerts";
-import Info from "../../components/deck/Info";
+const COMMUNE_DATA = COMMUNES_JSON.features.map(feature => {
+  return feature.properties;
+});
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiYnJlbmRhbi10cmFuc2l0bGFicyIsImEiOiJjazI5aHptaWEwdzJzM25vMnB0aHhqcjNlIn0.oZFZBkbrnOrF80fkS3xNgQ";
@@ -72,7 +76,11 @@ class Accidents extends Component {
       hoveredObject: {},
       elevationScale: 1,
       opacity: 0,
-      isRotating: false
+      isRotating: false,
+      dashboard: {
+        active: true,
+        data: COMMUNE_DATA
+      }
     };
     this._renderLayers = this._renderLayers.bind(this);
     this._onViewStateChange = this._onViewStateChange.bind(this);
@@ -81,23 +89,6 @@ class Accidents extends Component {
     this._flyTo = this._flyTo.bind(this);
     this._renderTooltip = this._renderTooltip.bind(this);
     this._clickedControl = this._clickedControl.bind(this);
-  }
-
-  _flyTo(bounds) {
-    this.setState({
-      viewState: {
-        ...this.state.viewState,
-        longitude: bounds.longitude || this.state.viewState.longitude,
-        latitude: bounds.latitude || this.state.viewState.latitude,
-        zoom: bounds.zoom || this.state.viewState.zoom,
-        pitch: bounds.pitch || this.state.viewState.pitch,
-        bearing: 0,
-        transitionDuration: 800,
-        transitionInterpolator: new FlyToInterpolator({ curve: 5 }),
-        transitionEasing: t =>
-          t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
-      }
-    });
   }
 
   _renderLayers = () => {
@@ -131,7 +122,7 @@ class Accidents extends Component {
         material,
         data: active ? ACCIDENTS_JSON[active.name] : [],
         pickable: true,
-        opacity: this.state.opacity,
+        opacity: 1,
         stroked: true,
         filled: true,
         extruded: true,
@@ -142,12 +133,10 @@ class Accidents extends Component {
         elevationScale: this.state.elevationScale,
         coverage: 1,
         radius: 100,
-        // transitionEasing: t =>
-        // t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
         transitionEasing: "linear",
         transitions: {
-          elevationScale: 600,
-          opacity: 700
+          elevationScale: 600
+          // opacity: 600
         },
         getFillColor: d => [32, 201, 151],
         onHover: info => {
@@ -165,6 +154,23 @@ class Accidents extends Component {
     const viewstate = viewState;
     viewState.pitch = viewState.zoom * 3;
     this.setState({ viewState });
+  }
+
+  _flyTo(bounds) {
+    this.setState({
+      viewState: {
+        ...this.state.viewState,
+        longitude: bounds.longitude || this.state.viewState.longitude,
+        latitude: bounds.latitude || this.state.viewState.latitude,
+        zoom: bounds.zoom || this.state.viewState.zoom,
+        pitch: bounds.pitch || this.state.viewState.pitch,
+        bearing: 0,
+        transitionDuration: 800,
+        transitionInterpolator: new FlyToInterpolator({ curve: 5 }),
+        transitionEasing: t =>
+          t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
+      }
+    });
   }
 
   _rotateCamera() {
@@ -193,32 +199,6 @@ class Accidents extends Component {
       });
     }
   }
-
-  _resetCamera() {
-    console.log("reseting");
-    this.setState({
-      viewState: {
-        latitude: INITIAL_VIEWSTATE.latitude,
-        longitude: INITIAL_VIEWSTATE.longitude,
-        zoom: INITIAL_VIEWSTATE.zoom,
-        bearing: 0,
-        pitch: INITIAL_VIEWSTATE.zoom * INITIAL_VIEWSTATE.pitch_modifer,
-        transitionDuration: 800,
-        transitionInterpolator: new FlyToInterpolator({ curve: 5 }),
-        transitionEasing: t =>
-          t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
-      }
-    });
-  }
-
-  _addData = name => {
-    const active = this.state.layers.find(layer => layer.name === name);
-    this.setState({ active, elevationScale: 0, opacity: 0 });
-
-    setTimeout(() => {
-      this.setState({ elevationScale: 1, opacity: 1 });
-    }, 800);
-  };
 
   _renderTooltip() {
     const { hoveredObject, pointerX, pointerY } = this.state || {};
@@ -306,15 +286,6 @@ class Accidents extends Component {
     );
   }
 
-  _onClickHandler = event => {
-    const pickInfo = this.deckGL.pickObject({
-      x: event.clientX,
-      y: event.clientY,
-      layerIds: ["communes-fill"]
-    });
-    const { bounds } = pickInfo.object.properties;
-  };
-
   _renderButtonIcon(name) {
     switch (name) {
       case "accidents":
@@ -330,44 +301,85 @@ class Accidents extends Component {
     }
   }
 
+  _clickedDataTrigger = name => {
+    const active = this.state.layers.find(layer => layer.name === name);
+    this.setState({ active, elevationScale: 0, opacity: 0 });
+
+    setTimeout(() => {
+      this.setState({ elevationScale: 1, opacity: 1 });
+    }, 800);
+  };
+
   _clickedControl(control) {
+    const { dashboard } = this.state;
+
     if (control === "rotate") {
       this._rotateCamera();
     }
     if (control === "reset") {
       this._resetCamera();
     }
+    if (control === "dashboard") {
+      dashboard.active
+        ? this.setState({
+            dashboard: {
+              active: false,
+              data: dashboard.data
+            }
+          })
+        : this.setState({
+            dashboard: {
+              active: true,
+              data: dashboard.data
+            }
+          });
+    }
+  }
+
+  _resetCamera() {
+    console.log("reseting");
+    this.setState({
+      viewState: {
+        latitude: INITIAL_VIEWSTATE.latitude,
+        longitude: INITIAL_VIEWSTATE.longitude,
+        zoom: INITIAL_VIEWSTATE.zoom,
+        bearing: 0,
+        pitch: INITIAL_VIEWSTATE.zoom * INITIAL_VIEWSTATE.pitch_modifer,
+        transitionDuration: 800,
+        transitionInterpolator: new FlyToInterpolator({ curve: 5 }),
+        transitionEasing: t =>
+          t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
+      }
+    });
   }
 
   render() {
     const {
       mapStyle = "mapbox://styles/brendan-transitlabs/ck2m1hpe701041cpgdrcqtduz"
     } = this.props;
-    const { viewState, time, day } = this.state;
+    const { viewState, time, day, dashboard } = this.state;
     return (
       <div className="deck">
-        <div>
-          <DeckGL
-            viewState={viewState}
-            layers={this._renderLayers()}
-            controller={{ type: MapController, doubleClickZoom: false }}
-            onViewStateChange={this._onViewStateChange}
-            ref={deck => {
-              this.deckGL = deck;
-            }}
-          >
-            <StaticMap
-              id="map"
-              reuseMaps
-              mapStyle={mapStyle}
-              preventStyleDiffing={true}
-              mapboxApiAccessToken={MAPBOX_TOKEN}
-            />
-          </DeckGL>
-        </div>
-        <header className="deck__header">
+        <DeckGL
+          viewState={viewState}
+          layers={this._renderLayers()}
+          controller={{ type: MapController, doubleClickZoom: false }}
+          onViewStateChange={this._onViewStateChange}
+          ref={deck => {
+            this.deckGL = deck;
+          }}
+        >
+          <StaticMap
+            id="map"
+            reuseMaps
+            mapStyle={mapStyle}
+            preventStyleDiffing={true}
+            mapboxApiAccessToken={MAPBOX_TOKEN}
+          />
+        </DeckGL>
+        <div className="deck__header">
           <Header clickedControl={control => this._clickedControl(control)} />
-        </header>
+        </div>
         <div className="deck__main">
           <div className="deck__alerts d-flex flex-column justify-content-center pb-5">
             {this.state.layers.map((layer, i) => (
@@ -377,7 +389,7 @@ class Accidents extends Component {
                     ? "active"
                     : ""
                 }`}
-                onClick={() => this._addData(layer.name)}
+                onClick={() => this._clickedDataTrigger(layer.name)}
                 key={i}
               >
                 <div className="panel-body panel-body--icon pr-1">
@@ -392,6 +404,9 @@ class Accidents extends Component {
           <div className="deck__info">{/*<Info events={events} />*/}</div>
         </div>
         {this._renderTooltip()}
+        <div className={`deck__dashboard ${dashboard.active ? "active" : ""}`}>
+          <Dashboard title="Accident Analytics" data={dashboard.data} />
+        </div>
       </div>
     );
   }
