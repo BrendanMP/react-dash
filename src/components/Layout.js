@@ -3,6 +3,7 @@ import { ReactComponent as COA } from "../images/COA.svg";
 import { ReactComponent as Dashboard } from "../images/dashboard.svg";
 import { ReactComponent as Map } from "../images/map.svg";
 import { ReactComponent as ArrowRight } from "../images/arrow-right.svg";
+import { ReactComponent as Fullscreen } from "../images/fullscreen.svg";
 
 class Layout extends Component {
   render() {
@@ -35,15 +36,23 @@ class Layout extends Component {
           <button className="btn">No Response</button>
         </nav>
         <main className="page__content">
-          <header>
-            <div>
+          <header className="d-flex align-items-center">
+            <div className="flex-grow-1">
               <strong className="text-uppercase">Page Title</strong>
             </div>
-            <nav>
-              <button className="btn">Control</button>
-              <button className="btn">Control</button>
-              <button className="btn">Control</button>
-              <button className="btn">Control</button>
+            <nav className="page__controls">
+              <button className="btn">
+                <Fullscreen />
+              </button>
+              <button className="btn">
+                <Fullscreen />
+              </button>
+              <button className="btn">
+                <Fullscreen />
+              </button>
+              <button className="btn">
+                <Fullscreen />
+              </button>
             </nav>
           </header>
         </main>
