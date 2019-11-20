@@ -414,11 +414,25 @@ a {
 
 .panel-button {
   cursor: pointer;
+  transition: color 100ms ease-in-out;
+  line-height: 0;
+  max-width: 11vw;
+  border-top: 1px solid $gray-600;
+  transition: border-top-color 500ms ease-in-out;
+  margin-bottom: 0;
+
+  &.active {
+    border-top-color: $gray-500;
+    background: darken($gray-900, 2%);
+    color: $gray-100;
+  }
+
   .panel-body {
     &--text {
 
     }
     &--icon {
+      padding-right: 0;
       svg {
         width: 1.5rem;
         height: 1.5rem;
@@ -427,12 +441,13 @@ a {
   }
 
   &:hover {
-    color: $white;
+    color: $gray-100;
   }
   h4 {
     line-height: 1;
     margin-bottom: 0;
     font-size: 1rem;
+    letter-spacing: 0.05em;
   }
 }
 

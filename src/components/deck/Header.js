@@ -1,5 +1,4 @@
 import React from "react";
-import Clock from "./Clock";
 import { ReactComponent as COA } from "../../images/COA.svg";
 
 const Header = props => (

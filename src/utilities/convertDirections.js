@@ -119,12 +119,11 @@ const convertDirections = (directions, offset) => {
       let total = START_TIME;
       let duration = 0;
       let trip = [];
-      const STEPS = TRIP.steps.map(step => {
+      TRIP.steps.forEach(step => {
         const step_distance = step.distance.value;
         const step_duration = step.duration.value;
         const line = polyline.decode(step.polyline.points);
         const line_simplified = simplify(line, 0.00001);
-        const points = [];
         line_simplified.forEach((point, i) => {
           if (line_simplified[i + 1]) {
             const next_point = line_simplified[i + 1];

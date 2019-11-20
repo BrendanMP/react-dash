@@ -60,7 +60,7 @@ class Timeline extends Component {
     format(addSeconds(this.props.day, value || 0), "h:mm a");
 
   render() {
-    const { isPlaying, fullScreen, speedModifier } = this.state;
+    const { isPlaying, speedModifier } = this.state;
     return (
       <div className="d-flex align-items-center flex-grow-1">
         <div className="mr-4">

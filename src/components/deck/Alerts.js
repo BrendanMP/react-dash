@@ -1,5 +1,4 @@
-import React, { Component, useState } from "react";
-import Typed from "react-typed";
+import React, { Component } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 function round(value, decimals) {

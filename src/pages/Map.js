@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
-import Deck from '../components/Deck';
+import React, { Component } from "react";
+import Deck from "../components/Deck";
 
 class Map extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
   render() {
     return (
       <div>
-        <Deck time={0}/>
+        <Deck time={0} />
       </div>
-    )
+    );
   }
 }
 
-export default Map
+export default Map;

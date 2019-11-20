@@ -4,8 +4,8 @@ import {
   MapController,
   TripsLayer,
   ScatterplotLayer,
-  FlyToInterpolator,
-  LinearInterpolator
+  FlyToInterpolator
+  // LinearInterpolator
 } from "deck.gl";
 import { StaticMap, Marker } from "react-map-gl";
 import { DataFilterExtension } from "@deck.gl/extensions";
@@ -26,7 +26,7 @@ const MAPBOX_TOKEN =
 const MAP_STYLE =
   "mapbox://styles/brendan-transitlabs/ck2m1hpe701041cpgdrcqtduz";
 
-const transitionInterpolator = new LinearInterpolator(["bearing"]);
+// const transitionInterpolator = new LinearInterpolator(["bearing"]);
 
 const INITIAL_VIEWSTATE = {
   latitude: 5.322635048060814,
