@@ -9,12 +9,16 @@ import Traffic from "./pages/traffic/Traffic";
 import TrafficSandbox from "./pages/traffic/TrafficSandbox";
 import Incidents from "./pages/incidents/Incidents";
 import Accidents from "./pages/accidents/Accidents";
+import Layout from "./components/Layout";
 
 function App() {
   return (
     <HashRouter>
       <div className="App">
         <Switch>
+          <Route path="/layout">
+            <Layout />
+          </Route>
           <Route path="/finance/home">
             <Finance />
           </Route>

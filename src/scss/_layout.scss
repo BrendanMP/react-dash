@@ -1,0 +1,86 @@
+.page {
+  display: flex;
+  height: 100vh;
+
+  svg {
+    width: 2rem;
+    height: auto;
+  }
+
+  &__icon-nav {
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: darken($gray-900,2%);
+    box-shadow: -39px 0px 23px 32px rgba($black,0.5);
+    position: relative;
+    z-index: 3;
+
+    button {
+      padding: 1.5rem 1rem;
+      width: 100%;
+      &:hover {
+        color: $gray-300;
+        background: lighten($gray-800, 1%);
+      }
+      &.active {
+        color: $gray-300;
+        background: lighten($gray-800, 2%);
+      }
+    }
+
+    .COA {
+      width: 6rem;
+      height: 6rem;
+      padding: 1rem;
+    }
+
+    footer {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+
+      button {
+        flex: 1 1 auto;
+      }
+    }
+
+  }
+  &__button-nav {
+    position: relative;
+    z-index: 2;
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: $gray-900;
+    box-shadow: -39px 0px 23px 32px rgba($black,0.5);
+    button {
+      padding: 1.5rem 2rem 1.5rem 3rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: right;
+      &:hover {
+        color: $gray-300;
+        background: $gray-800;
+      }
+      &.active {
+        color: $gray-300;
+        background: $gray-800;
+      }
+    }
+  }
+  &__content {
+    flex: 1 1 auto;
+    background: $gray-800;
+    header {
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+  }
+}
