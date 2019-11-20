@@ -3,7 +3,8 @@ import { ReactComponent as COA } from "../images/COA.svg";
 import { ReactComponent as Dashboard } from "../images/dashboard.svg";
 import { ReactComponent as Map } from "../images/map.svg";
 import { ReactComponent as ArrowRight } from "../images/arrow-right.svg";
-import { ReactComponent as Fullscreen } from "../images/fullscreen.svg";
+
+import Fullscreen from "./deck/Fullscreen";
 
 class Layout extends Component {
   render() {
@@ -37,20 +38,20 @@ class Layout extends Component {
         </nav>
         <main className="page__content">
           <header className="d-flex align-items-center">
-            <div className="flex-grow-1">
+            <div className="flex-grow-1 pl-2">
               <strong className="text-uppercase">Page Title</strong>
             </div>
             <nav className="page__controls">
-              <button className="btn">
+              <button className="btn px-2">
                 <Fullscreen />
               </button>
-              <button className="btn">
+              <button className="btn px-2">
                 <Fullscreen />
               </button>
-              <button className="btn">
+              <button className="btn px-2">
                 <Fullscreen />
               </button>
-              <button className="btn">
+              <button className="btn px-2">
                 <Fullscreen />
               </button>
             </nav>
