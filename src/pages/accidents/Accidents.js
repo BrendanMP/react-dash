@@ -34,6 +34,15 @@ const colorRange = [
   [254, 120, 78]
 ];
 
+const INITIAL_VIEWSTATE = {
+  latitude: 5.322635048060814,
+  longitude: -4.013425118889425,
+  zoom: 13,
+  bearing: 0,
+  pitch: 13 * 3,
+  pitch_modifer: 3
+};
+
 const material = new PhongMaterial({
   ambient: 0.8,
   diffuse: 0.3,
@@ -46,11 +55,11 @@ class Accidents extends Component {
     super(props);
     this.state = {
       viewState: {
-        latitude: 5.322635048060814,
-        longitude: -4.013425118889425,
-        zoom: 13,
+        latitude: INITIAL_VIEWSTATE.latitude,
+        longitude: INITIAL_VIEWSTATE.longitude,
+        zoom: INITIAL_VIEWSTATE.zoom,
         bearing: 0,
-        pitch: 13 * 3
+        pitch: INITIAL_VIEWSTATE.zoom * INITIAL_VIEWSTATE.pitch_modifer
       },
       time: 39640,
       date: new Date("2019-10-10 0:00"),
@@ -62,13 +71,16 @@ class Accidents extends Component {
       ],
       hoveredObject: {},
       elevationScale: 1,
-      opacity: 0
+      opacity: 0,
+      isRotating: false
     };
     this._renderLayers = this._renderLayers.bind(this);
     this._onViewStateChange = this._onViewStateChange.bind(this);
     this._rotateCamera = this._rotateCamera.bind(this);
+    this._resetCamera = this._resetCamera.bind(this);
     this._flyTo = this._flyTo.bind(this);
     this._renderTooltip = this._renderTooltip.bind(this);
+    this._clickedControl = this._clickedControl.bind(this);
   }
 
   _flyTo(bounds) {
@@ -84,7 +96,6 @@ class Accidents extends Component {
         transitionInterpolator: new FlyToInterpolator({ curve: 5 }),
         transitionEasing: t =>
           t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
-        // onTransitionEnd: this._rotateCamera
       }
     });
   }
@@ -157,14 +168,45 @@ class Accidents extends Component {
   }
 
   _rotateCamera() {
-    const bearing = this.state.viewState.bearing + 90;
+    if (!this.isRotating) {
+      const bearing = this.state.viewState.bearing + 90;
+      this.setState({
+        isRotating: false,
+        viewState: {
+          ...this.state.viewState,
+          bearing,
+          transitionDuration: 90000,
+          transitionInterpolator,
+          onTransitionEnd: this._rotateCamera
+        }
+      });
+    } else {
+      const bearing = this.state.viewState.bearing + 90;
+      this.setState({
+        isRotating: false,
+        viewState: {
+          ...this.state.viewState,
+          transitionDuration: 90000,
+          transitionInterpolator,
+          onTransitionEnd: null
+        }
+      });
+    }
+  }
+
+  _resetCamera() {
+    console.log("reseting");
     this.setState({
       viewState: {
-        ...this.state.viewState,
-        bearing,
-        transitionDuration: 90000,
-        transitionInterpolator,
-        onTransitionEnd: this._rotateCamera
+        latitude: INITIAL_VIEWSTATE.latitude,
+        longitude: INITIAL_VIEWSTATE.longitude,
+        zoom: INITIAL_VIEWSTATE.zoom,
+        bearing: 0,
+        pitch: INITIAL_VIEWSTATE.zoom * INITIAL_VIEWSTATE.pitch_modifer,
+        transitionDuration: 800,
+        transitionInterpolator: new FlyToInterpolator({ curve: 5 }),
+        transitionEasing: t =>
+          t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
       }
     });
   }
@@ -288,6 +330,15 @@ class Accidents extends Component {
     }
   }
 
+  _clickedControl(control) {
+    if (control === "rotate") {
+      this._rotateCamera();
+    }
+    if (control === "reset") {
+      this._resetCamera();
+    }
+  }
+
   render() {
     const {
       mapStyle = "mapbox://styles/brendan-transitlabs/ck2m1hpe701041cpgdrcqtduz"
@@ -315,7 +366,7 @@ class Accidents extends Component {
           </DeckGL>
         </div>
         <header className="deck__header">
-          <Header day={day} time={time} />
+          <Header clickedControl={control => this._clickedControl(control)} />
         </header>
         <div className="deck__main">
           <div className="deck__alerts d-flex flex-column justify-content-center pb-5">

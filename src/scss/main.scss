@@ -671,3 +671,9 @@ $deck-info-width: 18vw;
   }
 }
 
+.controls {
+  display: flex;
+  button {
+    color: $gray-100;
+  }
+}

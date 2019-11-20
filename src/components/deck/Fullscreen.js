@@ -18,11 +18,9 @@ class Fullscreen extends Component {
 
   render() {
     return (
-      <div>
-        <button className="btn" onClick={this._openFullscreen}>
-          <FullScreen />
-        </button>
-      </div>
+      <button className="btn" onClick={this._openFullscreen}>
+        <FullScreen />
+      </button>
     );
   }
 }
