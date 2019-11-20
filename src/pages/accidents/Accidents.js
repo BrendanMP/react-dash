@@ -54,15 +54,14 @@ class Accidents extends Component {
       },
       time: 39640,
       date: new Date("2019-10-10 0:00"),
-      active: [],
       layers: [
-        { name: "accidents", visible: false, label: "Accidents" },
-        { name: "fatalities", visible: false, label: "Fatalities" },
-        { name: "response_time", visible: false, label: "Response Time" },
-        { name: "not_responded", visible: false, label: "Not Responded" }
+        { name: "accidents", active: false, label: "Accidents" },
+        { name: "fatalities", active: false, label: "Fatalities" },
+        { name: "response_time", active: false, label: "Response Time" },
+        { name: "no_response", active: false, label: "Not Responded" }
       ],
       hoveredObject: {},
-      elevationScale: 0
+      elevationScale: 1
     };
     this._renderLayers = this._renderLayers.bind(this);
     this._onViewStateChange = this._onViewStateChange.bind(this);
@@ -90,8 +89,7 @@ class Accidents extends Component {
   }
 
   _renderLayers = () => {
-    const active = this.state.layers.find(layer => layer.visible === true);
-
+    const active = this.state.active;
     return [
       new GeoJsonLayer({
         id: "communes-fill",
@@ -130,15 +128,14 @@ class Accidents extends Component {
           return [Number(d.lng), Number(d.lat)];
         },
         elevationScale: this.state.elevationScale,
-        coverage: 1,
-        radius: 90,
+        coverage: 0.8,
+        radius: 60,
         transitions: {
           elevationScale: 2400,
           coverage: 1200
         },
         getFillColor: d => [32, 201, 151],
         onHover: info => {
-          console.log(info);
           this.setState({
             hoveredObject: info.object,
             pointerX: info.x,
@@ -169,26 +166,12 @@ class Accidents extends Component {
   }
 
   _addData = name => {
-    const { layers } = this.state;
-    const active = layers.map(layer => {
-      if (layer.name === name) {
-        layer.visible = true;
-      } else {
-        layer.visible = false;
-      }
-      return layer;
-    });
-
-    this.setState({ elevationScale: 0 });
-
-    setTimeout(() => {
-      this.setState({ layers: active });
-    }, 1000);
+    const active = this.state.layers.find(layer => layer.name === name);
+    this.setState({ active });
   };
 
   _renderTooltip() {
     const { hoveredObject, pointerX, pointerY } = this.state || {};
-    console.log(hoveredObject);
     return (
       hoveredObject && (
         <div
@@ -199,22 +182,56 @@ class Accidents extends Component {
             zIndex: 10,
             pointerEvents: "none",
             left: pointerX + 5,
-            top: pointerY + 5
+            top: pointerY + 5,
+            minWidth: "14vw"
           }}
         >
-          <div className="panel-body p-2">
-            <div className="mb-3">
-              <h6>Accidents</h6>
-              {hoveredObject.points ? hoveredObject.points.length : null}
+          <div className="panel-body p-3 flex-grow-1">
+            <h5 className="mb-3">Incident Area Details</h5>
+            <div className="row">
+              <div className="col mb-3">
+                <h6>Accidents</h6>
+                {hoveredObject.points
+                  ? hoveredObject.points.reduce((prev, next) => {
+                      return Number(prev) + Number(next.accidents);
+                    }, 0)
+                  : null}
+              </div>
+              <div className="col mb-3">
+                <h6>Fatalities</h6>
+                {hoveredObject.points
+                  ? hoveredObject.points.reduce(
+                      (prev, next) => Number(prev) + Number(next.fatalities),
+                      0
+                    )
+                  : null}
+              </div>
+            </div>
+            <div className="row">
+              <div className="col mb-3">
+                <h6>Cars Damaged</h6>
+                {hoveredObject.points
+                  ? hoveredObject.points.reduce((prev, next) => {
+                      return Number(prev) + Number(next.cars_damaged);
+                    }, 0)
+                  : null}
+              </div>
+              <div className="col mb-3">
+                <h6>Cars Totalled</h6>
+                {hoveredObject.points
+                  ? hoveredObject.points.reduce((prev, next) => {
+                      return Number(prev) + Number(next.cars_totalled);
+                    }, 0)
+                  : null}
+              </div>
             </div>
 
             <div>
-              <h6>Fatalities</h6>
+              <h6>Non Response</h6>
               {hoveredObject.points
-                ? hoveredObject.points.reduce(
-                    (prev, next) => Number(prev) + Number(next.fatalities),
-                    0
-                  )
+                ? hoveredObject.points.reduce((prev, next) => {
+                    return Number(prev) + Number(next.no_response);
+                  }, 0)
                 : null}
             </div>
           </div>
@@ -229,9 +246,7 @@ class Accidents extends Component {
       y: event.clientY,
       layerIds: ["communes-fill"]
     });
-
     const { bounds } = pickInfo.object.properties;
-    // if (bounds) this._flyTo(bounds);
   };
 
   _renderButtonIcon(name) {
@@ -242,15 +257,11 @@ class Accidents extends Component {
         return <FatalitiesIcon />;
       case "response_time":
         return <ResponseTimeIcon />;
-      case "not_responded":
+      case "no_response":
         return <NotResponsedIcon />;
       default:
         return "";
     }
-  }
-
-  componentDidMount() {
-    // this._addData();
   }
 
   render() {
@@ -284,10 +295,11 @@ class Accidents extends Component {
         </header>
         <div className="deck__main">
           <div className="deck__alerts d-flex flex-column justify-content-center">
-            {this.state.layers.map(layer => (
+            {this.state.layers.map((layer, i) => (
               <div
                 className="panel panel-button"
                 onClick={() => this._addData(layer.name)}
+                key={i}
               >
                 <div className="panel-body panel-body--icon">
                   {this._renderButtonIcon(layer.name)}

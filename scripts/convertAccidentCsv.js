@@ -9,26 +9,37 @@ const OFFSET = 1577836800;
 csv()
   .fromFile(accidents)
   .then(accidents => {
-    let fatalities = [];
+    let fatalities_data = [];
+    let accident_data = [];
+    let no_response_data = [];
 
-    const result = accidents.map(accident => {
-      console.log(accident);
-
+    accidents.forEach(accident => {
       for (let i = 0; i < accident.fatalities; i++) {
-        fatalities.push({
-          latitude: Number(accident.latitude),
-          longitude: Number(accident.longitude),
-          fatalities: 1
+        fatalities_data.push({
+          ...accident,
+          lat: Number(accident.lat),
+          lng: Number(accident.lng),
+          fatalities: 1,
+          accidents: i < 1 ? 1 : 0
         });
       }
-      return {
-        latitude: Number(accident.latitude),
-        longitude: Number(accident.longitude)
-      };
+
+      if (Number(accident.no_response)) {
+        no_response_data.push(accident);
+      }
+
+      accident_data.push({
+        ...accident,
+        accident: 1,
+        lat: Number(accident.lat),
+        lng: Number(accident.lng)
+      });
     });
+
     let data = JSON.stringify({
-      accidents: accidents,
-      fatalities: fatalities
+      accidents: accident_data,
+      fatalities: fatalities_data,
+      no_response: no_response_data
     });
     fs.writeFileSync("accidents.json", data);
   });
