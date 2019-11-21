@@ -11,6 +11,8 @@ import DeckGL, {
 } from "deck.gl";
 import { PhongMaterial } from "@luma.gl/core";
 
+import Dashboard from "../../components/Dashboard";
+
 import COMMUNES_JSON from "../../data/adbijan/communes";
 import ACCIDENTS_JSON from "../../data/adbijan/accidents";
 
@@ -91,11 +93,7 @@ class Accidents extends Component {
               name: "overall",
               label: "Overall",
               active: true,
-              data: [
-                {
-                  name: "Overvall"
-                }
-              ]
+              data: []
             },
             {
               name: "aggregate",
@@ -118,7 +116,7 @@ class Accidents extends Component {
         pitch: INITIAL_VIEWSTATE.zoom * INITIAL_VIEWSTATE.pitch_modifer
       },
       opactiy: 0,
-      elevationScale: 0,
+      elevationScale: 1,
       activeLayer: ACCIDENTS_JSON.accidents
     };
     this._changeView = this._changeView.bind(this);
@@ -137,7 +135,7 @@ class Accidents extends Component {
     setTimeout(() => {
       this.setState({
         activeLayer: ACCIDENTS_JSON[name || "accidents"],
-        elevationScale: 1,
+        elevationScale: 2,
         opacity: 1
       });
     }, 800);
@@ -377,8 +375,9 @@ class Accidents extends Component {
         changeView={this._changeView}
         clickedSubMenu={this._clickedSubMenu}
       >
-        {views.map(view => (
+        {views.map((view, i) => (
           <div
+            key={i}
             className={`page__content-view ${
               active.name === view.name ? "active" : ""
             }`}
@@ -402,7 +401,9 @@ class Accidents extends Component {
                 {this._renderTooltip()}
               </div>
             ) : null}
-            {view.name === "dashboard" ? <div></div> : null}
+            {view.name === "dashboard" ? (
+              <Dashboard views={view.submenu}></Dashboard>
+            ) : null}
           </div>
         ))}
       </Layout>
