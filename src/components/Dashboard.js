@@ -29,11 +29,11 @@ const Rankings = props => {
           </div>
         ))}
       </div>
-      <div>
+      <div className="rankings__list">
         {data.map((item, i) => (
           <div className="panel" key={`item-${i}`}>
             <div
-              className="panel-body text-center"
+              className="panel-body text-center rankings__list-item"
               style={{ minWidth: "7rem" }}
             >
               <h1 className="mb-0">{item.rank}</h1>
@@ -176,7 +176,7 @@ class Dashboard extends Component {
             className={`dashboard__view ${view.active ? "active" : ""}`}
           >
             <div className="dashboard__nav">
-              <button className={`btn`}>Total</button>
+              <button className={`btn active`}>Total</button>
               <button className={`btn`}>Change</button>
               <button className={`btn`}>Overall</button>
             </div>

@@ -22,13 +22,17 @@
   }
 
   &__nav {
-    padding: 5rem 1rem 1rem;
+    padding: 3rem 1rem 0;
     display: flex;
     align-items: center;
+    border-bottom: 1px solid $gray-700;
     button {
       text-transform: uppercase;
       font-size: 1.5vw;
       margin-right: 2rem;
+      padding: 1rem 1rem;
+      &.active {
+      }
     }
   }
 
@@ -58,6 +62,17 @@
   &__top {
     .panel {
       border-top: 2px solid #FFD700;
+    }
+  }
+
+  &__list {
+
+  }
+
+  &__list-item {
+    .panel-body {
+      display: flex;
+      flex-direction: row;
     }
   }
 }
