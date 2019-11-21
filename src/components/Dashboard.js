@@ -181,8 +181,8 @@ class Dashboard extends Component {
               <button className={`btn`}>Overall</button>
             </div>
             <div className="dashboard__content">
-              <div className="dashboard__content-header">
-                <h1 className="mb-4">{view.name}</h1>
+              <div className="dashboard__content-header mb-4">
+                <h1 className="mb-0">{view.name}</h1>
                 <div>
                   {ranges.map((range, i) => (
                     <button
