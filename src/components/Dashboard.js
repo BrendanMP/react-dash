@@ -30,8 +30,8 @@ const Rankings = props => {
         ))}
       </div>
       <div>
-        {data.map(item => (
-          <div className="panel">
+        {data.map((item, i) => (
+          <div className="panel" key={`item-${i}`}>
             <div
               className="panel-body text-center"
               style={{ minWidth: "7rem" }}
