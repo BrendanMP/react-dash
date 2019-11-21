@@ -2,7 +2,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  right: 0;
   height: 100%;
   padding: 6rem 3rem;
   margin-left: 12vw;
@@ -11,7 +11,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    right: 0;
     height: 100%;
     background: $gray-800;
     opacity: 0;
@@ -33,5 +33,15 @@
 
   &__content {
     padding: 0 2rem;
+  }
+
+  &__content-header {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    h1 {
+      text-transform: uppercase;
+      font-weight: $font-weight-lighter;
+      letter-spacing: 0.1em;
+    }
   }
 }
