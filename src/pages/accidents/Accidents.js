@@ -15,6 +15,7 @@ import Dashboard from "../../components/Dashboard";
 
 import COMMUNES_JSON from "../../data/adbijan/communes";
 import ACCIDENTS_JSON from "../../data/adbijan/accidents";
+import ACCIDENTS_STAT_JSON from "../../data/adbijan/accident_stats";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiYnJlbmRhbi10cmFuc2l0bGFicyIsImEiOiJjazI5aHptaWEwdzJzM25vMnB0aHhqcjNlIn0.oZFZBkbrnOrF80fkS3xNgQ";
@@ -88,71 +89,39 @@ class Accidents extends Component {
           active: true,
           submenuCollapsible: false,
           controls: [],
+          data: ACCIDENTS_STAT_JSON,
           submenu: [
             {
-              name: "overall",
-              label: "Overall",
+              name: "totals",
+              label: "Totals",
               active: true,
               data: [
                 {
-                  name: "Set 1 - Coody"
+                  name: "Cocody"
                 },
                 {
-                  name: "Set 1 - Triechville"
+                  name: "Triechville"
                 },
                 {
-                  name: "Set 1 - Le Plateau"
+                  name: "Le Plateau"
                 },
                 {
-                  name: "Set 1 - Coody"
+                  name: "Cocody"
                 },
                 {
-                  name: "Set 1 - Triechville"
+                  name: "Triechville"
                 },
                 {
-                  name: "Set 1 - Le Plateau"
+                  name: "Le Plateau"
                 },
                 {
-                  name: "Set 1 - Coody"
+                  name: "Cocody"
                 },
                 {
-                  name: "Set 1 - Triechville"
+                  name: "Triechville"
                 },
                 {
-                  name: "Set 1 - Le Plateau"
-                }
-              ]
-            },
-            {
-              name: "aggregate",
-              label: "Aggregate",
-              data: [
-                {
-                  name: "Set 2 - Coody"
-                },
-                {
-                  name: "Set 2 - Triechville"
-                },
-                {
-                  name: "Set 2 - Le Plateau"
-                },
-                {
-                  name: "Set 2 - Coody"
-                },
-                {
-                  name: "Set 2 - Triechville"
-                },
-                {
-                  name: "Set 2 - Le Plateau"
-                },
-                {
-                  name: "Set 2 - Coody"
-                },
-                {
-                  name: "Set 2 - Triechville"
-                },
-                {
-                  name: "Set 2 - Le Plateau"
+                  name: "Le Plateau"
                 }
               ]
             },
@@ -161,31 +130,65 @@ class Accidents extends Component {
               label: "Change",
               data: [
                 {
-                  name: "Set 3 - Coody"
+                  name: "Cocody"
                 },
                 {
-                  name: "Set 3 - Triechville"
+                  name: "Triechville"
                 },
                 {
-                  name: "Set 3 - Le Plateau"
+                  name: "Le Plateau"
                 },
                 {
-                  name: "Set 3 - Coody"
+                  name: "Cocody"
                 },
                 {
-                  name: "Set 3 - Triechville"
+                  name: "Triechville"
                 },
                 {
-                  name: "Set 3 - Le Plateau"
+                  name: "Le Plateau"
                 },
                 {
-                  name: "Set 3 - Coody"
+                  name: "Cocody"
                 },
                 {
-                  name: "Set 3 - Triechville"
+                  name: "Triechville"
                 },
                 {
-                  name: "Set 3 - Le Plateau"
+                  name: "Le Plateau"
+                }
+              ]
+            },
+            {
+              name: "overall",
+              label: "Overall",
+              active: false,
+              data: [
+                {
+                  name: "Cocody"
+                },
+                {
+                  name: "Triechville"
+                },
+                {
+                  name: "Le Plateau"
+                },
+                {
+                  name: "Cocody"
+                },
+                {
+                  name: "Triechville"
+                },
+                {
+                  name: "Le Plateau"
+                },
+                {
+                  name: "Cocody"
+                },
+                {
+                  name: "Triechville"
+                },
+                {
+                  name: "Le Plateau"
                 }
               ]
             }
@@ -486,7 +489,7 @@ class Accidents extends Component {
               </div>
             ) : null}
             {view.name === "dashboard" ? (
-              <Dashboard views={view.submenu}></Dashboard>
+              <Dashboard data={view.data} views={view.submenu}></Dashboard>
             ) : null}
           </div>
         ))}
