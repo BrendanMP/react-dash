@@ -1,37 +1,16 @@
 import React, { Component } from "react";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+
 import { ReactComponent as COA } from "../images/COA.svg";
 import { ReactComponent as DashboardIcon } from "../images/dashboard.svg";
 import { ReactComponent as MapIcon } from "../images/map.svg";
 import { ReactComponent as ArrowRight } from "../images/arrow-right.svg";
 import { ReactComponent as ArrowLeft } from "../images/arrow-left.svg";
-
-import DeckGL, {
-  MapController,
-  GeoJsonLayer,
-  HexagonLayer,
-  FlyToInterpolator,
-  LinearInterpolator
-} from "deck.gl";
-
+import { ReactComponent as Rank } from "../images/rank.svg";
+import { ReactComponent as Rotate } from "../images/rotate.svg";
+import { ReactComponent as Reset } from "../images/reset.svg";
 import Fullscreen from "./deck/Fullscreen";
-import Deck from "./deck/Deck";
-import { StaticMap } from "react-map-gl";
-import { TransitionGroup } from "react-transition-group";
-
-const MAPBOX_TOKEN =
-  "pk.eyJ1IjoiYnJlbmRhbi10cmFuc2l0bGFicyIsImEiOiJjazI5aHptaWEwdzJzM25vMnB0aHhqcjNlIn0.oZFZBkbrnOrF80fkS3xNgQ";
-
-const MAPBOX_STYLE =
-  "mapbox://styles/brendan-transitlabs/ck2m1hpe701041cpgdrcqtduz";
-
-const INITIAL_VIEWSTATE = {
-  latitude: 5.322635048060814,
-  longitude: -4.013425118889425,
-  zoom: 13,
-  bearing: 0,
-  pitch: 13 * 3,
-  pitch_modifer: 3
-};
+import Timeline from "./deck/Timeline";
 
 const renderNavIcons = name => {
   switch (name) {
@@ -44,10 +23,21 @@ const renderNavIcons = name => {
   }
 };
 
+const renderControlIcons = name => {
+  switch (name) {
+    case "rotate":
+      return <Rotate />;
+    case "reset":
+      return <Reset />;
+    default:
+      return "";
+  }
+};
+
 const NavIcons = props => {
   const { views } = props;
   return (
-    <ul className="list-unstyled">
+    <ul className="list-unstyled mb-0">
       {views.map((view, i) => (
         <li key={i}>
           <button
@@ -66,70 +56,11 @@ class Layout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      viewState: {
-        latitude: INITIAL_VIEWSTATE.latitude,
-        longitude: INITIAL_VIEWSTATE.longitude,
-        zoom: INITIAL_VIEWSTATE.zoom,
-        bearing: 0,
-        pitch: INITIAL_VIEWSTATE.zoom * INITIAL_VIEWSTATE.pitch_modifer
-      },
-      views: [
-        {
-          name: "map",
-          label: "Map",
-          active: true,
-          submenuCollapsible: true,
-          submenu: [
-            {
-              name: "accidents",
-              label: "Accidents"
-            },
-            {
-              name: "fatalities",
-              label: "Fatalities"
-            },
-            {
-              name: "response_time",
-              label: "Response Time"
-            },
-            {
-              name: "no_response",
-              label: "No Response"
-            }
-          ]
-        },
-        {
-          name: "dashboard",
-          label: "Dashboard",
-          active: false,
-          submenuCollapsible: false,
-          submenu: [
-            {
-              name: "accidents",
-              label: "Accidents"
-            },
-            {
-              name: "accidents",
-              label: "Accidents"
-            },
-            {
-              name: "fatalities",
-              label: "Fatalities"
-            }
-          ]
-        }
-      ],
+      views: props.views,
       submenuCollapsed: false
     };
-    this._onViewStateChange = this._onViewStateChange.bind(this);
     this._collapseNavButtons = this._collapseNavButtons.bind(this);
     this._clickedNavItem = this._clickedNavItem.bind(this);
-  }
-
-  _onViewStateChange({ viewState }) {
-    const viewstate = viewState;
-    viewState.pitch = viewState.zoom * 3;
-    this.setState({ viewState });
   }
 
   _collapseNavButtons() {
@@ -138,22 +69,20 @@ class Layout extends Component {
   }
 
   _clickedNavItem(name) {
-    const { views, submenuCollapsed } = this.state;
-    const active = views.find(view => view.name === name);
-
-    views.map(view => {
-      view === active ? (view.active = true) : (view.active = false);
-      return view;
-    });
-
+    const { submenuCollapsed } = this.state;
+    const { views } = this.props;
+    this.props.changeView(name);
     this.setState({
-      views: views,
       submenuCollapsed: false
     });
   }
+  _clickedSubMenu(name, view) {
+    this.props.clickedSubMenu(name, view);
+  }
 
   render() {
-    const { views, viewState, submenuCollapsed } = this.state;
+    const { submenuCollapsed } = this.state;
+    const { views } = this.props;
     const active = views.find(view => view.active === true);
     return (
       <div className="page">
@@ -164,49 +93,56 @@ class Layout extends Component {
             clickedNavItem={name => this._clickedNavItem(name)}
           />
           <footer>
-            {active.submenuCollapsible ? (
-              <button className="btn" onClick={this._collapseNavButtons}>
-                {submenuCollapsed ? <ArrowRight /> : <ArrowLeft />}
-              </button>
-            ) : null}
+            <button
+              disabled={active.submenuCollapsible ? false : true}
+              className={`btn`}
+              onClick={this._collapseNavButtons}
+            >
+              {submenuCollapsed ? <ArrowRight /> : <ArrowLeft />}
+            </button>
           </footer>
         </nav>
-
-        <nav
+        <div
           className={`page__button-nav ${!submenuCollapsed ? "active" : ""}`}
         >
           {active.submenu.map((item, i) => (
-            <button className="btn" key={i}>
+            <button
+              className={`btn ${item.active ? "active" : ""}`}
+              key={`${i}`}
+              onClick={() => this._clickedSubMenu(item.name, active.name)}
+            >
               {item.label}
             </button>
           ))}
-        </nav>
+        </div>
         <main
           className={`page__content ${
-            !active.submenuCollapsible ? "non-collapsible" : ""
+            submenuCollapsed
+              ? "collapsed "
+              : " " + !active.submenuCollapsible
+              ? "non-collapsible"
+              : ""
           }`}
         >
-          <div className={`${active.name === "map" ? "d-block" : "d-none"}`}>
-            <DeckGL
-              viewState={viewState}
-              controller={{ type: MapController, doubleClickZoom: false }}
-              onViewStateChange={this._onViewStateChange}
-            >
-              <StaticMap
-                id="map"
-                reuseMaps
-                mapStyle={MAPBOX_STYLE}
-                preventStyleDiffing={true}
-                mapboxApiAccessToken={MAPBOX_TOKEN}
-              />
-            </DeckGL>
+          <div className={`page__content-header`}>
+            <div className="page__controls">
+              {this.props.controls.map(control => (
+                <button
+                  className="btn"
+                  onClick={() => this.props.clickedControl(control)}
+                >
+                  {renderControlIcons(control)}
+                </button>
+              ))}
+              <Fullscreen />
+            </div>
           </div>
-
-          <div
-            className={`${active.name === "dashboard" ? "d-block" : "d-none"}`}
-          >
-            Dashboard Component
-          </div>
+          {this.props.children}
+          {this.props.footer ? (
+            <div className="page__content-footer">
+              <Timeline time={this.props.time} day={this.props.day} />
+            </div>
+          ) : null}
         </main>
       </div>
     );

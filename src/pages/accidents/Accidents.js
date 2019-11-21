@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import Layout from "../../components/Layout";
+import { StaticMap } from "react-map-gl";
+
 import DeckGL, {
   MapController,
   GeoJsonLayer,
@@ -7,36 +10,15 @@ import DeckGL, {
   LinearInterpolator
 } from "deck.gl";
 import { PhongMaterial } from "@luma.gl/core";
-import { StaticMap } from "react-map-gl";
 
-import ACCIDENTS_JSON from "../../data/adbijan/accidents";
 import COMMUNES_JSON from "../../data/adbijan/communes";
-
-import Header from "../../components/deck/Header";
-import Dashboard from "../../components/deck/Dashboard";
-
-import { ReactComponent as AccidentsIcon } from "../../images/accidents.svg";
-import { ReactComponent as FatalitiesIcon } from "../../images/fatalities.svg";
-import { ReactComponent as ResponseTimeIcon } from "../../images/response-time.svg";
-import { ReactComponent as NotResponsedIcon } from "../../images/not-responded.svg";
-
-const COMMUNE_DATA = COMMUNES_JSON.features.map(feature => {
-  return feature.properties;
-});
+import ACCIDENTS_JSON from "../../data/adbijan/accidents";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiYnJlbmRhbi10cmFuc2l0bGFicyIsImEiOiJjazI5aHptaWEwdzJzM25vMnB0aHhqcjNlIn0.oZFZBkbrnOrF80fkS3xNgQ";
 
-const transitionInterpolator = new LinearInterpolator(["bearing"]);
-
-const colorRange = [
-  [1, 152, 189],
-  [73, 227, 206],
-  [216, 254, 181],
-  [254, 237, 177],
-  [254, 173, 84],
-  [254, 120, 78]
-];
+const MAPBOX_STYLE =
+  "mapbox://styles/brendan-transitlabs/ck2m1hpe701041cpgdrcqtduz";
 
 const INITIAL_VIEWSTATE = {
   latitude: 5.322635048060814,
@@ -47,6 +29,15 @@ const INITIAL_VIEWSTATE = {
   pitch_modifer: 3
 };
 
+const colorRange = [
+  [1, 152, 189],
+  [73, 227, 206],
+  [216, 254, 181],
+  [254, 237, 177],
+  [254, 173, 84],
+  [254, 120, 78]
+];
+
 const material = new PhongMaterial({
   ambient: 0.8,
   diffuse: 0.3,
@@ -54,10 +45,71 @@ const material = new PhongMaterial({
   specularColor: [51, 51, 51]
 });
 
+const transitionInterpolator = new LinearInterpolator(["bearing"]);
+
+const DAY = new Date("1-1-2020");
+
 class Accidents extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      views: [
+        {
+          name: "map",
+          label: "Map",
+          active: false,
+          submenuCollapsible: true,
+          controls: ["rotate", "reset"],
+          submenu: [
+            {
+              name: "accidents",
+              label: "Accidents",
+              active: true
+            },
+            {
+              name: "fatalities",
+              label: "Fatalities"
+            },
+            {
+              name: "response_time",
+              label: "Response Time"
+            },
+            {
+              name: "no_response",
+              label: "No Response"
+            }
+          ]
+        },
+        {
+          name: "dashboard",
+          label: "Dashboard",
+          active: true,
+          submenuCollapsible: false,
+          controls: [],
+          submenu: [
+            {
+              name: "overall",
+              label: "Overall",
+              active: true,
+              data: [
+                {
+                  name: "Overvall"
+                }
+              ]
+            },
+            {
+              name: "aggregate",
+              label: "Aggregate",
+              data: []
+            },
+            {
+              name: "change",
+              label: "Change",
+              data: []
+            }
+          ]
+        }
+      ],
       viewState: {
         latitude: INITIAL_VIEWSTATE.latitude,
         longitude: INITIAL_VIEWSTATE.longitude,
@@ -65,89 +117,30 @@ class Accidents extends Component {
         bearing: 0,
         pitch: INITIAL_VIEWSTATE.zoom * INITIAL_VIEWSTATE.pitch_modifer
       },
-      time: 39640,
-      date: new Date("2019-10-10 0:00"),
-      layers: [
-        { name: "accidents", active: false, label: "Accidents" },
-        { name: "fatalities", active: false, label: "Fatalities" },
-        { name: "response_time", active: false, label: "Response Time" },
-        { name: "no_response", active: false, label: "Not Responded" }
-      ],
-      hoveredObject: {},
-      elevationScale: 1,
-      opacity: 0,
-      isRotating: false,
-      dashboard: {
-        active: true,
-        data: COMMUNE_DATA
-      }
+      opactiy: 0,
+      elevationScale: 0,
+      activeLayer: ACCIDENTS_JSON.accidents
     };
+    this._changeView = this._changeView.bind(this);
     this._renderLayers = this._renderLayers.bind(this);
     this._onViewStateChange = this._onViewStateChange.bind(this);
     this._rotateCamera = this._rotateCamera.bind(this);
     this._resetCamera = this._resetCamera.bind(this);
     this._flyTo = this._flyTo.bind(this);
     this._renderTooltip = this._renderTooltip.bind(this);
-    this._clickedControl = this._clickedControl.bind(this);
+    this._clickedSubMenu = this._clickedSubMenu.bind(this);
+    this._clickedDataTrigger = this._clickedDataTrigger.bind(this);
   }
 
-  _renderLayers = () => {
-    const active = this.state.active;
-    return [
-      new GeoJsonLayer({
-        id: "communes-fill",
-        data: COMMUNES_JSON,
-        stroked: false,
-        filled: true,
-        opacity: 0,
-        pickable: true,
-        onClick: info => {
-          const { bounds } = info.object.properties;
-          if (bounds) this._flyTo(bounds);
-        }
-      }),
-      new GeoJsonLayer({
-        id: "communes-stroke",
-        data: COMMUNES_JSON,
-        stroked: true,
-        filled: false,
-        opacity: 0.05,
-        lineWidthMinPixels: 2,
-        getWidth: 2,
-        getLineColor: [32, 201, 151]
-      }),
-      new HexagonLayer({
-        id: "hex-layer",
-        colorRange,
-        material,
-        data: active ? ACCIDENTS_JSON[active.name] : [],
-        pickable: true,
-        opacity: 1,
-        stroked: true,
-        filled: true,
-        extruded: true,
-        lineWidthMinPixels: 1,
-        getPosition: d => {
-          return [Number(d.lng), Number(d.lat)];
-        },
-        elevationScale: this.state.elevationScale,
-        coverage: 1,
-        radius: 100,
-        transitionEasing: "linear",
-        transitions: {
-          elevationScale: 600
-          // opacity: 600
-        },
-        getFillColor: d => [32, 201, 151],
-        onHover: info => {
-          this.setState({
-            hoveredObject: info.object,
-            pointerX: info.x,
-            pointerY: info.y
-          });
-        }
-      })
-    ];
+  _clickedDataTrigger = name => {
+    this.setState({ elevationScale: 0, opacity: 0 });
+    setTimeout(() => {
+      this.setState({
+        activeLayer: ACCIDENTS_JSON[name || "accidents"],
+        elevationScale: 1,
+        opacity: 1
+      });
+    }, 800);
   };
 
   _onViewStateChange({ viewState }) {
@@ -156,15 +149,38 @@ class Accidents extends Component {
     this.setState({ viewState });
   }
 
-  _flyTo(bounds) {
+  _changeView(name) {
+    const { views } = this.state;
+    const active = views.find(view => view.name === name);
+    views.map(view => {
+      view === active ? (view.active = true) : (view.active = false);
+      return view;
+    });
+    this.setState({ views });
+  }
+
+  _clickedSubMenu(name, view) {
+    const { views } = this.state;
+    const active = views.find(view => view.active === true);
+    active.submenu.map(item => {
+      item.name === name ? (item.active = true) : (item.active = false);
+      return item;
+    });
+    this.setState({ views });
+
+    if (view === "map") {
+      this._clickedDataTrigger(name);
+    }
+  }
+
+  _resetCamera() {
     this.setState({
       viewState: {
-        ...this.state.viewState,
-        longitude: bounds.longitude || this.state.viewState.longitude,
-        latitude: bounds.latitude || this.state.viewState.latitude,
-        zoom: bounds.zoom || this.state.viewState.zoom,
-        pitch: bounds.pitch || this.state.viewState.pitch,
+        latitude: INITIAL_VIEWSTATE.latitude,
+        longitude: INITIAL_VIEWSTATE.longitude,
+        zoom: INITIAL_VIEWSTATE.zoom,
         bearing: 0,
+        pitch: INITIAL_VIEWSTATE.zoom * INITIAL_VIEWSTATE.pitch_modifer,
         transitionDuration: 800,
         transitionInterpolator: new FlyToInterpolator({ curve: 5 }),
         transitionEasing: t =>
@@ -174,30 +190,17 @@ class Accidents extends Component {
   }
 
   _rotateCamera() {
-    if (!this.isRotating) {
-      const bearing = this.state.viewState.bearing + 90;
-      this.setState({
-        isRotating: false,
-        viewState: {
-          ...this.state.viewState,
-          bearing,
-          transitionDuration: 90000,
-          transitionInterpolator,
-          onTransitionEnd: this._rotateCamera
-        }
-      });
-    } else {
-      const bearing = this.state.viewState.bearing + 90;
-      this.setState({
-        isRotating: false,
-        viewState: {
-          ...this.state.viewState,
-          transitionDuration: 90000,
-          transitionInterpolator,
-          onTransitionEnd: null
-        }
-      });
-    }
+    const bearing = this.state.viewState.bearing + 90;
+    this.setState({
+      isRotating: false,
+      viewState: {
+        ...this.state.viewState,
+        bearing,
+        transitionDuration: 90000,
+        transitionInterpolator,
+        onTransitionEnd: this._rotateCamera
+      }
+    });
   }
 
   _renderTooltip() {
@@ -286,65 +289,15 @@ class Accidents extends Component {
     );
   }
 
-  _renderButtonIcon(name) {
-    switch (name) {
-      case "accidents":
-        return <AccidentsIcon />;
-      case "fatalities":
-        return <FatalitiesIcon />;
-      case "response_time":
-        return <ResponseTimeIcon />;
-      case "no_response":
-        return <NotResponsedIcon />;
-      default:
-        return "";
-    }
-  }
-
-  _clickedDataTrigger = name => {
-    const active = this.state.layers.find(layer => layer.name === name);
-    this.setState({ active, elevationScale: 0, opacity: 0 });
-
-    setTimeout(() => {
-      this.setState({ elevationScale: 1, opacity: 1 });
-    }, 800);
-  };
-
-  _clickedControl(control) {
-    const { dashboard } = this.state;
-
-    if (control === "rotate") {
-      this._rotateCamera();
-    }
-    if (control === "reset") {
-      this._resetCamera();
-    }
-    if (control === "dashboard") {
-      dashboard.active
-        ? this.setState({
-            dashboard: {
-              active: false,
-              data: dashboard.data
-            }
-          })
-        : this.setState({
-            dashboard: {
-              active: true,
-              data: dashboard.data
-            }
-          });
-    }
-  }
-
-  _resetCamera() {
-    console.log("reseting");
+  _flyTo(bounds) {
     this.setState({
       viewState: {
-        latitude: INITIAL_VIEWSTATE.latitude,
-        longitude: INITIAL_VIEWSTATE.longitude,
-        zoom: INITIAL_VIEWSTATE.zoom,
+        ...this.state.viewState,
+        longitude: bounds.longitude || this.state.viewState.longitude,
+        latitude: bounds.latitude || this.state.viewState.latitude,
+        zoom: bounds.zoom || this.state.viewState.zoom,
+        pitch: bounds.pitch || this.state.viewState.pitch,
         bearing: 0,
-        pitch: INITIAL_VIEWSTATE.zoom * INITIAL_VIEWSTATE.pitch_modifer,
         transitionDuration: 800,
         transitionInterpolator: new FlyToInterpolator({ curve: 5 }),
         transitionEasing: t =>
@@ -353,61 +306,106 @@ class Accidents extends Component {
     });
   }
 
+  _renderLayers = () => {
+    const { activeData } = this.state;
+    return [
+      new GeoJsonLayer({
+        id: "communes-fill",
+        data: COMMUNES_JSON,
+        stroked: false,
+        filled: true,
+        opacity: 0,
+        pickable: true,
+        onClick: info => {
+          const { bounds } = info.object.properties;
+          if (bounds) this._flyTo(bounds);
+        }
+      }),
+      new GeoJsonLayer({
+        id: "communes-stroke",
+        data: COMMUNES_JSON,
+        stroked: true,
+        filled: false,
+        opacity: 0.05,
+        lineWidthMinPixels: 2,
+        getWidth: 2,
+        getLineColor: [32, 201, 151]
+      }),
+      new HexagonLayer({
+        id: "hex-layer",
+        colorRange,
+        material,
+        data: this.state.activeLayer,
+        pickable: true,
+        opacity: 1,
+        stroked: true,
+        filled: true,
+        extruded: true,
+        lineWidthMinPixels: 1,
+        getPosition: d => {
+          return [Number(d.lng), Number(d.lat)];
+        },
+        elevationScale: this.state.elevationScale,
+        coverage: 1,
+        radius: 100,
+        transitionEasing: "linear",
+        transitions: {
+          elevationScale: 600,
+          colorRange: 600
+        },
+        getFillColor: d => [32, 201, 151],
+        onHover: info => {
+          this.setState({
+            hoveredObject: info.object,
+            pointerX: info.x,
+            pointerY: info.y
+          });
+        }
+      })
+    ];
+  };
+
   render() {
-    const {
-      mapStyle = "mapbox://styles/brendan-transitlabs/ck2m1hpe701041cpgdrcqtduz"
-    } = this.props;
-    const { viewState, time, day, dashboard } = this.state;
+    const { views, viewState } = this.state;
+    const active = views.find(view => view.active === true);
     return (
-      <div className="deck">
-        <DeckGL
-          viewState={viewState}
-          layers={this._renderLayers()}
-          controller={{ type: MapController, doubleClickZoom: false }}
-          onViewStateChange={this._onViewStateChange}
-          ref={deck => {
-            this.deckGL = deck;
-          }}
-        >
-          <StaticMap
-            id="map"
-            reuseMaps
-            mapStyle={mapStyle}
-            preventStyleDiffing={true}
-            mapboxApiAccessToken={MAPBOX_TOKEN}
-          />
-        </DeckGL>
-        <div className="deck__header">
-          <Header clickedControl={control => this._clickedControl(control)} />
-        </div>
-        <div className="deck__main">
-          <div className="deck__alerts d-flex flex-column justify-content-center pb-5">
-            {this.state.layers.map((layer, i) => (
-              <div
-                className={`panel panel-button ${
-                  this.state.active && layer.name === this.state.active.name
-                    ? "active"
-                    : ""
-                }`}
-                onClick={() => this._clickedDataTrigger(layer.name)}
-                key={i}
-              >
-                <div className="panel-body panel-body--icon pr-1">
-                  {this._renderButtonIcon(layer.name)}
-                </div>
-                <div className="panel-body panel-body--text">
-                  <h4 className="text-uppercase mb-0">{layer.label}</h4>
-                </div>
+      <Layout
+        views={views}
+        time={0}
+        day={DAY}
+        controls={active.controls}
+        changeView={this._changeView}
+        clickedSubMenu={this._clickedSubMenu}
+      >
+        {views.map(view => (
+          <div
+            className={`page__content-view ${
+              active.name === view.name ? "active" : ""
+            }`}
+          >
+            {view.name === "map" ? (
+              <div>
+                <DeckGL
+                  viewState={viewState}
+                  layers={this._renderLayers()}
+                  controller={{ type: MapController, doubleClickZoom: false }}
+                  onViewStateChange={this._onViewStateChange}
+                >
+                  <StaticMap
+                    id="map"
+                    reuseMaps
+                    mapStyle={MAPBOX_STYLE}
+                    preventStyleDiffing={true}
+                    mapboxApiAccessToken={MAPBOX_TOKEN}
+                  />
+                </DeckGL>
+                {this._renderTooltip()}
               </div>
-            ))}
+            ) : null}
+            {view.name === "dashboard" ? <div></div> : null}
           </div>
-          <div className="deck__info">{/*<Info events={events} />*/}</div>
-        </div>
-        {this._renderTooltip()}
-        <div className={`deck__dashboard ${dashboard.active ? "active" : ""}`}>
-          <Dashboard title="Accident Analytics" dashboard={dashboard} />
-        </div>
-      </div>
+        ))}
+      </Layout>
     );
   }
 }

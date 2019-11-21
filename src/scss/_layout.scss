@@ -19,10 +19,20 @@
     background: darken($gray-900,2%);
     position: relative;
     z-index: 3;
+    height: 100vh;
 
     button {
       padding: 1.5rem 1rem;
       width: 100%;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        &:hover {
+          background: unset;
+        }
+      }
+
       &:hover {
         color: $gray-300;
         background: lighten($gray-900,2%);
@@ -75,6 +85,7 @@
       letter-spacing: 0.1em;
       text-align: right;
       min-width: 12vw;
+      position: relative;
       &:hover {
         color: $gray-300;
         background: $gray-800;
@@ -87,12 +98,23 @@
   }
   &__content {
     position: relative;
-    overflow: scroll;
     flex: 1 1 auto;
     background: $gray-800;
+    overflow: hidden;
+    transition: padding-left 300ms ease-in-out;
 
     &.non-collapsible {
-      padding-left: 12vw;
+      .page__content-view {
+        padding-left: 12vw;
+      }
+
+      .page__content-header {
+        margin-left: 12vw;
+      }
+
+      .page__content-footer {
+        margin-left: 12vw;
+      }
     }
 
     h3 {
@@ -113,6 +135,46 @@
     }
   }
 
+  &__content-view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background: $gray-800;
+    opacity: 0;
+    transition: padding-left 300ms ease-in-out, opacity 300ms ease-in-out;
+    pointer-events: none;
+    &.active {
+      pointer-events: auto;
+      opacity: 1;
+      transform: translate(0,0);
+    }
+  }
+
+  &__content-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    color: $gray-100;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+    transition: margin-left 300ms ease-in-out;
+  }
+
+  &__content-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    color: $gray-100;
+    transition: margin-left 300ms ease-in-out;
+  }
+
   &__controls {
     .btn {
       color: $gray-100;
@@ -122,4 +184,18 @@
       height: 1.5rem;
     }
   }
+}
+
+.submenu-item-enter {
+  opacity: 0;
+}
+.submenu-item-enter-active {
+  opacity: 1;
+  transition: all 500ms ease-in;
+}
+.submenu-item-exit {
+  opacity: 1;
+}
+.submenu-item-exit-active {
+  opacity: 0;
 }
