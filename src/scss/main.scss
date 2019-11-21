@@ -17,6 +17,8 @@ a {
 }
 
 .btn {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   &.active {
     color: $gray-100;
   }

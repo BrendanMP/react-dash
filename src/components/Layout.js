@@ -82,7 +82,7 @@ class Layout extends Component {
 
   render() {
     const { submenuCollapsed } = this.state;
-    const { views } = this.props;
+    const { views, submenu } = this.props;
     const active = views.find(view => view.active === true);
     return (
       <div className="page">
@@ -105,7 +105,7 @@ class Layout extends Component {
         <div
           className={`page__button-nav ${!submenuCollapsed ? "active" : ""}`}
         >
-          {active.submenu.map((item, i) => (
+          {submenu.map((item, i) => (
             <button
               className={`btn ${item.active ? "active" : ""}`}
               key={`${i}`}
@@ -126,8 +126,9 @@ class Layout extends Component {
         >
           <div className={`page__content-header`}>
             <div className="page__controls">
-              {this.props.controls.map(control => (
+              {this.props.controls.map((control, i) => (
                 <button
+                  key={`control-${control.name}-${i}`}
                   className="btn"
                   onClick={() => this.props.clickedControl(control)}
                 >

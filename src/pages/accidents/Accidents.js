@@ -62,26 +62,7 @@ class Accidents extends Component {
           label: "Map",
           active: false,
           submenuCollapsible: true,
-          controls: ["rotate", "reset"],
-          submenu: [
-            {
-              name: "accidents",
-              label: "Accidents",
-              active: true
-            },
-            {
-              name: "fatalities",
-              label: "Fatalities"
-            },
-            {
-              name: "response_time",
-              label: "Response Time"
-            },
-            {
-              name: "no_response",
-              label: "No Response"
-            }
-          ]
+          controls: ["rotate", "reset"]
         },
         {
           name: "dashboard",
@@ -89,110 +70,26 @@ class Accidents extends Component {
           active: true,
           submenuCollapsible: false,
           controls: [],
-          data: ACCIDENTS_STAT_JSON,
-          submenu: [
-            {
-              name: "totals",
-              label: "Totals",
-              active: true,
-              data: [
-                {
-                  name: "Cocody"
-                },
-                {
-                  name: "Triechville"
-                },
-                {
-                  name: "Le Plateau"
-                },
-                {
-                  name: "Cocody"
-                },
-                {
-                  name: "Triechville"
-                },
-                {
-                  name: "Le Plateau"
-                },
-                {
-                  name: "Cocody"
-                },
-                {
-                  name: "Triechville"
-                },
-                {
-                  name: "Le Plateau"
-                }
-              ]
-            },
-            {
-              name: "change",
-              label: "Change",
-              data: [
-                {
-                  name: "Cocody"
-                },
-                {
-                  name: "Triechville"
-                },
-                {
-                  name: "Le Plateau"
-                },
-                {
-                  name: "Cocody"
-                },
-                {
-                  name: "Triechville"
-                },
-                {
-                  name: "Le Plateau"
-                },
-                {
-                  name: "Cocody"
-                },
-                {
-                  name: "Triechville"
-                },
-                {
-                  name: "Le Plateau"
-                }
-              ]
-            },
-            {
-              name: "overall",
-              label: "Overall",
-              active: false,
-              data: [
-                {
-                  name: "Cocody"
-                },
-                {
-                  name: "Triechville"
-                },
-                {
-                  name: "Le Plateau"
-                },
-                {
-                  name: "Cocody"
-                },
-                {
-                  name: "Triechville"
-                },
-                {
-                  name: "Le Plateau"
-                },
-                {
-                  name: "Cocody"
-                },
-                {
-                  name: "Triechville"
-                },
-                {
-                  name: "Le Plateau"
-                }
-              ]
-            }
-          ]
+          data: ACCIDENTS_STAT_JSON
+        }
+      ],
+      submenu: [
+        {
+          name: "accidents",
+          label: "Accidents",
+          active: true
+        },
+        {
+          name: "fatalities",
+          label: "Fatalities"
+        },
+        {
+          name: "response_time",
+          label: "Response Time"
+        },
+        {
+          name: "no_response",
+          label: "No Response"
         }
       ],
       viewState: {
@@ -245,17 +142,16 @@ class Accidents extends Component {
   }
 
   _clickedSubMenu(name, view) {
-    const { views } = this.state;
-    const active = views.find(view => view.active === true);
-    active.submenu.map(item => {
+    const { views, submenu } = this.state;
+    const active = submenu.find(view => view.active === true);
+
+    submenu.map(item => {
       item.name === name ? (item.active = true) : (item.active = false);
       return item;
     });
-    this.setState({ views });
 
-    if (view === "map") {
-      this._clickedDataTrigger(name);
-    }
+    this.setState({ submenu });
+    this._clickedDataTrigger(name);
   }
 
   _resetCamera() {
@@ -451,11 +347,12 @@ class Accidents extends Component {
   };
 
   render() {
-    const { views, viewState } = this.state;
+    const { views, viewState, submenu } = this.state;
     const active = views.find(view => view.active === true);
     return (
       <Layout
         views={views}
+        submenu={submenu}
         time={0}
         day={DAY}
         controls={active.controls}
@@ -489,7 +386,7 @@ class Accidents extends Component {
               </div>
             ) : null}
             {view.name === "dashboard" ? (
-              <Dashboard data={view.data} views={view.submenu}></Dashboard>
+              <Dashboard data={view.data} views={submenu}></Dashboard>
             ) : null}
           </div>
         ))}
