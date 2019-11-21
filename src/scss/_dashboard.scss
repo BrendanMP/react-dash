@@ -16,6 +16,7 @@
     height: 100%;
     background: $gray-800;
     opacity: 0;
+
     &.active {
       opacity: 1;
     }
@@ -25,7 +26,8 @@
     padding: 5rem 2rem 0;
     display: flex;
     align-items: center;
-    background: $black;
+    background: darken($gray-900, 1%);
+
     .btn {
       text-transform: uppercase;
       font-size: 1.2vw;
@@ -48,12 +50,14 @@
     justify-content: space-between;
     margin-top: 3rem;
     margin-bottom: 3rem;
+
     h1 {
       color: $gray-100;
       text-transform: uppercase;
       font-weight: $font-weight-lighter;
       letter-spacing: 0.1em;
     }
+
     .btn {
       font-size: 1.2vw;
       margin-left: 2rem;
@@ -62,14 +66,29 @@
 }
 
 .rankings {
-  &__top {
+  &__top-item {
     .panel {
-      border-top: 2px solid #FFD700;
+      border-top: 4px solid $teal;
     }
   }
 
-  &__list {
+  &__top-item-rank {
+    font-size: 6rem;
+    width: 12rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    background: darken($gray-900, 1%);
+    font-size: 5rem;
+    font-weight: 100;
+  }
 
+  &__top-item-content {
+    h1 {
+      font-size: 5em;
+      color: $gray-200;
+    }
   }
 
   &__list-item {
@@ -77,5 +96,37 @@
       display: flex;
       flex-direction: row;
     }
+
+    &:nth-of-type(1),
+    &:nth-of-type(2),
+    &:nth-of-type(3) {
+      .panel-body {
+        border-top: 4px solid $yellow;
+      }
+    }
+
+    &:nth-of-type(4),
+    &:nth-of-type(5),
+    &:nth-of-type(6),
+    &:nth-of-type(7),
+    &:nth-of-type(8) {
+      .panel-body {
+        border-top: 4px solid $red;
+      }
+    }
+  }
+
+  &__list-item-rank {
+    background: darken($gray-900, 1%);
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 8rem;
+  }
+
+  &__list-item-content.panel-body {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
   }
 }

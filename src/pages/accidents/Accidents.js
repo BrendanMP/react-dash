@@ -85,7 +85,8 @@ class Accidents extends Component {
         },
         {
           name: "response_time",
-          label: "Response Time"
+          label: "Response Time",
+          title: "Average Response Time"
         },
         {
           name: "no_response",

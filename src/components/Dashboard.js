@@ -12,18 +12,17 @@ const Rankings = props => {
     <div className="rankings container-fluid px-0">
       <div className="rankings__top row">
         {top.map((item, i) => (
-          <div className="col" key={`top-${i}`}>
+          <div className="rankings__top-item col" key={`top-${i}`}>
             <div className="panel">
-              <div className="panel-body">
-                <h1 className="mb-4">
-                  #{item.rank} {item.label}
+              <div className="panel-body rankings__top-item-rank">
+                #{item.rank}
+              </div>
+              <div className="panel-body rankings__top-item-content">
+                <h2>{item.label}</h2>
+                <h1 className="mb-0">
+                  {item.value}
+                  {item.key.unit}
                 </h1>
-                <div className="h3 mb-3">
-                  <span className="mr-2">{item.value}</span>
-                  <span className="text-capitalize">
-                    {item.value === 1 ? item.key.singlular : item.key.plural}
-                  </span>
-                </div>
               </div>
             </div>
           </div>
@@ -31,21 +30,21 @@ const Rankings = props => {
       </div>
       <div className="rankings__list">
         {data.map((item, i) => (
-          <div className="panel" key={`item-${i}`}>
+          <div className="panel rankings__list-item" key={`item-${i}`}>
             <div
-              className="panel-body text-center rankings__list-item"
+              className="panel-body text-center rankings__list-item-rank"
               style={{ minWidth: "7rem" }}
             >
-              <h1 className="mb-0">{item.rank}</h1>
+              <h1 className="mb-0">#{item.rank}</h1>
             </div>
-            <div className="panel-body flex-grow-1">
-              <h2 className="mb-2">{item.label}</h2>
-              <div className="h3 mb-0">
-                <span className="mr-1">{item.value}</span>
-                <span className="text-capitalize">
-                  {item.value === 1 ? item.key.singlular : item.key.plural}
-                </span>
-              </div>
+            <div className="panel-body rankings__list-item-content flex-grow-1">
+              <h1 className="mb-0 mr-4" style={{ minWidth: "20rem" }}>
+                {item.label}
+              </h1>
+              <h1 className="mb-0">
+                {item.value}
+                {item.key.unit}
+              </h1>
             </div>
           </div>
         ))}
@@ -63,7 +62,7 @@ class Dashboard extends Component {
         {
           name: "yesterday",
           label: "Yesterday",
-          active: true
+          active: false
         },
         {
           name: "last_quarter",
@@ -73,7 +72,7 @@ class Dashboard extends Component {
         {
           name: "last_year",
           label: "Last Year",
-          active: false
+          active: true
         }
       ]
     };
@@ -136,7 +135,8 @@ class Dashboard extends Component {
 
         item.key = {
           singlular: "minute",
-          plural: "minutes"
+          plural: "minutes",
+          unit: "min"
         };
       }
 
@@ -147,7 +147,8 @@ class Dashboard extends Component {
 
         item.key = {
           singlular: "%",
-          plural: "%"
+          plural: "%",
+          unit: "%"
         };
       }
 
@@ -161,6 +162,10 @@ class Dashboard extends Component {
     data.sort((a, b) => (Number(a.value) > Number(b.value) ? 1 : -1));
 
     return data;
+  }
+
+  _getTitle(range, view) {
+    return `${view.title || view.label} ${range.label}`;
   }
 
   render() {
@@ -182,7 +187,7 @@ class Dashboard extends Component {
             </div>
             <div className="dashboard__content">
               <div className="dashboard__content-header mb-4">
-                <h1 className="mb-0">{view.name}</h1>
+                <h1 className="mb-0">{this._getTitle(activeRange, view)}</h1>
                 <div>
                   {ranges.map((range, i) => (
                     <button
