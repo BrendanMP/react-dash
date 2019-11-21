@@ -16,8 +16,8 @@ const Rankings = props => {
     <div className="rankings container-fluid px-0">
       <div className="rankings__top row">
         {top.map((item, i) => (
-          <div className="col">
-            <div className="panel" key={`top-${i}`}>
+          <div className="col" key={`top-${i}`}>
+            <div className="panel">
               <div className="panel-body">
                 <h1 className="mb-4">
                   {item.rank} - {item.commune}
