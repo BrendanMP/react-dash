@@ -1,70 +1,43 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-const Rankings = () => (
-  <div className="rankings container-fluid px-0">
-    <div className="ranking__cards row">
-      <div className="col">
-        <div className="panel">
-          <div className="panel-body">
-            <h5>Leader</h5>
-            <h1>Cocody</h1>
+const Rankings = props => {
+  const data = props.data.map((item, i) => {
+    item.rank = i + 1;
+    return item;
+  });
+
+  const top = data.splice(0, 3);
+
+  return (
+    <div className="rankings container-fluid px-0">
+      <div className="rankings__top row">
+        {top.map((item, i) => (
+          <div className="col">
+            <div className="panel" key={`top-${i}`}>
+              <div className="panel-body">
+                <h5>{item.rank} - Leader</h5>
+                <h1>{item.name}</h1>
+              </div>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
-      <div className="col">
-        <div className="panel">
-          <div className="panel-body">
-            <h5>Leader</h5>
-            <h1>Cocody</h1>
+      <div>
+        {data.map(item => (
+          <div className="panel">
+            <div className="panel-body">
+              <h1 className="mb-0">{item.rank}</h1>
+            </div>
+            <div className="panel-body flex-grow-1">
+              <h3 className="mb-0">{item.name}</h3>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="col">
-        <div className="panel">
-          <div className="panel-body">
-            <h5>Leader</h5>
-            <h1>Cocody</h1>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
-    <div>
-      <div className="panel">
-        <div className="panel-body">
-          <h1 className="mb-0">#3</h1>
-        </div>
-        <div className="panel-body flex-grow-1">
-          <h3 className="mb-0">Cocody</h3>
-        </div>
-      </div>
-      <div className="panel">
-        <div className="panel-body">
-          <h1 className="mb-0">#3</h1>
-        </div>
-        <div className="panel-body flex-grow-1">
-          <h3 className="mb-0">Cocody</h3>
-        </div>
-      </div>
-      <div className="panel">
-        <div className="panel-body">
-          <h1 className="mb-0">#3</h1>
-        </div>
-        <div className="panel-body flex-grow-1">
-          <h3 className="mb-0">Cocody</h3>
-        </div>
-      </div>
-      <div className="panel">
-        <div className="panel-body">
-          <h1 className="mb-0">#3</h1>
-        </div>
-        <div className="panel-body flex-grow-1">
-          <h3 className="mb-0">Cocody</h3>
-        </div>
-      </div>
-    </div>
-  </div>
-);
+  );
+};
 
 class Dashboard extends Component {
   constructor(props) {
@@ -86,9 +59,9 @@ class Dashboard extends Component {
             </div>
             <div className="dashboard__content">
               <div className="dashboard__content-header">
-                <h1 className="mb-4">Overall</h1>
+                <h1 className="mb-4">{view.label}</h1>
               </div>
-              <Rankings />
+              <Rankings data={view.data} />
             </div>
           </div>
         ))}

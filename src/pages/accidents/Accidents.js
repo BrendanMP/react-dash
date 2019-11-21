@@ -93,17 +93,101 @@ class Accidents extends Component {
               name: "overall",
               label: "Overall",
               active: true,
-              data: []
+              data: [
+                {
+                  name: "Set 1 - Coody"
+                },
+                {
+                  name: "Set 1 - Triechville"
+                },
+                {
+                  name: "Set 1 - Le Plateau"
+                },
+                {
+                  name: "Set 1 - Coody"
+                },
+                {
+                  name: "Set 1 - Triechville"
+                },
+                {
+                  name: "Set 1 - Le Plateau"
+                },
+                {
+                  name: "Set 1 - Coody"
+                },
+                {
+                  name: "Set 1 - Triechville"
+                },
+                {
+                  name: "Set 1 - Le Plateau"
+                }
+              ]
             },
             {
               name: "aggregate",
               label: "Aggregate",
-              data: []
+              data: [
+                {
+                  name: "Set 2 - Coody"
+                },
+                {
+                  name: "Set 2 - Triechville"
+                },
+                {
+                  name: "Set 2 - Le Plateau"
+                },
+                {
+                  name: "Set 2 - Coody"
+                },
+                {
+                  name: "Set 2 - Triechville"
+                },
+                {
+                  name: "Set 2 - Le Plateau"
+                },
+                {
+                  name: "Set 2 - Coody"
+                },
+                {
+                  name: "Set 2 - Triechville"
+                },
+                {
+                  name: "Set 2 - Le Plateau"
+                }
+              ]
             },
             {
               name: "change",
               label: "Change",
-              data: []
+              data: [
+                {
+                  name: "Set 3 - Coody"
+                },
+                {
+                  name: "Set 3 - Triechville"
+                },
+                {
+                  name: "Set 3 - Le Plateau"
+                },
+                {
+                  name: "Set 3 - Coody"
+                },
+                {
+                  name: "Set 3 - Triechville"
+                },
+                {
+                  name: "Set 3 - Le Plateau"
+                },
+                {
+                  name: "Set 3 - Coody"
+                },
+                {
+                  name: "Set 3 - Triechville"
+                },
+                {
+                  name: "Set 3 - Le Plateau"
+                }
+              ]
             }
           ]
         }

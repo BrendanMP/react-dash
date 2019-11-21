@@ -45,3 +45,11 @@
     }
   }
 }
+
+.rankings {
+  &__top {
+    .panel {
+      border-top: 2px solid #FFD700;
+    }
+  }
+}
