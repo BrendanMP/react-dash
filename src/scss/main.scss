@@ -16,6 +16,12 @@ a {
   }
 }
 
+.btn {
+  &.active {
+    color: $gray-100;
+  }
+}
+
 .mapboxgl-map {
   .mapboxgl-ctrl-logo {
     display: none;

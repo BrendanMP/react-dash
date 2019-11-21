@@ -52,9 +52,39 @@ const Rankings = props => {
 class Dashboard extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      ranges: [
+        {
+          name: "yesterday",
+          label: "Yesterday",
+          active: true
+        },
+        {
+          name: "last_quarter",
+          label: "Last Quarter"
+        },
+        {
+          name: "last_year",
+          label: "Last Year"
+        }
+      ]
+    };
+    this._changeDateRange = this._changeDateRange.bind(this);
   }
+
+  _changeDateRange(range) {
+    const { ranges } = this.state;
+    ranges.map(item => {
+      item.active = false;
+      if (item.name === range.name) item.active = true;
+      return item;
+    });
+    this.setState({ ranges: ranges });
+  }
+
   render() {
     const { views, data } = this.props;
+    const { ranges } = this.state;
     return (
       <div className="dashboard">
         {views.map((view, i) => (
@@ -63,9 +93,15 @@ class Dashboard extends Component {
             className={`dashboard__view ${view.active ? "active" : ""}`}
           >
             <div className="dashboard__nav">
-              <button className="btn">Yesterday</button>
-              <button className="btn">Last Quarter</button>
-              <button className="btn">Last Year</button>
+              {ranges.map((range, i) => (
+                <button
+                  key={i}
+                  className={`btn ${range.active ? "active" : ""}`}
+                  onClick={() => this._changeDateRange(range)}
+                >
+                  {range.label}
+                </button>
+              ))}
             </div>
             <div className="dashboard__content">
               <div className="dashboard__content-header">
