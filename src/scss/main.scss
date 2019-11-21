@@ -19,6 +19,9 @@ a {
 .btn {
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  &:hover {
+    //display: none;
+  }
   &.active {
     color: $gray-100;
   }
