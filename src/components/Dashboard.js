@@ -19,7 +19,7 @@ class Dashboard extends Component {
               <button className="btn btn-dark">Trigger</button>
               <button className="btn btn-dark">Trigger</button>
             </div>
-            <div className="dashboard__content">Tables n shit</div>
+            <div className="dashboard__content">Tables</div>
           </div>
         ))}
       </div>
