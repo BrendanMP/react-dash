@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/react-dash/static/css/main.491f9865.chunk.css",
+    "main.css": "/react-dash/static/css/main.233f95a4.chunk.css",
     "main.js": "/react-dash/static/js/main.da2d24df.chunk.js",
     "main.js.map": "/react-dash/static/js/main.da2d24df.chunk.js.map",
     "runtime-main.js": "/react-dash/static/js/runtime-main.e8a2aef4.js",
@@ -9,10 +9,10 @@
     "static/js/2.bcb24377.chunk.js": "/react-dash/static/js/2.bcb24377.chunk.js",
     "static/js/2.bcb24377.chunk.js.map": "/react-dash/static/js/2.bcb24377.chunk.js.map",
     "index.html": "/react-dash/index.html",
-    "precache-manifest.265c509f6d87b9b88bff228d30f0d4f7.js": "/react-dash/precache-manifest.265c509f6d87b9b88bff228d30f0d4f7.js",
+    "precache-manifest.196f96c948448b13795e3adf5d58c061.js": "/react-dash/precache-manifest.196f96c948448b13795e3adf5d58c061.js",
     "service-worker.js": "/react-dash/service-worker.js",
     "static/css/2.d9a8a5a7.chunk.css.map": "/react-dash/static/css/2.d9a8a5a7.chunk.css.map",
-    "static/css/main.491f9865.chunk.css.map": "/react-dash/static/css/main.491f9865.chunk.css.map",
+    "static/css/main.233f95a4.chunk.css.map": "/react-dash/static/css/main.233f95a4.chunk.css.map",
     "static/media/COA.056c4e14.svg": "/react-dash/static/media/COA.056c4e14.svg",
     "static/media/arrow-left.25b6c440.svg": "/react-dash/static/media/arrow-left.25b6c440.svg",
     "static/media/arrow-right.953d624a.svg": "/react-dash/static/media/arrow-right.953d624a.svg",
@@ -30,7 +30,7 @@
     "static/js/runtime-main.e8a2aef4.js",
     "static/css/2.d9a8a5a7.chunk.css",
     "static/js/2.bcb24377.chunk.js",
-    "static/css/main.491f9865.chunk.css",
+    "static/css/main.233f95a4.chunk.css",
     "static/js/main.da2d24df.chunk.js"
   ]
 }
