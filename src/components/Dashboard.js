@@ -249,7 +249,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { views, sets } = this.props;
+    const { views, sets, type } = this.props;
     const { data } = this.state;
     const activeRange = sets
       .find(set => set.active)
@@ -292,8 +292,11 @@ class Dashboard extends Component {
                   )}
                 </div>
               </div>
-              <Projects data={this._formatFinanceData(data)}></Projects>
-              {/*<Rankings data={this._formatData(data)} />*/}
+              {type === "finance" ? (
+                <Projects data={this._formatFinanceData(data)}></Projects>
+              ) : (
+                <Rankings data={this._formatData(data)} />
+              )}
             </div>
           </div>
         ))}

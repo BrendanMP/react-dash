@@ -101,6 +101,7 @@ class Finance extends Component {
               <Dashboard
                 sets={sets}
                 data={view.data}
+                type={"finance"}
                 views={submenu}
               ></Dashboard>
             ) : null}
