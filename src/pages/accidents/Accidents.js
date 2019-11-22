@@ -588,7 +588,7 @@ class Accidents extends Component {
   };
 
   render() {
-    const { views, viewState, submenu, sets } = this.state;
+    const { views, viewState, submenu } = this.state;
     const active = views.find(view => view.active === true);
     return (
       <Layout

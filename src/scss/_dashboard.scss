@@ -46,8 +46,9 @@
 
   &__nav-scroll {
     width: 100%;
-    overflow: scroll;
     white-space: nowrap;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
   }
 
   &__content {

@@ -144,16 +144,19 @@ class Dashboard extends Component {
   }
 
   _changeDateRange(input) {
-    const { sets } = this.state;
-    sets
-      .find(set => set.active)
+    const { views } = this.props;
+
+    const active = views
+      .find(view => view.active)
+      .sets.find(set => set.active)
       .ranges.map(range => {
         range.name === input.name
           ? (range.active = true)
           : (range.active = false);
         return range;
       });
-    this.setState({ sets });
+
+    this.setState({ views });
   }
 
   _changeDataSet(input) {
@@ -168,14 +171,12 @@ class Dashboard extends Component {
   }
 
   _formatData(data) {
-    const { views, sets } = this.props;
+    const { views } = this.props;
     const activeView = views.find(view => view.active);
-    const activeRange = sets
-      .find(set => set.active)
-      .ranges.find(range => range.active);
-    const activeSet = sets.find(set => set.active);
-    const range = activeRange ? activeRange.name : null;
-    const set = activeSet ? activeSet.name : null;
+    const activeSet = activeView.sets.find(set => set.active);
+    const activeRange = activeSet.ranges.find(range => range.active);
+    const range = activeRange.name;
+    const set = activeSet.name;
 
     data.map(item => {
       let value = "N/A";
@@ -345,21 +346,17 @@ class Dashboard extends Component {
             <div className="dashboard__content">
               <div className="dashboard__content-header mb-4">
                 <h1 className="mb-0">{this._getTitle(activeSet, view)}</h1>
-                {/*<div>*/}
-                {/*  {acsets.map((set, i) =>*/}
-                {/*    set.active*/}
-                {/*      ? set.ranges.map(range => (*/}
-                {/*          <button*/}
-                {/*            key={`set-${range.name}-${i}`}*/}
-                {/*            className={`btn  ${range.active ? "active" : ""}`}*/}
-                {/*            onClick={() => this._changeDateRange(range)}*/}
-                {/*          >*/}
-                {/*            {range.label}*/}
-                {/*          </button>*/}
-                {/*        ))*/}
-                {/*      : null*/}
-                {/*  )}*/}
-                {/*</div>*/}
+                <div>
+                  {activeSet.ranges.map((range, i) => (
+                    <button
+                      key={`set-${range.name}-${i}`}
+                      className={`btn  ${range.active ? "active" : ""}`}
+                      onClick={() => this._changeDateRange(range)}
+                    >
+                      {range.label}
+                    </button>
+                  ))}
+                </div>
               </div>
               {type === "finance" ? (
                 <Projects data={this._formatFinanceData(data)}></Projects>
