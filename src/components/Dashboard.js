@@ -327,8 +327,6 @@ class Dashboard extends Component {
 
     if (activeView.name === "ministry") {
       return data.filter(item => {
-        console.log(activeSet);
-
         if (activeSet.name === "all") {
           return item;
         } else {
