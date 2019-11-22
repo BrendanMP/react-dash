@@ -10,7 +10,10 @@ csv()
   .fromFile(projects)
   .then(projects => {
     let result = [];
-    projects.forEach(project => result.push(project));
+    projects.forEach(project => {
+      project.frozen = project.frozen !== "yes" ? false : true;
+      result.push(project);
+    });
     let data = JSON.stringify({ data: result });
     fs.writeFileSync("finance.json", data);
   });

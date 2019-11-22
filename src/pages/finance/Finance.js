@@ -16,7 +16,7 @@ const MINISTSRIES_SET = MINISTRIES.map((item, i) => {
       .split(" ")
       .join("_"),
     label: item,
-    active: i < 1,
+    active: false,
     ranges: []
   };
 });
@@ -30,7 +30,7 @@ const STATUS_SET = STATUS.map((item, i) => {
       .split(" ")
       .join("_"),
     label: item,
-    active: i < 1,
+    active: false,
     ranges: []
   };
 });
@@ -40,13 +40,6 @@ class Finance extends Component {
     super(props);
     this.state = {
       views: [
-        {
-          name: "map",
-          label: "Map",
-          active: false,
-          submenuCollapsible: true,
-          controls: []
-        },
         {
           name: "dashboard",
           label: "Dashboard",
@@ -58,16 +51,50 @@ class Finance extends Component {
       ],
       submenu: [
         {
-          name: "project_stage",
-          label: "Progress",
+          name: "project_status",
+          label: "Status",
+          title: "Projects",
           active: true,
-          sets: STATUS_SET
+          sets: [
+            {
+              name: "all",
+              label: "All",
+              title: "All Projects",
+              active: true,
+              ranges: []
+            },
+            ...STATUS_SET
+          ]
         },
         {
           name: "ministry",
           label: "Ministry",
+          title: "Ministry of",
           active: false,
-          sets: MINISTSRIES_SET
+          sets: [
+            {
+              name: "all",
+              label: "All",
+              title: "All Ministries",
+              active: true,
+              ranges: []
+            },
+            ...MINISTSRIES_SET
+          ]
+        },
+        {
+          name: "frozen",
+          label: "Frozen",
+          active: false,
+          sets: [
+            {
+              name: "frozen",
+              label: "Frozen",
+              title: "Frozen Projects",
+              active: true,
+              ranges: []
+            }
+          ]
         }
       ]
     };

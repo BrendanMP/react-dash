@@ -293,26 +293,75 @@ class Dashboard extends Component {
   _formatFinanceData() {
     const { data } = this.state;
     const { views } = this.props;
-    const active = views.find(view => view.active);
+    const activeView = views.find(view => view.active);
+    const activeSet = activeView.sets.find(set => set.active);
 
-    // if (active.name === "progress") {
-    //   data.sort((a, b) =>
-    //     Number(a.project_completion_percentage) <
-    //     Number(b.project_completion_percentage)
-    //       ? 1
-    //       : -1
-    //   );
-    // }
-    //
-    // if (active.name === "ministry") {
-    //   data.sort((a, b) => (a.project_ministry > b.project_ministry ? 1 : -1));
-    // }
+    if (activeView.name === "project_status") {
+      if (activeSet.name === "all") {
+        return data;
+      }
+
+      if (activeSet.name === "completed") {
+        return data.filter(item => {
+          return item.project_status.toLowerCase() === "completed";
+        });
+      }
+
+      if (activeSet.name === "financed") {
+        return data.filter(item => {
+          return item.project_status.toLowerCase() === "financed";
+        });
+      }
+
+      if (activeSet.name === "awaiting_feasability_study") {
+        return data.filter(item => {
+          return (
+            item.project_status
+              .toLowerCase()
+              .split(" ")
+              .join("_") === "awaiting_feasability_study"
+          );
+        });
+      }
+    }
+
+    if (activeView.name === "ministry") {
+      return data.filter(item => {
+        console.log(activeSet);
+
+        if (activeSet.name === "all") {
+          return item;
+        } else {
+          return (
+            item.project_ministry
+              .toLowerCase()
+              .split(" ")
+              .join("_") === activeSet.name
+          );
+        }
+      });
+    }
+
+    if (activeView.name === "frozen") {
+      return data.filter(item => item.frozen);
+    }
+
+    data.sort((a, b) =>
+      Number(a.project_completion_percentage) <
+      Number(b.project_completion_percentage)
+        ? 1
+        : -1
+    );
     return data;
   }
 
-  _getTitle(range, view) {
-    if (range && view)
-      return `${view.title || view.label || ""} ${range.label || ""}`;
+  _getTitle(set, view) {
+    if (set.title) {
+      return set.title;
+    }
+
+    if (set && view)
+      return `${view.title || view.label || ""} ${set.title || set.label}`;
   }
 
   render() {
@@ -320,8 +369,6 @@ class Dashboard extends Component {
     const { data } = this.state;
     const activeView = views.find(view => view.active);
     const activeSet = activeView.sets.find(set => set.active) || "";
-
-    // const activeRange = activeView.ranges.find(range => range.active);
 
     return (
       <div className="dashboard">
