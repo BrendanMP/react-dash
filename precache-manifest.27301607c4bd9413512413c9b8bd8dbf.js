@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "eb46a677de58a8001333c1cc7716ff8e",
+    "revision": "9ae96107b787bb6076d09c202407cf30",
     "url": "/react-dash/index.html"
   },
   {
-    "revision": "739f89bb9510323c12e6",
+    "revision": "94e1a1ac968e075f9b8e",
     "url": "/react-dash/static/css/2.d9a8a5a7.chunk.css"
   },
   {
-    "revision": "149a4f0114a6ec9155fc",
-    "url": "/react-dash/static/css/main.a55c203a.chunk.css"
+    "revision": "2acb06131635a19d9f0f",
+    "url": "/react-dash/static/css/main.31d0ba61.chunk.css"
   },
   {
-    "revision": "739f89bb9510323c12e6",
-    "url": "/react-dash/static/js/2.bcb24377.chunk.js"
+    "revision": "94e1a1ac968e075f9b8e",
+    "url": "/react-dash/static/js/2.b5a03392.chunk.js"
   },
   {
-    "revision": "149a4f0114a6ec9155fc",
-    "url": "/react-dash/static/js/main.c8b49f10.chunk.js"
+    "revision": "2acb06131635a19d9f0f",
+    "url": "/react-dash/static/js/main.0d5a1745.chunk.js"
   },
   {
     "revision": "928636bb49f0be7c3b34",
@@ -36,10 +36,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/react-dash/static/media/arrow-right.953d624a.svg"
   },
   {
-    "revision": "03543aeba3e0d558a295de844bc9e98b",
-    "url": "/react-dash/static/media/close.03543aeb.svg"
-  },
-  {
     "revision": "aa4405b76c739f3bc55acc8406dd5b4c",
     "url": "/react-dash/static/media/dashboard.aa4405b7.svg"
   },
@@ -52,12 +48,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/react-dash/static/media/map.c32395ff.svg"
   },
   {
-    "revision": "a9b624d6b3966ab1358a0e4989d5aa07",
-    "url": "/react-dash/static/media/pause.a9b624d6.svg"
+    "revision": "413f87c9df7f9cd7db2d5bc08642c6ff",
+    "url": "/react-dash/static/media/pause.413f87c9.svg"
   },
   {
-    "revision": "d49f4730d169197e629794d38b4d7878",
-    "url": "/react-dash/static/media/play.d49f4730.svg"
+    "revision": "dd8d6dd9e67d629f465de19f4f45a7aa",
+    "url": "/react-dash/static/media/play.dd8d6dd9.svg"
   },
   {
     "revision": "3c4e8ff8d2a80aed8d3b9ad974900ca6",
