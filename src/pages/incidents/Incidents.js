@@ -78,13 +78,7 @@ class Incidents extends Component {
           controls: ["rotate", "reset"]
         }
       ],
-      submenu: [
-        // {
-        //   name: "accidents",
-        //   label: "Accidents",
-        //   active: false
-        // }
-      ]
+      submenu: []
     };
     this._updateTime = this._updateTime.bind(this);
     this._clickedSubMenu = this._clickedSubMenu.bind(this);
@@ -153,10 +147,7 @@ class Incidents extends Component {
       autoHighlight: true,
       currentTime: this.state.time,
       widthUnits: "meters",
-      getPath: d => {
-        console.log(d);
-        return d.trip.map(p => [p.coordinates[1], p.coordinates[0]]);
-      },
+      getPath: d => d.trip.map(p => [p.coordinates[1], p.coordinates[0]]),
       getTimestamps: d => d.trip.map(p => p.timestamp),
       getColor: d => colorRange[1],
       parameters: {
