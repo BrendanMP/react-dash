@@ -41,7 +41,7 @@ class Finance extends Component {
       sets: [
         {
           name: "ministry",
-          label: "Ministy",
+          label: "Ministry",
           active: true,
           ranges: []
         },
