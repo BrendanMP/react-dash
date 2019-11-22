@@ -28,26 +28,26 @@ class Finance extends Component {
       ],
       submenu: [
         {
-          name: "ministry",
-          label: "Ministry",
+          name: "progress",
+          label: "Progress",
           active: true
         },
         {
-          name: "progress",
-          label: "Progress",
+          name: "ministry",
+          label: "Ministry",
           active: false
         }
       ],
       sets: [
         {
-          name: "ministry",
-          label: "Ministry",
+          name: "progress",
+          label: "Progress",
           active: true,
           ranges: []
         },
         {
-          name: "progress",
-          label: "Progress",
+          name: "ministry",
+          label: "Ministry",
           active: false,
           ranges: []
         }

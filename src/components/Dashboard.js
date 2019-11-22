@@ -289,7 +289,22 @@ class Dashboard extends Component {
     return data;
   }
 
-  _formatFinanceData(data) {
+  _formatFinanceData() {
+    const { sets, data } = this.state;
+    const active = sets.find(set => set.active);
+
+    if (active.name === "progress") {
+      data.sort((a, b) =>
+        Number(a.project_completion_percentage) <
+        Number(b.project_completion_percentage)
+          ? 1
+          : -1
+      );
+    }
+
+    if (active.name === "ministry") {
+      data.sort((a, b) => (a.project_ministry > b.project_ministry ? 1 : -1));
+    }
     return data;
   }
 
