@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 const Rankings = props => {
   const data = props.data.map((item, i) => {
     item.rank = i + 1;
@@ -75,6 +78,56 @@ const Projects = props => {
 
   return (
     <div className="container-fluid px-0">
+      <div className="panel projects-stats">
+        <div className="panel-body flex-grow-1">
+          <div className="row">
+            <div className="col-3">
+              <h3 className="mb-3">TOTAL USD</h3>
+              <h2>
+                $
+                {numberWithCommas(
+                  data
+                    .reduce(
+                      (prev, next) =>
+                        prev +
+                        Number(
+                          next.project_cost_usd
+                            .substr(1)
+                            .split(",")
+                            .join("")
+                        ),
+                      0
+                    )
+                    .toFixed(0)
+                )}
+              </h2>
+            </div>
+            <div className="col-3">
+              <h3 className="mb-3">FCFA</h3>
+              <h2 className="mb-0">
+                TOTAL{" "}
+                {numberWithCommas(
+                  data
+                    .reduce(
+                      (prev, next) => prev + Number(next.project_cost_fcfa),
+                      0
+                    )
+                    .toFixed(0)
+                )}
+              </h2>
+            </div>
+            <div className="col-3">
+              <h3 className="mb-3">Status</h3>
+              <h2>N/A</h2>
+            </div>
+            <div className="col-3">
+              <h3 className="mb-3">FROZEN PROJECTS</h3>
+              <h2>{data.filter(item => item.frozen).length}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="row">
         {data.map((item, i) => (
           <div

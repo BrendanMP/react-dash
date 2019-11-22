@@ -24,11 +24,12 @@
   }
 
   &__nav {
+    position: relative;
     padding: 5rem 2rem 0;
     display: flex;
     align-items: flex-end;
     background: darken($gray-900, 1%);
-    //overflow-x: scroll;
+    z-index: 1;
 
     .btn {
       display: inline-block;
@@ -45,10 +46,8 @@
   }
 
   &__nav-scroll {
-    width: 100%;
+    overflow-x: scroll;
     white-space: nowrap;
-    overflow: scroll;
-    -webkit-overflow-scrolling: touch;
   }
 
   &__content {
@@ -222,5 +221,14 @@
       color: $gray-100;
       line-height: 0;
     }
+  }
+}
+
+.projects-stats {
+  h2 {
+    font-weight: 100;
+    color: $gray-200;
+    font-size: 2.5rem;
+    line-height: 1;
   }
 }
