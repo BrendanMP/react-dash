@@ -10,6 +10,15 @@ html {
   font-smooth: always;
 }
 
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
 a {
   &:hover {
     text-decoration: none;

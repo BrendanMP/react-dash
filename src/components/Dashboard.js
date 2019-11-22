@@ -53,6 +53,20 @@ const Rankings = props => {
   );
 };
 
+const getProgressColor = progress => {
+  const progressNumber = Number(progress);
+  if (progressNumber >= 80) {
+    return "green";
+  }
+  if (progressNumber >= 50) {
+    return "yellow";
+  }
+
+  if (progressNumber <= 50) {
+    return "red";
+  }
+};
+
 const Projects = props => {
   const data = props.data.map((item, i) => {
     item.rank = i + 1;
@@ -63,15 +77,51 @@ const Projects = props => {
     <div className="container-fluid">
       <div className="row">
         {data.map((item, i) => (
-          <div className="col-4 d-flex flex-column" key={`project-${i}`}>
+          <div
+            className="col-4 d-flex flex-column mb-3 project"
+            key={`project-${i}`}
+          >
             <div className="panel flex-grow-1">
-              <div className="panel-body">
-                <h2>{item.project}</h2>
-                <div>{item.project_cost_fcfa}</div>
-                <div>{item.project_cost_usd}</div>
-                <div>{item.project_completion_percentage}</div>
-                <div>{item.project_ministry}</div>
-                <div>{item.project_status}</div>
+              <div className="panel-body flex-grow-1">
+                <div className="project__header">
+                  <h2 className="mb-0">{item.project}</h2>
+                </div>
+                <div className="project__content">
+                  <div className="row">
+                    <div className="col-6">
+                      <h5>USD</h5>
+                      <h4>{item.project_cost_usd}</h4>
+                    </div>
+                    <div className="col-6">
+                      <h5>FCFA</h5>
+                      <h4>{item.project_cost_fcfa}</h4>
+                    </div>
+                    <div className="col-6">
+                      <h5>STATUS</h5>
+                      <h4>{item.project_status}</h4>
+                    </div>
+                    <div className="col-6">
+                      <h5>MINISTRY</h5>
+                      <h4>{item.project_ministry}</h4>
+                    </div>
+                  </div>
+                </div>
+                <div className="project__progress">
+                  <h5>PROGRESS</h5>
+                  <div className="project__progress-bar">
+                    <div
+                      className={`project__progress-bar--progress ${getProgressColor(
+                        item.project_completion_percentage
+                      )}`}
+                      style={{
+                        width: `${item.project_completion_percentage}%`
+                      }}
+                    ></div>
+                    <div className={`project__progress-bar--progress-number`}>
+                      {item.project_completion_percentage}%
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -7,6 +7,7 @@
   padding: 6rem 3rem;
   margin-left: 12vw;
   overflow: scroll;
+  -webkit-overflow-scrolling: touch;
 
   &__view {
     position: absolute;
@@ -129,5 +130,88 @@
     display: flex;
     align-items: center;
     flex-direction: row;
+  }
+}
+
+.project {
+  .panel .panel-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  h5 {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  &__header {
+    flex: 1 1 auto;
+    color: $gray-100;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid $gray-600;
+  }
+
+  &__content {
+    margin-bottom: 1rem;
+
+    h4 {
+      color: $gray-200;
+      font-size: 1.5rem;
+    }
+
+    .col-6 {
+      margin-bottom: 1.5rem;
+    }
+
+  }
+
+
+  &__progress {
+    h5 {
+      margin-bottom: 1rem;
+    }
+  }
+
+  &__progress-bar {
+    position: relative;
+    height: 2rem;
+    background: $gray-800;
+
+    &--progress {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+
+
+
+      &.green {
+        background: $teal;
+      }
+
+      &.orange {
+        background: $orange;
+      }
+
+      &.yellow {
+        background: $yellow;
+      }
+
+      &.red {
+        background: $red;
+      }
+    }
+
+    &--progress-number {
+      position: absolute;
+      top: 0.05em;
+      right: 0.75rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      color: $gray-100;
+      line-height: 0;
+    }
   }
 }
