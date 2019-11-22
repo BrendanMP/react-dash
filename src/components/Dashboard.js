@@ -103,9 +103,8 @@ const Projects = props => {
               </h2>
             </div>
             <div className="col-3">
-              <h3 className="mb-3">FCFA</h3>
+              <h3 className="mb-3">FCFA TOTAL</h3>
               <h2 className="mb-0">
-                TOTAL{" "}
                 {numberWithCommas(
                   data
                     .reduce(
@@ -117,8 +116,8 @@ const Projects = props => {
               </h2>
             </div>
             <div className="col-3">
-              <h3 className="mb-3">Status</h3>
-              <h2>N/A</h2>
+              <h3 className="mb-3">PROJECTS</h3>
+              <h2>{data.length}</h2>
             </div>
             <div className="col-3">
               <h3 className="mb-3">FROZEN PROJECTS</h3>
