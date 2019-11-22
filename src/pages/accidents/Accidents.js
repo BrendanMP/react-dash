@@ -70,7 +70,7 @@ class Accidents extends Component {
           active: true,
           submenuCollapsible: false,
           controls: [],
-          data: ACCIDENTS_STAT_JSON
+          data: ACCIDENTS_STAT_JSON.data
         }
       ],
       submenu: [
@@ -102,7 +102,55 @@ class Accidents extends Component {
       },
       opactiy: 0,
       elevationScale: 1,
-      activeLayer: ACCIDENTS_JSON.accidents
+      activeLayer: ACCIDENTS_JSON.accidents,
+      sets: [
+        {
+          name: "total",
+          label: "total",
+          active: true,
+          ranges: [
+            {
+              name: "yesterday",
+              label: "Yesterday",
+              active: false
+            },
+            {
+              name: "last_quarter",
+              label: "Last Quarter",
+              active: false
+            },
+            {
+              name: "last_year",
+              label: "Last Year",
+              active: true
+            }
+          ]
+        },
+        {
+          name: "change",
+          label: "change",
+          active: false,
+          ranges: [
+            {
+              name: "last_year",
+              label: "Last Year",
+              active: true
+            }
+          ]
+        },
+        {
+          name: "overall",
+          label: "overall",
+          active: false,
+          ranges: [
+            {
+              name: "last_year",
+              label: "Last Year",
+              active: true
+            }
+          ]
+        }
+      ]
     };
     this._changeView = this._changeView.bind(this);
     this._renderLayers = this._renderLayers.bind(this);
@@ -348,7 +396,7 @@ class Accidents extends Component {
   };
 
   render() {
-    const { views, viewState, submenu } = this.state;
+    const { views, viewState, submenu, sets } = this.state;
     const active = views.find(view => view.active === true);
     return (
       <Layout
@@ -387,7 +435,11 @@ class Accidents extends Component {
               </div>
             ) : null}
             {view.name === "dashboard" ? (
-              <Dashboard data={view.data} views={submenu}></Dashboard>
+              <Dashboard
+                sets={sets}
+                data={view.data}
+                views={submenu}
+              ></Dashboard>
             ) : null}
           </div>
         ))}

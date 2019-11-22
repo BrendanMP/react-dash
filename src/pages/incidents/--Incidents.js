@@ -8,7 +8,7 @@ import DeckGL, {
   GeoJsonLayer,
   PathLayer
 } from "deck.gl";
-import { StaticMap } from "react-map-gl";
+import { Marker, StaticMap } from "react-map-gl";
 import { DataFilterExtension } from "@deck.gl/extensions";
 import polyline from "google-polyline";
 import socketIOClient from "socket.io-client";
@@ -21,6 +21,7 @@ import INCIDENT_JSON from "../../data/adbijan/incidents_points.json";
 import INCIDENT_TRIP_JSON from "../../data/adbijan/incidents_responders.json";
 import INCIDENT_TRAFFIC_JSON from "../../data/adbijan/incidents_traffic.json";
 import COMMUNES_JSON from "../../data/adbijan/communes";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const transitionInterpolator = new LinearInterpolator(["bearing"]);
 
@@ -188,7 +189,7 @@ class Incidents extends Component {
     new TripsLayer({
       id: "incident-traffic",
       data: TRAFFIC,
-      opacity: this.state.traffic.opacity,
+      opacity: 1,
       widthMinPixels: 5,
       rounded: true,
       trailLength: this.state.traffic.trailLength,
@@ -197,7 +198,10 @@ class Incidents extends Component {
       widthUnits: "meters",
       pickable: true,
       highlightColor: [...colorRange[5], 1],
-      getPath: d => d.trip.map(p => [p.coordinates[1], p.coordinates[0]]),
+      getPath: d => {
+        console.log(d);
+        return d.trip.map(p => [p.coordinates[1], p.coordinates[0]]);
+      },
       getTimestamps: d => d.trip.map(p => p.timestamp),
       getColor: d => {
         return colorRange[5];
@@ -445,10 +449,30 @@ class Incidents extends Component {
           <StaticMap
             id="map"
             reuseMaps
-            mapStyle={mapStyle}
+            mapStyle={MAP_STYLE}
             preventStyleDiffing={true}
             mapboxApiAccessToken={MAPBOX_TOKEN}
-          ></StaticMap>
+          >
+            <TransitionGroup className="markers">
+              {events.map((event, i) => (
+                <CSSTransition key={i} timeout={500} classNames="marker">
+                  <Marker
+                    key={i}
+                    longitude={event.longitude}
+                    latitude={event.latitude}
+                    offsetLeft={30}
+                    offsetTop={0}
+                  >
+                    {event.active.label ? (
+                      <div className={`marker marker--${event.active.name}`}>
+                        {event.active.label}
+                      </div>
+                    ) : null}
+                  </Marker>
+                </CSSTransition>
+              ))}
+            </TransitionGroup>
+          </StaticMap>
         </DeckGL>
         {this._renderTooltip()}
         <div style={{ position: "fixed", top: "2rem", left: "2rem" }}>

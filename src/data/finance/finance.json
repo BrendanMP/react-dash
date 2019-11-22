@@ -1,14 +1,904 @@
-[
-  {
-    "id": "properties",
-    "title": "Propriétés"
-  },
-  {
-    "id": "projects",
-    "title": "Projets"
-  },
-  {
-    "id": "exports",
-    "title": "Exportations"
-  }
-]
+{
+  "data": [
+    {
+      "project": "Rehabilitation of the Abidjan International Airport",
+      "project_cost_fcfa": "25",
+      "project_cost_usd": "$42,153,300",
+      "project_completion_percentage": "100",
+      "project_stage": "Finalized",
+      "project_ministry": "Infrastructure",
+      "project_status": "Completed"
+    },
+    {
+      "project": "Rehabilitation of the University of COCODY",
+      "project_cost_fcfa": "130",
+      "project_cost_usd": "$219,197,160",
+      "project_completion_percentage": "100",
+      "project_stage": "Finalized",
+      "project_ministry": "Higher Education",
+      "project_status": "Completed"
+    },
+    {
+      "project": "Construction of the 3rd Bridge (Henri Konan BEDIE)",
+      "project_cost_fcfa": "124",
+      "project_cost_usd": "$209,080,368",
+      "project_completion_percentage": "85",
+      "project_stage": "Current",
+      "project_ministry": "Infrastructure",
+      "project_status": "Financed"
+    },
+    {
+      "project": "Construction of the VGE exchanger",
+      "project_cost_fcfa": "25.4",
+      "project_cost_usd": "$42,827,753",
+      "project_completion_percentage": "80",
+      "project_stage": "Current",
+      "project_ministry": "Infrastructure",
+      "project_status": "Financed"
+    },
+    {
+      "project": "Construction of Bridge of Jacqueville",
+      "project_cost_fcfa": "18.5",
+      "project_cost_usd": "$31,193,442",
+      "project_completion_percentage": "75",
+      "project_stage": "Current",
+      "project_ministry": "Infrastructure",
+      "project_status": "Financed"
+    },
+    {
+      "project": "Construction of the BOUAFLE Bridge and roads",
+      "project_cost_fcfa": "5.7",
+      "project_cost_usd": "$9,610,952",
+      "project_completion_percentage": "70",
+      "project_stage": "Current",
+      "project_ministry": "Infrastructure",
+      "project_status": "Financed"
+    },
+    {
+      "project": "Exchanger of the RIVIERA 2",
+      "project_cost_fcfa": "6.2",
+      "project_cost_usd": "$10,454,018",
+      "project_completion_percentage": "70",
+      "project_stage": "Current",
+      "project_ministry": "Infrastructure",
+      "project_status": "Financed"
+    },
+    {
+      "project": "Extension of the northern highway (autoroute du nord)",
+      "project_cost_fcfa": "140",
+      "project_cost_usd": "$236,058,480",
+      "project_completion_percentage": "70",
+      "project_stage": "Current",
+      "project_ministry": "Infrastructure",
+      "project_status": "Financed"
+    },
+    {
+      "project": "Asphalting of the Boundiali-Tingrela-Mali border of 125 km",
+      "project_cost_fcfa": "61",
+      "project_cost_usd": "$102,854,052",
+      "project_completion_percentage": "70",
+      "project_stage": "Current",
+      "project_ministry": "Infrastructure",
+      "project_status": "Financed"
+    },
+    {
+      "project": "ABIDJAN BASSAM Highway",
+      "project_cost_fcfa": "62",
+      "project_cost_usd": "$104,540,184",
+      "project_completion_percentage": "65",
+      "project_stage": "Current",
+      "project_ministry": "Infrastructure",
+      "project_status": "Financed"
+    },
+    {
+      "project": "Drinking water BONOUA",
+      "project_cost_fcfa": "85",
+      "project_cost_usd": "$143,321,220",
+      "project_completion_percentage": "65",
+      "project_stage": "Current",
+      "project_ministry": "Infrastructure",
+      "project_status": "Financed"
+    },
+    {
+      "project": "Construction of the dam SOUBRE",
+      "project_cost_fcfa": "300",
+      "project_cost_usd": "$505,839,600",
+      "project_completion_percentage": "65",
+      "project_stage": "Current",
+      "project_ministry": "Energy",
+      "project_status": "Financed"
+    },
+    {
+      "project": "CIPREL project",
+      "project_cost_fcfa": "178",
+      "project_cost_usd": "$300,131,496",
+      "project_completion_percentage": "65",
+      "project_stage": "Current",
+      "project_ministry": "Energy",
+      "project_status": "Financed"
+    },
+    {
+      "project": "AZITO power station",
+      "project_cost_fcfa": "208",
+      "project_cost_usd": "$350,715,456",
+      "project_completion_percentage": "65",
+      "project_stage": "Current",
+      "project_ministry": "Energy",
+      "project_status": "Awaiting financing"
+    },
+    {
+      "project": "Enhancement interconnection Electric Laboa-Ferké",
+      "project_cost_fcfa": "47",
+      "project_cost_usd": "$79,248,204",
+      "project_completion_percentage": "65",
+      "project_stage": "Current",
+      "project_ministry": "Energy",
+      "project_status": "Awaiting financing"
+    },
+    {
+      "project": "Interconnectionof thenetworksbetween COTE D'IVOIREand MALI, the lines 225 KVFERKE - SIKASSO, SIKASSO -KOUTIALA, KOUTIALA - SEGOUand the 225/150 kV transformer",
+      "project_cost_fcfa": "51",
+      "project_cost_usd": "$85,992,732",
+      "project_completion_percentage": "60",
+      "project_stage": "Current",
+      "project_ministry": "Energy",
+      "project_status": "Awaiting financing"
+    },
+    {
+      "project": "Rehabilitation and transformation ofthe symphony building",
+      "project_cost_fcfa": "2",
+      "project_cost_usd": "$3,372,264",
+      "project_completion_percentage": "60",
+      "project_stage": "Current",
+      "project_ministry": "Construction Sanitation",
+      "project_status": "Awaiting financing"
+    },
+    {
+      "project": "Rehabilitation of installations and System Developmentsanitation and drainage",
+      "project_cost_fcfa": "137",
+      "project_cost_usd": "$231,000,084",
+      "project_completion_percentage": "40",
+      "project_stage": "Current",
+      "project_ministry": "Construction Sanitation",
+      "project_status": "Awaiting financing"
+    },
+    {
+      "project": "Rehabilitation of the cityadministrative (CITAD)",
+      "project_cost_fcfa": "13",
+      "project_cost_usd": "$21,919,716",
+      "project_completion_percentage": "40",
+      "project_stage": "Current",
+      "project_ministry": "Construction Sanitation",
+      "project_status": "Awaiting financing"
+    },
+    {
+      "project": "Rehabilitation of the ICC",
+      "project_cost_fcfa": "20",
+      "project_cost_usd": "$33,722,640",
+      "project_completion_percentage": "20",
+      "project_stage": "Current",
+      "project_ministry": "Construction Sanitation",
+      "project_status": "Awaiting financing"
+    },
+    {
+      "project": "Project \"Aerocity\"",
+      "project_cost_fcfa": "1000",
+      "project_cost_usd": "$1,686,132,000",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Procurement Projectdrinking water from the city of Abidjanfrom Bandama (Tiassalé)",
+      "project_cost_fcfa": "625",
+      "project_cost_usd": "$1,053,832,500",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Rehabilitation and extension ofrailway networkof Abidjan- Ouaga-Niamey",
+      "project_cost_fcfa": "1250",
+      "project_cost_usd": "$2,107,665,000",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Second terminal atcontainers of Vridi + TerminalRORO",
+      "project_cost_fcfa": "339",
+      "project_cost_usd": "$571,598,748",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Rehabilitation Project andinstallation of the productionin local drinking waterother than Abidjan",
+      "project_cost_fcfa": "19.5",
+      "project_cost_usd": "$32,879,574",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Emergency programof urban hydraulics (87drilling)",
+      "project_cost_fcfa": "2.9",
+      "project_cost_usd": "$4,889,783",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction Program 40Structures in the South West",
+      "project_cost_fcfa": "2.5",
+      "project_cost_usd": "$4,215,330",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Development ProjectRoad infrastructures (74 km fromroad)",
+      "project_cost_fcfa": "279.7",
+      "project_cost_usd": "$471,611,120",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Constructionparking (NOE, ABOISSO,MINIGNAN, N'ZIANOUAN,ABENGOUROU, OF DALOA, DEBOUAKE, FROM POGO, LALERABAAND FROM OUANGOLODOUGOU)",
+      "project_cost_fcfa": "12.6",
+      "project_cost_usd": "$21,245,263",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction checkpointsjuxtaposed (NOE, LALERABA,Minignan)",
+      "project_cost_fcfa": "25.8",
+      "project_cost_usd": "$43,502,206",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction of the road lineman-San Pedro",
+      "project_cost_fcfa": "678",
+      "project_cost_usd": "$1,143,197,496",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "RoadBouna-border DoropoBurkina Faso",
+      "project_cost_fcfa": "8.7",
+      "project_cost_usd": "$14,669,348",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Kani-Boundiali Road 135 longkm",
+      "project_cost_fcfa": "5.9",
+      "project_cost_usd": "$9,948,179",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Road asphalting projectAgnibilékro-Takikro-Ghana border",
+      "project_cost_fcfa": "8.4",
+      "project_cost_usd": "$14,163,509",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "trengthening sections of thecoasta",
+      "project_cost_fcfa": "9.9",
+      "project_cost_usd": "$16,692,707",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Development of the road corridorNoah-Bassam",
+      "project_cost_fcfa": "46.1",
+      "project_cost_usd": "$77,730,685",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Yamoussoukro-Bouake-Katiola-Ferké-Ouangolo-Burkina border",
+      "project_cost_fcfa": "9.2",
+      "project_cost_usd": "$15,512,414",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction of the Abobo-Anyama",
+      "project_cost_fcfa": "18.5",
+      "project_cost_usd": "$31,193,442",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction of the road lineof iron Ouangolo-Niélé-Sikasso",
+      "project_cost_fcfa": "80",
+      "project_cost_usd": "$134,890,560",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Development of the Bloléquin-Toulepleu-Liberia Border",
+      "project_cost_fcfa": "50",
+      "project_cost_usd": "$84,306,600",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Improvement of the roadYamoussoukro, Bouaké",
+      "project_cost_fcfa": "7",
+      "project_cost_usd": "$11,802,924",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Development of the Boundiali-Odienne - Border Guinea",
+      "project_cost_fcfa": "9.542",
+      "project_cost_usd": "$16,089,072",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Rehabilitation and enlargement of FHB bridge",
+      "project_cost_fcfa": "11.5",
+      "project_cost_usd": "$19,390,518",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction of the road lineof iron Ouangolo-Niélé-Sikasso",
+      "project_cost_fcfa": "80",
+      "project_cost_usd": "$134,890,560",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction of the road lineMan-San Pedro",
+      "project_cost_fcfa": "678.156",
+      "project_cost_usd": "$1,143,460,533",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Rehabilitation of the railway axisAbidjan-Ouagadougou-Kaya (Reviewthe amount up 75-95billion)",
+      "project_cost_fcfa": "115",
+      "project_cost_usd": "$193,905,180",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Enlargement and deepeningof the entrance pass of the canal Vridi",
+      "project_cost_fcfa": "43",
+      "project_cost_usd": "$72,503,676",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Backfilling of the lagoon bay from Vridi",
+      "project_cost_fcfa": "75",
+      "project_cost_usd": "$126,459,900",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Realization of the third linkof the industrial zone ofVridi (bridge of Biétry-Vridi)",
+      "project_cost_fcfa": "75",
+      "project_cost_usd": "$126,459,900",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Establishment and operation of aGrain terminal",
+      "project_cost_fcfa": "30",
+      "project_cost_usd": "$50,583,960",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction and operation of a wharf ore miner at the port of Abidjan",
+      "project_cost_fcfa": "34.37",
+      "project_cost_usd": "$57,952,357",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Extension of the Port of San Pedro",
+      "project_cost_fcfa": "142.9",
+      "project_cost_usd": "$240,948,263",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Rehabilitation of Infrastructure andfacilities of the Autonomous Port of San Pedro",
+      "project_cost_fcfa": "17.9",
+      "project_cost_usd": "$30,181,763",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction of a mineral wharf at port of San Pedro",
+      "project_cost_fcfa": "200",
+      "project_cost_usd": "$337,226,400",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction of a mineral wharfat the port of San Pedro",
+      "project_cost_fcfa": "300",
+      "project_cost_usd": "$505,839,600",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Development and operation of a container terminal at the port of San Pedro",
+      "project_cost_fcfa": "132",
+      "project_cost_usd": "$222,569,424",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction of a product depot oil at the port of SanPedro",
+      "project_cost_fcfa": "10",
+      "project_cost_usd": "$16,861,320",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Extension and modernization of Airport Freight Terminal Abidjan",
+      "project_cost_fcfa": "25.8",
+      "project_cost_usd": "$43,502,206",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Rehabilitation Strengthening and Develop the International Airport of Yamoussoukro",
+      "project_cost_fcfa": "35",
+      "project_cost_usd": "$59,014,620",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Rehabilitation Strengthening and Develop the International Airport of Bouake",
+      "project_cost_fcfa": "7.14",
+      "project_cost_usd": "$12,038,982",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Creation of an International Airportin San Pedro",
+      "project_cost_fcfa": "60.2",
+      "project_cost_usd": "$101,505,146",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Development Project domestic airports",
+      "project_cost_fcfa": "13.356",
+      "project_cost_usd": "$22,519,979",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Infrastructure",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Rehabilitation of the network Electric (Exim Bank China)",
+      "project_cost_fcfa": "409",
+      "project_cost_usd": "$689,627,988",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Energy",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Hydroelectric development Aboisso Comoé",
+      "project_cost_fcfa": "250",
+      "project_cost_usd": "$421,533,000",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Energy",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Abatta Thermal Power Plant (300 MW)",
+      "project_cost_fcfa": "263",
+      "project_cost_usd": "$443,452,716",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Energy",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Electrify rural settlements by solar photovoltaic systems decentralized",
+      "project_cost_fcfa": "2.655",
+      "project_cost_usd": "$4,476,680",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Energy",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction of the Star Hotel Wood",
+      "project_cost_fcfa": "62",
+      "project_cost_usd": "$104,540,184",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Construction Sanitation",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction of a building administrative and technical Ministry of Industry",
+      "project_cost_fcfa": "3",
+      "project_cost_usd": "$5,058,396",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Construction Sanitation",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Resettlement of populations non-habitable areas and neighborhood restructuring insecure",
+      "project_cost_fcfa": "120",
+      "project_cost_usd": "$202,335,840",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Construction Sanitation",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction and Equipment 132 large section classrooms in priority primary schools (C2D / AFD)",
+      "project_cost_fcfa": "4.2",
+      "project_cost_usd": "$7,081,754",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Education-Technical Education",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction and Equipment 1000 primary classrooms by the PPU",
+      "project_cost_fcfa": "6",
+      "project_cost_usd": "$10,116,792",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Education-Technical Education",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction and Equipment 300 classrooms by the KFW",
+      "project_cost_fcfa": "3",
+      "project_cost_usd": "$5,058,396",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Education-Technical Education",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Rehabilitation and Equipment 300 secondary schools",
+      "project_cost_fcfa": "18.4",
+      "project_cost_usd": "$31,024,829",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Education-Technical Education",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction and Equipment 104 based colleges",
+      "project_cost_fcfa": "64.8",
+      "project_cost_usd": "$109,261,354",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Education-Technical Education",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction and Equipment 40 colleges of proximity by C2D / AFD",
+      "project_cost_fcfa": "5.2",
+      "project_cost_usd": "$8,767,886",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Education-Technical Education",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction and equipment of technical high schools",
+      "project_cost_fcfa": "50",
+      "project_cost_usd": "$84,306,600",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Education-Technical Education",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Rehabilitation, construction and college equipment technical education",
+      "project_cost_fcfa": "24.4",
+      "project_cost_usd": "$41,141,621",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Education-Technical Education",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction and equipment of vocational high schools",
+      "project_cost_fcfa": "42.5",
+      "project_cost_usd": "$71,660,610",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Education-Technical Education",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Rehabilitation and re-equipment of 600 health facilities first contacts (ESPC)",
+      "project_cost_fcfa": "25.6",
+      "project_cost_usd": "$43,164,979",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Health",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Rehabilitation and re-equipment of 17 regional hospitals (CHR)",
+      "project_cost_fcfa": "20",
+      "project_cost_usd": "$33,722,640",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Health",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Rehabilitation and retrofitting 54 General hospitals (HG)",
+      "project_cost_fcfa": "49.2",
+      "project_cost_usd": "$82,957,694",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Health",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Upgrading the trays of the CHRs of the chief towns region (administrative)",
+      "project_cost_fcfa": "5.5",
+      "project_cost_usd": "$9,273,726",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Health",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Upgrading of the trays techniques of 5 hospitals reference",
+      "project_cost_fcfa": "9",
+      "project_cost_usd": "$15,175,188",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Health",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Special construction program of 4 CHR and 7 HG",
+      "project_cost_fcfa": "68.28",
+      "project_cost_usd": "$115,129,093",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Health",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction and equipment of 450 CWSF",
+      "project_cost_fcfa": "9",
+      "project_cost_usd": "$15,444,969",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Health",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction and Equipment station ADJAME Long Distance Coach",
+      "project_cost_fcfa": "21",
+      "project_cost_usd": "$35,408,772",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Health",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction and Equipment of the 11 other bus stations in the 11 economic poles",
+      "project_cost_fcfa": "152.5",
+      "project_cost_usd": "$257,135,130",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Transport",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Development and Construction of public car parks in Abidjan",
+      "project_cost_fcfa": "5",
+      "project_cost_usd": "$8,430,660",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Transport",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction of the heads of Taxi parking at the level Abidjan",
+      "project_cost_fcfa": "3",
+      "project_cost_usd": "$5,058,396",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Transport",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction of a one-stop shop in Korhogo, Bouaké and San Pedro",
+      "project_cost_fcfa": "3",
+      "project_cost_usd": "$5,058,396",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Transport",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Study and construction of the tramwayAbidjan",
+      "project_cost_fcfa": "315.9",
+      "project_cost_usd": "$532,649,099",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Transport",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Rehabilitation and equipmentESATIC (EX-ISAPT)",
+      "project_cost_fcfa": "4.26",
+      "project_cost_usd": "$7,182,922",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Information and Communication Technology",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Rehabilitation and equipment ofother structures and officespost (outside ex-NOC area)",
+      "project_cost_fcfa": "12.972",
+      "project_cost_usd": "$21,872,504",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Information and Communication Technology",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Rehabilitation project, equipmentand extension of institutionsagricultural professionals (INFPA)",
+      "project_cost_fcfa": "17",
+      "project_cost_usd": "$28,664,244",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Agriculture",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction of landfills controlled in the districts and Ivory Coast departments",
+      "project_cost_fcfa": "44",
+      "project_cost_usd": "$74,189,808",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Agriculture",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction and equipment of justice infrastructure (courts, residences, MAC and miners' center)",
+      "project_cost_fcfa": "178.5",
+      "project_cost_usd": "$300,974,562",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Justice",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction University of BONDOUKOU",
+      "project_cost_fcfa": "184",
+      "project_cost_usd": "$310,248,288",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Higher Education",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction of MAN University",
+      "project_cost_fcfa": "184",
+      "project_cost_usd": "$310,248,288",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Higher Education",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction of the University of SAN PEDRO",
+      "project_cost_fcfa": "184",
+      "project_cost_usd": "$310,248,288",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Higher Education",
+      "project_status": "Awaiting feasability study"
+    },
+    {
+      "project": "Construction of the university town in Abidjan",
+      "project_cost_fcfa": "300",
+      "project_cost_usd": "$505,839,600",
+      "project_completion_percentage": "0",
+      "project_stage": "In preparation",
+      "project_ministry": "Higher Education",
+      "project_status": "Awaiting feasability study"
+    }
+  ]
+}

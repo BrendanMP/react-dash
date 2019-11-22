@@ -177,6 +177,10 @@
     padding: 1rem;
     color: $gray-100;
     transition: margin-left 300ms ease-in-out;
+
+    .btn {
+      color: $gray-100;
+    }
   }
 
   &__controls {

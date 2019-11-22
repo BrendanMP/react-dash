@@ -61,6 +61,7 @@ class Layout extends Component {
     };
     this._collapseNavButtons = this._collapseNavButtons.bind(this);
     this._clickedNavItem = this._clickedNavItem.bind(this);
+    this._updateTime = this._updateTime.bind(this);
   }
 
   _collapseNavButtons() {
@@ -80,6 +81,10 @@ class Layout extends Component {
     this.props.clickedSubMenu(name, view);
   }
 
+  _updateTime(time) {
+    this.props.updateTime(time);
+  }
+
   render() {
     const { submenuCollapsed } = this.state;
     const { views, submenu } = this.props;
@@ -94,7 +99,9 @@ class Layout extends Component {
           />
           <footer>
             <button
-              disabled={active.submenuCollapsible ? false : true}
+              disabled={
+                !submenu.length || !active.submenuCollapsible ? true : false
+              }
               className={`btn`}
               onClick={this._collapseNavButtons}
             >
@@ -117,7 +124,7 @@ class Layout extends Component {
         </div>
         <main
           className={`page__content ${
-            submenuCollapsed
+            !submenu.length || submenuCollapsed
               ? "collapsed "
               : " " + !active.submenuCollapsible
               ? "non-collapsible"
@@ -139,9 +146,13 @@ class Layout extends Component {
             </div>
           </div>
           {this.props.children}
-          {this.props.footer ? (
+          {this.props.timeline ? (
             <div className="page__content-footer">
-              <Timeline time={this.props.time} day={this.props.day} />
+              <Timeline
+                time={this.props.time}
+                day={this.props.day}
+                update={this._updateTime}
+              />
             </div>
           ) : null}
         </main>

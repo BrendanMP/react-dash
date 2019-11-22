@@ -80,7 +80,7 @@ class Timeline extends Component {
             onChange={value => this._updateTime(value)}
           />
         </div>
-        <div className="ml-4">
+        <div className="ml-4 d-none">
           <Fullscreen />
         </div>
       </div>

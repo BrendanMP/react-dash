@@ -53,63 +53,45 @@ const Rankings = props => {
   );
 };
 
+const Projects = props => {
+  const data = props.data.map((item, i) => {
+    item.rank = i + 1;
+    return item;
+  });
+
+  return (
+    <div className="container-fluid">
+      <div className="row">
+        {data.map((item, i) => (
+          <div className="col-4 d-flex flex-column" key={`project-${i}`}>
+            <div className="panel flex-grow-1">
+              <div className="panel-body">
+                <h2>{item.project}</h2>
+                <div>{item.project_cost_fcfa}</div>
+                <div>{item.project_cost_usd}</div>
+                <div>{item.project_completion_percentage}</div>
+                <div>{item.project_ministry}</div>
+                <div>{item.project_status}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: props.data.data,
-      sets: [
-        {
-          name: "total",
-          label: "total",
-          active: true,
-          ranges: [
-            {
-              name: "yesterday",
-              label: "Yesterday",
-              active: false
-            },
-            {
-              name: "last_quarter",
-              label: "Last Quarter",
-              active: false
-            },
-            {
-              name: "last_year",
-              label: "Last Year",
-              active: true
-            }
-          ]
-        },
-        {
-          name: "change",
-          label: "change",
-          active: false,
-          ranges: [
-            {
-              name: "last_year",
-              label: "Last Year",
-              active: true
-            }
-          ]
-        },
-        {
-          name: "overall",
-          label: "overall",
-          active: false,
-          ranges: [
-            {
-              name: "last_year",
-              label: "Last Year",
-              active: true
-            }
-          ]
-        }
-      ]
+      data: props.data,
+      sets: props.sets || []
     };
     this._changeDateRange = this._changeDateRange.bind(this);
     this._changeDataSet = this._changeDataSet.bind(this);
     this._formatData = this._formatData.bind(this);
+    this._formatFinanceData = this._formatFinanceData.bind(this);
   }
 
   _changeDateRange(input) {
@@ -136,19 +118,22 @@ class Dashboard extends Component {
   }
 
   _formatData(data) {
-    const { ranges, sets } = this.state;
-    const { views } = this.props;
+    const { views, sets } = this.props;
     const activeView = views.find(view => view.active);
     const activeRange = sets
       .find(set => set.active)
       .ranges.find(range => range.active);
     const activeSet = sets.find(set => set.active);
-
-    const range = activeRange.name;
-    const set = activeSet.name;
+    const range = activeRange ? activeRange.name : null;
+    const set = activeSet ? activeSet.name : null;
 
     data.map(item => {
-      let value;
+      let value = "N/A";
+      item.key = {
+        singlular: "",
+        plural: "",
+        unit: ""
+      };
 
       if (set === "total") {
         if (activeView.name === "accidents") {
@@ -242,7 +227,7 @@ class Dashboard extends Component {
         }
       }
 
-      item.value = Number(value);
+      item.value = value !== "N/A" ? Number(value) : "N/A";
 
       item.label = item.commune;
 
@@ -254,14 +239,18 @@ class Dashboard extends Component {
     return data;
   }
 
+  _formatFinanceData(data) {
+    return data;
+  }
+
   _getTitle(range, view) {
     if (range && view)
       return `${view.title || view.label || ""} ${range.label || ""}`;
   }
 
   render() {
-    const { views } = this.props;
-    const { data, ranges, sets } = this.state;
+    const { views, sets } = this.props;
+    const { data } = this.state;
     const activeRange = sets
       .find(set => set.active)
       .ranges.find(range => range.active);
@@ -303,7 +292,8 @@ class Dashboard extends Component {
                   )}
                 </div>
               </div>
-              <Rankings data={this._formatData(data)} />
+              <Projects data={this._formatFinanceData(data)}></Projects>
+              {/*<Rankings data={this._formatData(data)} />*/}
             </div>
           </div>
         ))}
@@ -311,7 +301,5 @@ class Dashboard extends Component {
     );
   }
 }
-
-Dashboard.propTypes = {};
 
 export default Dashboard;
