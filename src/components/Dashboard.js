@@ -58,98 +58,188 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       data: props.data.data,
-      ranges: [
+      sets: [
         {
-          name: "yesterday",
-          label: "Yesterday",
-          active: false
+          name: "total",
+          label: "total",
+          active: true,
+          ranges: [
+            {
+              name: "yesterday",
+              label: "Yesterday",
+              active: false
+            },
+            {
+              name: "last_quarter",
+              label: "Last Quarter",
+              active: false
+            },
+            {
+              name: "last_year",
+              label: "Last Year",
+              active: true
+            }
+          ]
         },
         {
-          name: "last_quarter",
-          label: "Last Quarter",
-          active: false
+          name: "change",
+          label: "change",
+          active: false,
+          ranges: [
+            {
+              name: "last_year",
+              label: "Last Year",
+              active: true
+            }
+          ]
         },
         {
-          name: "last_year",
-          label: "Last Year",
-          active: true
+          name: "overall",
+          label: "overall",
+          active: false,
+          ranges: [
+            {
+              name: "last_year",
+              label: "Last Year",
+              active: true
+            }
+          ]
         }
       ]
     };
     this._changeDateRange = this._changeDateRange.bind(this);
+    this._changeDataSet = this._changeDataSet.bind(this);
     this._formatData = this._formatData.bind(this);
   }
 
-  _changeDateRange(range) {
-    const { ranges } = this.state;
-    ranges.map(item => {
+  _changeDateRange(input) {
+    const { sets } = this.state;
+    sets
+      .find(set => set.active)
+      .ranges.map(range => {
+        range.name === input.name
+          ? (range.active = true)
+          : (range.active = false);
+        return range;
+      });
+    this.setState({ sets });
+  }
+
+  _changeDataSet(set) {
+    const { sets } = this.state;
+    sets.map(item => {
       item.active = false;
-      if (item.name === range.name) item.active = true;
+      if (item.name === set.name) item.active = true;
       return item;
     });
-    this.setState({ ranges: ranges });
+    this.setState({ sets });
   }
 
   _formatData(data) {
-    const { ranges } = this.state;
+    const { ranges, sets } = this.state;
     const { views } = this.props;
     const activeView = views.find(view => view.active);
-    const activeRange = ranges.find(range => range.active);
+    const activeRange = sets
+      .find(set => set.active)
+      .ranges.find(range => range.active);
+    const activeSet = sets.find(set => set.active);
 
     const range = activeRange.name;
+    const set = activeSet.name;
 
     data.map(item => {
-      let value = 0;
+      let value;
 
-      item.key = {
-        singlular: "foo",
-        plural: "bar"
-      };
+      if (set === "total") {
+        if (activeView.name === "accidents") {
+          if (range === "yesterday") value = item.accidents_yesterday;
+          if (range === "last_quarter") value = item.accidents_q3_2019;
+          if (range === "last_year") value = item.accidents_2018;
 
-      if (activeView.name === "accidents") {
-        if (range === "yesterday") value = item.accidents_yesterday;
-        if (range === "last_quarter") value = item.accidents_q3_2019;
-        if (range === "last_year") value = item.accidents_2018;
+          item.key = {
+            singlular: "accident",
+            plural: "accidents"
+          };
+        }
 
-        item.key = {
-          singlular: "accident",
-          plural: "accidents"
-        };
+        if (activeView.name === "fatalities") {
+          if (range === "yesterday") value = item.fatalities_yesterday;
+          if (range === "last_quarter") value = item.fatalities_q3_2019;
+          if (range === "last_year") value = item.fatalities_2018;
+
+          item.key = {
+            singlular: "fatality",
+            plural: "fatalities"
+          };
+        }
+
+        if (activeView.name === "response_time") {
+          if (range === "yesterday") value = item.response_time_yesterday;
+          if (range === "last_quarter") value = item.response_time_q3_2019;
+          if (range === "last_year") value = item.response_time_2018;
+
+          item.key = {
+            singlular: "minute",
+            plural: "minutes",
+            unit: "min"
+          };
+        }
+
+        if (activeView.name === "no_response") {
+          if (range === "yesterday") value = item.nonresponse_yesterday;
+          if (range === "last_quarter") value = item.nonresponse_q3_2019;
+          if (range === "last_year") value = item.nonresponse_2018;
+
+          item.key = {
+            singlular: "%",
+            plural: "%",
+            unit: "%"
+          };
+        }
       }
 
-      if (activeView.name === "fatalities") {
-        if (range === "yesterday") value = item.fatalities_yesterday;
-        if (range === "last_quarter") value = item.fatalities_q3_2019;
-        if (range === "last_year") value = item.fatalities_2018;
+      if (set === "change") {
+        if (activeView.name === "accidents") {
+          if (range === "last_year")
+            value = item.accidents_q3_2019 - item.accidents_q3_2018;
 
-        item.key = {
-          singlular: "fatality",
-          plural: "fatalities"
-        };
-      }
+          item.key = {
+            singlular: "accident",
+            plural: "accidents"
+          };
+        }
 
-      if (activeView.name === "response_time") {
-        if (range === "yesterday") value = item.response_time_yesterday;
-        if (range === "last_quarter") value = item.response_time_q3_2019;
-        if (range === "last_year") value = item.response_time_2018;
+        if (activeView.name === "fatalities") {
+          if (range === "last_year")
+            value = item.fatalities_q3_2019 - item.fatalities_q3_2018;
 
-        item.key = {
-          singlular: "minute",
-          plural: "minutes",
-          unit: "min"
-        };
-      }
+          item.key = {
+            singlular: "fatality",
+            plural: "fatalities"
+          };
+        }
 
-      if (activeView.name === "no_response") {
-        if (range === "yesterday") value = item.nonresponse_yesterday;
-        if (range === "last_quarter") value = item.nonresponse_q3_2019;
-        if (range === "last_year") value = item.nonresponse_2018;
+        if (activeView.name === "response_time") {
+          if (range === "last_year")
+            value = item.response_time_q3_2019 - item.response_time_q3_2018;
 
-        item.key = {
-          singlular: "%",
-          plural: "%",
-          unit: "%"
-        };
+          item.key = {
+            singlular: "minute",
+            plural: "minutes",
+            unit: "min"
+          };
+        }
+
+        if (activeView.name === "no_response") {
+          if (range === "last_year")
+            value = item.nonresponse_q3_2019 - item.nonresponse_q3_2018;
+
+          item.key = {
+            singlular: "%",
+            plural: "%",
+            unit: "%"
+          };
+        }
       }
 
       item.value = Number(value);
@@ -165,39 +255,52 @@ class Dashboard extends Component {
   }
 
   _getTitle(range, view) {
-    return `${view.title || view.label} ${range.label}`;
+    if (range && view)
+      return `${view.title || view.label || ""} ${range.label || ""}`;
   }
 
   render() {
     const { views } = this.props;
-    const { ranges, data } = this.state;
-    const activeRange = ranges.find(range => range.active);
+    const { data, ranges, sets } = this.state;
+    const activeRange = sets
+      .find(set => set.active)
+      .ranges.find(range => range.active);
 
     return (
       <div className="dashboard">
         {views.map((view, i) => (
           <div
-            key={i}
+            key={`view-${i}`}
             className={`dashboard__view ${view.active ? "active" : ""}`}
           >
             <div className="dashboard__nav">
-              <button className={`btn active`}>Total</button>
-              <button className={`btn`}>Change</button>
-              <button className={`btn`}>Overall</button>
+              {sets.map((set, i) => (
+                <button
+                  key={`set-${i}`}
+                  className={`btn ${set.active ? "active" : ""}`}
+                  onClick={() => this._changeDataSet(set)}
+                >
+                  {set.label}
+                </button>
+              ))}
             </div>
             <div className="dashboard__content">
               <div className="dashboard__content-header mb-4">
                 <h1 className="mb-0">{this._getTitle(activeRange, view)}</h1>
                 <div>
-                  {ranges.map((range, i) => (
-                    <button
-                      key={i}
-                      className={`btn  ${range.active ? "active" : ""}`}
-                      onClick={() => this._changeDateRange(range)}
-                    >
-                      {range.label}
-                    </button>
-                  ))}
+                  {sets.map((set, i) =>
+                    set.active
+                      ? set.ranges.map(range => (
+                          <button
+                            key={`set-${range.name}-${i}`}
+                            className={`btn  ${range.active ? "active" : ""}`}
+                            onClick={() => this._changeDateRange(range)}
+                          >
+                            {range.label}
+                          </button>
+                        ))
+                      : null
+                  )}
                 </div>
               </div>
               <Rankings data={this._formatData(data)} />
