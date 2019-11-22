@@ -5,6 +5,36 @@ import Dashboard from "../../components/Dashboard";
 
 import FINANCE_JSON from "../../data/finance/finance";
 
+const MINISTRIES = [
+  ...new Set(FINANCE_JSON.data.map(item => item.project_ministry))
+];
+
+const MINISTSRIES_SET = MINISTRIES.map((item, i) => {
+  return {
+    name: item
+      .toLowerCase()
+      .split(" ")
+      .join("_"),
+    label: item,
+    active: i < 1,
+    ranges: []
+  };
+});
+
+const STATUS = [...new Set(FINANCE_JSON.data.map(item => item.project_status))];
+
+const STATUS_SET = STATUS.map((item, i) => {
+  return {
+    name: item
+      .toLowerCase()
+      .split(" ")
+      .join("_"),
+    label: item,
+    active: i < 1,
+    ranges: []
+  };
+});
+
 class Finance extends Component {
   constructor(props) {
     super(props);
@@ -28,28 +58,16 @@ class Finance extends Component {
       ],
       submenu: [
         {
-          name: "progress",
-          label: "Progress",
-          active: true
-        },
-        {
-          name: "ministry",
-          label: "Ministry",
-          active: false
-        }
-      ],
-      sets: [
-        {
-          name: "progress",
+          name: "project_stage",
           label: "Progress",
           active: true,
-          ranges: []
+          sets: STATUS_SET
         },
         {
           name: "ministry",
           label: "Ministry",
           active: false,
-          ranges: []
+          sets: MINISTSRIES_SET
         }
       ]
     };
@@ -99,7 +117,6 @@ class Finance extends Component {
           >
             {view.name === "dashboard" ? (
               <Dashboard
-                sets={sets}
                 data={view.data}
                 type={"finance"}
                 views={submenu}

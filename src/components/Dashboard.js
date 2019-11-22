@@ -74,7 +74,7 @@ const Projects = props => {
   });
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid px-0">
       <div className="row">
         {data.map((item, i) => (
           <div
@@ -135,8 +135,7 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: props.data,
-      sets: props.sets || []
+      data: props.data
     };
     this._changeDateRange = this._changeDateRange.bind(this);
     this._changeDataSet = this._changeDataSet.bind(this);
@@ -157,14 +156,15 @@ class Dashboard extends Component {
     this.setState({ sets });
   }
 
-  _changeDataSet(set) {
-    const { sets } = this.state;
-    sets.map(item => {
-      item.active = false;
-      if (item.name === set.name) item.active = true;
-      return item;
+  _changeDataSet(input) {
+    const { views } = this.props;
+    const active = views.find(view => view.active);
+
+    active.sets.map(set => {
+      set.active = false;
+      if (set.name === input.name) set.active = true;
     });
-    this.setState({ sets });
+    this.setState({ views });
   }
 
   _formatData(data) {
@@ -290,21 +290,22 @@ class Dashboard extends Component {
   }
 
   _formatFinanceData() {
-    const { sets, data } = this.state;
-    const active = sets.find(set => set.active);
+    const { data } = this.state;
+    const { views } = this.props;
+    const active = views.find(view => view.active);
 
-    if (active.name === "progress") {
-      data.sort((a, b) =>
-        Number(a.project_completion_percentage) <
-        Number(b.project_completion_percentage)
-          ? 1
-          : -1
-      );
-    }
-
-    if (active.name === "ministry") {
-      data.sort((a, b) => (a.project_ministry > b.project_ministry ? 1 : -1));
-    }
+    // if (active.name === "progress") {
+    //   data.sort((a, b) =>
+    //     Number(a.project_completion_percentage) <
+    //     Number(b.project_completion_percentage)
+    //       ? 1
+    //       : -1
+    //   );
+    // }
+    //
+    // if (active.name === "ministry") {
+    //   data.sort((a, b) => (a.project_ministry > b.project_ministry ? 1 : -1));
+    // }
     return data;
   }
 
@@ -314,11 +315,12 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { views, sets, type } = this.props;
+    const { views, type } = this.props;
     const { data } = this.state;
-    const activeRange = sets
-      .find(set => set.active)
-      .ranges.find(range => range.active);
+    const activeView = views.find(view => view.active);
+    const activeSet = activeView.sets.find(set => set.active) || "";
+
+    // const activeRange = activeView.ranges.find(range => range.active);
 
     return (
       <div className="dashboard">
@@ -328,34 +330,36 @@ class Dashboard extends Component {
             className={`dashboard__view ${view.active ? "active" : ""}`}
           >
             <div className="dashboard__nav">
-              {sets.map((set, i) => (
-                <button
-                  key={`set-${i}`}
-                  className={`btn ${set.active ? "active" : ""}`}
-                  onClick={() => this._changeDataSet(set)}
-                >
-                  {set.label}
-                </button>
-              ))}
+              <div className="dashboard__nav-scroll">
+                {activeView.sets.map((set, i) => (
+                  <button
+                    key={`set-${i}`}
+                    className={`btn ${set.active ? "active" : ""}`}
+                    onClick={() => this._changeDataSet(set)}
+                  >
+                    {set.label}
+                  </button>
+                ))}
+              </div>
             </div>
             <div className="dashboard__content">
               <div className="dashboard__content-header mb-4">
-                <h1 className="mb-0">{this._getTitle(activeRange, view)}</h1>
-                <div>
-                  {sets.map((set, i) =>
-                    set.active
-                      ? set.ranges.map(range => (
-                          <button
-                            key={`set-${range.name}-${i}`}
-                            className={`btn  ${range.active ? "active" : ""}`}
-                            onClick={() => this._changeDateRange(range)}
-                          >
-                            {range.label}
-                          </button>
-                        ))
-                      : null
-                  )}
-                </div>
+                <h1 className="mb-0">{this._getTitle(activeSet, view)}</h1>
+                {/*<div>*/}
+                {/*  {acsets.map((set, i) =>*/}
+                {/*    set.active*/}
+                {/*      ? set.ranges.map(range => (*/}
+                {/*          <button*/}
+                {/*            key={`set-${range.name}-${i}`}*/}
+                {/*            className={`btn  ${range.active ? "active" : ""}`}*/}
+                {/*            onClick={() => this._changeDateRange(range)}*/}
+                {/*          >*/}
+                {/*            {range.label}*/}
+                {/*          </button>*/}
+                {/*        ))*/}
+                {/*      : null*/}
+                {/*  )}*/}
+                {/*</div>*/}
               </div>
               {type === "finance" ? (
                 <Projects data={this._formatFinanceData(data)}></Projects>

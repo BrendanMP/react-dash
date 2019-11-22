@@ -77,20 +77,212 @@ class Accidents extends Component {
         {
           name: "accidents",
           label: "Accidents",
-          active: true
+          active: true,
+          sets: [
+            {
+              name: "total",
+              label: "total",
+              active: true,
+              ranges: [
+                {
+                  name: "yesterday",
+                  label: "Yesterday",
+                  active: false
+                },
+                {
+                  name: "last_quarter",
+                  label: "Last Quarter",
+                  active: false
+                },
+                {
+                  name: "last_year",
+                  label: "Last Year",
+                  active: true
+                }
+              ]
+            },
+            {
+              name: "change",
+              label: "change",
+              active: false,
+              ranges: [
+                {
+                  name: "last_year",
+                  label: "Last Year",
+                  active: true
+                }
+              ]
+            },
+            {
+              name: "overall",
+              label: "overall",
+              active: false,
+              ranges: [
+                {
+                  name: "last_year",
+                  label: "Last Year",
+                  active: true
+                }
+              ]
+            }
+          ]
         },
         {
           name: "fatalities",
-          label: "Fatalities"
+          label: "Fatalities",
+          sets: [
+            {
+              name: "total",
+              label: "total",
+              active: true,
+              ranges: [
+                {
+                  name: "yesterday",
+                  label: "Yesterday",
+                  active: false
+                },
+                {
+                  name: "last_quarter",
+                  label: "Last Quarter",
+                  active: false
+                },
+                {
+                  name: "last_year",
+                  label: "Last Year",
+                  active: true
+                }
+              ]
+            },
+            {
+              name: "change",
+              label: "change",
+              active: false,
+              ranges: [
+                {
+                  name: "last_year",
+                  label: "Last Year",
+                  active: true
+                }
+              ]
+            },
+            {
+              name: "overall",
+              label: "overall",
+              active: false,
+              ranges: [
+                {
+                  name: "last_year",
+                  label: "Last Year",
+                  active: true
+                }
+              ]
+            }
+          ]
         },
         {
           name: "response_time",
           label: "Response Time",
-          title: "Average Response Time"
+          title: "Average Response Time",
+          sets: [
+            {
+              name: "total",
+              label: "total",
+              active: true,
+              ranges: [
+                {
+                  name: "yesterday",
+                  label: "Yesterday",
+                  active: false
+                },
+                {
+                  name: "last_quarter",
+                  label: "Last Quarter",
+                  active: false
+                },
+                {
+                  name: "last_year",
+                  label: "Last Year",
+                  active: true
+                }
+              ]
+            },
+            {
+              name: "change",
+              label: "change",
+              active: false,
+              ranges: [
+                {
+                  name: "last_year",
+                  label: "Last Year",
+                  active: true
+                }
+              ]
+            },
+            {
+              name: "overall",
+              label: "overall",
+              active: false,
+              ranges: [
+                {
+                  name: "last_year",
+                  label: "Last Year",
+                  active: true
+                }
+              ]
+            }
+          ]
         },
         {
           name: "no_response",
-          label: "No Response"
+          label: "No Response",
+          sets: [
+            {
+              name: "total",
+              label: "total",
+              active: true,
+              ranges: [
+                {
+                  name: "yesterday",
+                  label: "Yesterday",
+                  active: false
+                },
+                {
+                  name: "last_quarter",
+                  label: "Last Quarter",
+                  active: false
+                },
+                {
+                  name: "last_year",
+                  label: "Last Year",
+                  active: true
+                }
+              ]
+            },
+            {
+              name: "change",
+              label: "change",
+              active: false,
+              ranges: [
+                {
+                  name: "last_year",
+                  label: "Last Year",
+                  active: true
+                }
+              ]
+            },
+            {
+              name: "overall",
+              label: "overall",
+              active: false,
+              ranges: [
+                {
+                  name: "last_year",
+                  label: "Last Year",
+                  active: true
+                }
+              ]
+            }
+          ]
         }
       ],
       viewState: {
@@ -435,11 +627,7 @@ class Accidents extends Component {
               </div>
             ) : null}
             {view.name === "dashboard" ? (
-              <Dashboard
-                sets={sets}
-                data={view.data}
-                views={submenu}
-              ></Dashboard>
+              <Dashboard data={view.data} views={submenu}></Dashboard>
             ) : null}
           </div>
         ))}
