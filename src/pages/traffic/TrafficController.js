@@ -85,15 +85,80 @@ class TrafficController extends Component {
             }
           ]
         }
+      ],
+      controls: [
+        {
+          name: "Display",
+          options: [
+            {
+              key: "map",
+              label: "Map"
+            },
+            {
+              key: "video",
+              label: "Video"
+            }
+          ]
+        },
+        {
+          name: "Playback",
+          options: [
+            {
+              key: "play",
+              label: "Play"
+            },
+            {
+              key: "pause",
+              label: "Pause"
+            },
+            {
+              key: "slow",
+              label: "Slow"
+            },
+            {
+              key: "normal",
+              label: "Normal"
+            },
+            {
+              key: "fast",
+              label: "Fast"
+            }
+          ]
+        },
+        {
+          name: "Jump To",
+          options: [
+            {
+              key: "morning",
+              label: "Morning"
+            },
+            {
+              key: "lunch",
+              label: "Lunch"
+            },
+            {
+              key: "evening",
+              label: "Evening"
+            },
+            {
+              key: "late_night",
+              label: "Late Night"
+            }
+          ]
+        }
       ]
     };
 
     this._update = this._update.bind(this);
   }
 
-  _update(item) {
+  _changeDisplay(type) {
+    this._update("display", type);
+  }
+
+  _update(type, data) {
     const socket = socketIOClient(this.state.endpoint);
-    socket.emit("update", item);
+    socket.emit("update", { type, data });
   }
 
   componentDidMount() {
@@ -131,6 +196,7 @@ class TrafficController extends Component {
                 <h2 className="mb-5">Locations</h2>
                 <section className="mb-5">
                   <header className="mb-3">Communes</header>
+                  <button className="btn">All</button>
                   {communes.map(item => (
                     <button className="btn" onClick={() => this._update(item)}>
                       {item.properties.name}
@@ -169,15 +235,26 @@ class TrafficController extends Component {
                 <h2 className="mb-5">Controls</h2>
                 <section className="mb-5">
                   <header className="mb-3">Display</header>
-                  <button className="btn">Video</button>
-                  <button className="btn">Map</button>
+                  <button
+                    className="btn"
+                    onClick={() => this._changeDisplay("video")}
+                  >
+                    Video
+                  </button>
+                  <button
+                    className="btn"
+                    onClick={() => this._changeDisplay("map")}
+                  >
+                    Map
+                  </button>
                 </section>
                 <section className="mb-5">
                   <header className="mb-3">Playback</header>
                   <button className="btn">Play</button>
                   <button className="btn">Pause</button>
-                  <button className="btn">Fast</button>
                   <button className="btn">Slow</button>
+                  <button className="btn">Normal</button>
+                  <button className="btn">Fast</button>
                 </section>
                 <section className="mb-5">
                   <header className="mb-3">Jump To</header>

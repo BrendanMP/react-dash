@@ -10,7 +10,7 @@ import DeckGL, {
 } from "deck.gl";
 import { StaticMap } from "react-map-gl";
 
-const transitionInterpolator = new LinearInterpolator(["bearing"]);
+import videoSrc from "../../video/sample.mp4";
 
 const INITIAL_VIEWSTATE = {
   latitude: 5.322635048060814,
@@ -39,10 +39,11 @@ class Traffic extends Component {
         bearing: 0,
         pitch: INITIAL_VIEWSTATE.zoom * INITIAL_VIEWSTATE.pitch_modifer
       },
+      activeDisplay: "map",
       active: {
         properties: {
-          name: "Foo",
-          type: "Something"
+          name: "Abidjan",
+          type: "City"
         }
       }
     };
@@ -60,8 +61,12 @@ class Traffic extends Component {
     this.setState({ viewState });
   }
 
-  _onUpdate(data) {
-    this.setState({ active: data });
+  _onUpdate(update) {
+    console.log(update);
+
+    if (update.type === "display") {
+      this.setState({ activeDisplay: update.data });
+    }
   }
 
   componentDidMount() {
@@ -72,16 +77,32 @@ class Traffic extends Component {
   }
 
   render() {
-    const { viewState, active } = this.state;
+    const { viewState, active, activeDisplay } = this.state;
 
     return (
       <div className="traffic">
         <aside className="traffic__sidebar">
-          <h2>{active.properties.name}</h2>
-          <h5>{active.properties.type || "no type"}</h5>
+          <section className="mb-4">
+            <h5>Name</h5>
+            <h2>{active.properties.name}</h2>
+          </section>
+          <section className="mb-4">
+            <h5>Type</h5>
+            <h2>{active.properties.type}</h2>
+          </section>
+          {active.properties.parent ? (
+            <section className="mb-4">
+              <h5>Parent</h5>
+              <h2>{active.properties.parent || "Abidjan"}</h2>
+            </section>
+          ) : null}
         </aside>
         <main className="traffic__main">
-          <div className="traffic__deck">
+          <div
+            className={`traffic__map ${
+              activeDisplay === "map" ? "active" : ""
+            }`}
+          >
             <DeckGL
               viewState={viewState}
               controller={{ type: MapController, doubleClickZoom: false }}
@@ -95,6 +116,13 @@ class Traffic extends Component {
                 mapboxApiAccessToken={MAPBOX_TOKEN}
               />
             </DeckGL>
+          </div>
+          <div
+            className={`traffic__video ${
+              activeDisplay === "video" ? "active" : ""
+            }`}
+          >
+            <video src={videoSrc}></video>
           </div>
           <div className="traffic__timeline">Timeline</div>
         </main>
