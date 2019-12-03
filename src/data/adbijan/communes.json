@@ -7,7 +7,6 @@
     {
       "type": "Feature",
       "properties": {
-        "@id": "relation/3308305",
         "id": "3308305",
         "admin_level": "8",
         "boundary": "administrative",
@@ -164,13 +163,11 @@
             ]
           ]
         ]
-      },
-      "id": "3308305"
+      }
     },
     {
       "type": "Feature",
       "properties": {
-        "@id": "relation/3308306",
         "id": "3308306",
         "admin_level": "8",
         "boundary": "administrative",
@@ -327,13 +324,11 @@
             ]
           ]
         ]
-      },
-      "id": "3308306"
+      }
     },
     {
       "type": "Feature",
       "properties": {
-        "@id": "relation/3308780",
         "id": "3308780",
         "admin_level": "8",
         "boundary": "administrative",
@@ -658,13 +653,11 @@
             ]
           ]
         ]
-      },
-      "id": "3308780"
+      }
     },
     {
       "type": "Feature",
       "properties": {
-        "@id": "relation/3363950",
         "id": "3363950",
         "admin_level": "8",
         "boundary": "administrative",
@@ -1438,13 +1431,11 @@
             ]
           ]
         ]
-      },
-      "id": "3363950"
+      }
     },
     {
       "type": "Feature",
       "properties": {
-        "@id": "relation/3377741",
         "id": "3377741",
         "admin_level": "8",
         "boundary": "administrative",
@@ -1709,13 +1700,11 @@
             ]
           ]
         ]
-      },
-      "id": "3377741"
+      }
     },
     {
       "type": "Feature",
       "properties": {
-        "@id": "relation/3377820",
         "id": "3377820",
         "admin_level": "8",
         "boundary": "administrative",
@@ -2724,13 +2713,11 @@
             ]
           ]
         ]
-      },
-      "id": "3377820"
+      }
     },
     {
       "type": "Feature",
       "properties": {
-        "@id": "relation/3377835",
         "id": "3377835",
         "admin_level": "8",
         "boundary": "administrative",
@@ -3416,13 +3403,11 @@
             ]
           ]
         ]
-      },
-      "id": "3377835"
+      }
     },
     {
       "type": "Feature",
       "properties": {
-        "@id": "relation/3377873",
         "id": "3377873",
         "admin_level": "8",
         "alt_name": "Port-Bouët 1",
@@ -4172,13 +4157,11 @@
             ]
           ]
         ]
-      },
-      "id": "3377873"
+      }
     },
     {
       "type": "Feature",
       "properties": {
-        "@id": "relation/3377881",
         "id": "3377881",
         "admin_level": "8",
         "boundary": "administrative",
@@ -4788,8 +4771,7 @@
             ]
           ]
         ]
-      },
-      "id": "3377881"
+      }
     }
   ]
 }

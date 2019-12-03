@@ -1,0 +1,19 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "INTERSECTION_ID",
+        "name": "NAME"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.0336151,
+          5.304286
+        ]
+      }
+    }
+  ]
+}

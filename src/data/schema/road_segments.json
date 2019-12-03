@@ -1,0 +1,40 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -86.412073,
+            32.493105
+          ],
+          [
+            -86.46064,
+            32.553323
+          ],
+          [
+            -86.524434,
+            32.707058
+          ]
+        ]
+      },
+      "properties": {
+        "id": "SEGMENT_ID",
+        "name": "FULL_NAME",
+        "length": "LENGTH_IN_METERS",
+        "communes": [
+          "COMMUNE_ID",
+          "COMMUNE_ID",
+          "COMMUNE_ID"
+        ],
+        "sub_communes": [
+          "SUBCOMMUNE_ID",
+          "SUBCOMMUNE_ID",
+          "SUBCOMMUNE_ID"
+        ]
+      }
+    }
+  ]
+}

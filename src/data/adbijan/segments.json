@@ -1,0 +1,22 @@
+{
+  "features": [
+    {
+      "properties": {
+        "id": 1,
+        "name":"Segment 1"
+      }
+    },
+    {
+      "properties": {
+        "id": 2,
+        "name": "Segment 2"
+      }
+    },
+    {
+      "properties": {
+        "id": 3,
+        "name": "Segment 3"
+      }
+    }
+  ]
+}
