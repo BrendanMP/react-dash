@@ -50,12 +50,7 @@ class Controller extends React.Component {
     return (
       <div className="controller">
         <Voice newCommand={this._newCommand} />
-        {/*<Deck*/}
-        {/*  controller={true}*/}
-        {/*  command={command}*/}
-        {/*  time={this.state.time}*/}
-        {/*  clickedLayer={this._clickedLayer}*/}
-        {/*/>*/}
+
         <div className="controller__header">
           <div className="panel">
             <div className="flex-grow-1">

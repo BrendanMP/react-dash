@@ -156,6 +156,18 @@ class TrafficController extends Component {
     this._update("display", type);
   }
 
+  _changePlayback(action) {
+    this._update("playback", action);
+  }
+
+  _changeLocation(location) {
+    this._update("location", location);
+  }
+
+  _changeData(data) {
+    this._update("data", data);
+  }
+
   _update(type, data) {
     const socket = socketIOClient(this.state.endpoint);
     socket.emit("update", { type, data });
@@ -187,7 +199,12 @@ class TrafficController extends Component {
                   <section className="mb-5">
                     <header className="mb-3">{item.name}</header>
                     {item.sets.map(set => (
-                      <button className="btn">{set.name}</button>
+                      <button
+                        className="btn"
+                        onClick={() => this._changeData(set)}
+                      >
+                        {set.name}
+                      </button>
                     ))}
                   </section>
                 ))}
@@ -198,7 +215,10 @@ class TrafficController extends Component {
                   <header className="mb-3">Communes</header>
                   <button className="btn">All</button>
                   {communes.map(item => (
-                    <button className="btn" onClick={() => this._update(item)}>
+                    <button
+                      className="btn"
+                      onClick={() => this._changeLocation(item)}
+                    >
                       {item.properties.name}
                     </button>
                   ))}
@@ -206,7 +226,10 @@ class TrafficController extends Component {
                 <section className="mb-5">
                   <header className="mb-3">Sub Communes</header>
                   {subcommunes.map(item => (
-                    <button className="btn" onClick={() => this._update(item)}>
+                    <button
+                      className="btn"
+                      onClick={() => this._changeLocation(item)}
+                    >
                       {item.properties.name}
                     </button>
                   ))}
@@ -214,7 +237,10 @@ class TrafficController extends Component {
                 <section className="mb-5">
                   <header className="mb-3">Segments</header>
                   {segments.map(item => (
-                    <button className="btn" onClick={() => this._update(item)}>
+                    <button
+                      className="btn"
+                      onClick={() => this._changeLocation(item)}
+                    >
                       {item.properties.name}
                     </button>
                   ))}
@@ -224,7 +250,7 @@ class TrafficController extends Component {
                   {intersections.map(item => (
                     <button
                       className="btn"
-                      onClick={() => this._update(item, "intersection")}
+                      onClick={() => this._changeLocation(item)}
                     >
                       {item.properties.name}
                     </button>
@@ -250,11 +276,39 @@ class TrafficController extends Component {
                 </section>
                 <section className="mb-5">
                   <header className="mb-3">Playback</header>
-                  <button className="btn">Play</button>
-                  <button className="btn">Pause</button>
-                  <button className="btn">Slow</button>
-                  <button className="btn">Normal</button>
-                  <button className="btn">Fast</button>
+                  <button
+                    className="btn"
+                    onClick={() => this._changePlayback("play")}
+                  >
+                    Play
+                  </button>
+                  <button
+                    className="btn"
+                    onClick={() => this._changePlayback("pause")}
+                  >
+                    Pause
+                  </button>
+                </section>
+                <section className="mb-5">
+                  <header className="mb-3">Speed</header>
+                  <button
+                    className="btn"
+                    onClick={() => this._changePlayback("slow")}
+                  >
+                    Slow
+                  </button>
+                  <button
+                    className="btn"
+                    onClick={() => this._changePlayback("normal")}
+                  >
+                    Normal
+                  </button>
+                  <button
+                    className="btn"
+                    onClick={() => this._changePlayback("fast")}
+                  >
+                    Fast
+                  </button>
                 </section>
                 <section className="mb-5">
                   <header className="mb-3">Jump To</header>
