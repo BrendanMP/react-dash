@@ -94,7 +94,7 @@ class Traffic extends Component {
         pickable: true,
         onHover: f => {
           if (f.object && f.object.properties) {
-            console.log(f.object);
+            console.log(f.object.properties);
           }
         }
 
