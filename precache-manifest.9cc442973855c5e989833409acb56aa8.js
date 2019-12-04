@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "88979dc305b08fdf260c79f07cec40ce",
+    "revision": "96c0b8c5b1cf21a003f593d8583c91b6",
     "url": "/react-dash/index.html"
   },
   {
-    "revision": "d44dc0121362f689cb97",
+    "revision": "b20e177ec4779f1e8a78",
     "url": "/react-dash/static/css/2.d9a8a5a7.chunk.css"
   },
   {
-    "revision": "da922091c755dc3d1aa5",
-    "url": "/react-dash/static/css/main.4346bace.chunk.css"
+    "revision": "6dcd971e35bcd89a67f3",
+    "url": "/react-dash/static/css/main.7ac86a91.chunk.css"
   },
   {
-    "revision": "d44dc0121362f689cb97",
-    "url": "/react-dash/static/js/2.968985cb.chunk.js"
+    "revision": "b20e177ec4779f1e8a78",
+    "url": "/react-dash/static/js/2.3cce5007.chunk.js"
   },
   {
-    "revision": "da922091c755dc3d1aa5",
-    "url": "/react-dash/static/js/main.9f7eb9c3.chunk.js"
+    "revision": "6dcd971e35bcd89a67f3",
+    "url": "/react-dash/static/js/main.6ca8aa2c.chunk.js"
   },
   {
     "revision": "928636bb49f0be7c3b34",
@@ -66,5 +66,9 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "5c98fc4a832cb149b0538d52954547d7",
     "url": "/react-dash/static/media/rotate.5c98fc4a.svg"
+  },
+  {
+    "revision": "a3ac7ddabb263c2d00b73e8177d15c8d",
+    "url": "/react-dash/static/media/sample.a3ac7dda.mp4"
   }
 ]);

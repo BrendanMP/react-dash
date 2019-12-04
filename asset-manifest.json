@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/react-dash/static/css/main.4346bace.chunk.css",
-    "main.js": "/react-dash/static/js/main.9f7eb9c3.chunk.js",
-    "main.js.map": "/react-dash/static/js/main.9f7eb9c3.chunk.js.map",
+    "main.css": "/react-dash/static/css/main.7ac86a91.chunk.css",
+    "main.js": "/react-dash/static/js/main.6ca8aa2c.chunk.js",
+    "main.js.map": "/react-dash/static/js/main.6ca8aa2c.chunk.js.map",
     "runtime-main.js": "/react-dash/static/js/runtime-main.e8a2aef4.js",
     "runtime-main.js.map": "/react-dash/static/js/runtime-main.e8a2aef4.js.map",
     "static/css/2.d9a8a5a7.chunk.css": "/react-dash/static/css/2.d9a8a5a7.chunk.css",
-    "static/js/2.968985cb.chunk.js": "/react-dash/static/js/2.968985cb.chunk.js",
-    "static/js/2.968985cb.chunk.js.map": "/react-dash/static/js/2.968985cb.chunk.js.map",
+    "static/js/2.3cce5007.chunk.js": "/react-dash/static/js/2.3cce5007.chunk.js",
+    "static/js/2.3cce5007.chunk.js.map": "/react-dash/static/js/2.3cce5007.chunk.js.map",
     "index.html": "/react-dash/index.html",
-    "precache-manifest.32d584a9760374f9e66decd9d83eafb1.js": "/react-dash/precache-manifest.32d584a9760374f9e66decd9d83eafb1.js",
+    "precache-manifest.9cc442973855c5e989833409acb56aa8.js": "/react-dash/precache-manifest.9cc442973855c5e989833409acb56aa8.js",
     "service-worker.js": "/react-dash/service-worker.js",
     "static/css/2.d9a8a5a7.chunk.css.map": "/react-dash/static/css/2.d9a8a5a7.chunk.css.map",
-    "static/css/main.4346bace.chunk.css.map": "/react-dash/static/css/main.4346bace.chunk.css.map",
+    "static/css/main.7ac86a91.chunk.css.map": "/react-dash/static/css/main.7ac86a91.chunk.css.map",
     "static/media/COA.056c4e14.svg": "/react-dash/static/media/COA.056c4e14.svg",
     "static/media/arrow-left.25b6c440.svg": "/react-dash/static/media/arrow-left.25b6c440.svg",
     "static/media/arrow-right.953d624a.svg": "/react-dash/static/media/arrow-right.953d624a.svg",
@@ -23,13 +23,14 @@
     "static/media/play.dd8d6dd9.svg": "/react-dash/static/media/play.dd8d6dd9.svg",
     "static/media/rank.3c4e8ff8.svg": "/react-dash/static/media/rank.3c4e8ff8.svg",
     "static/media/reset.289eb4f5.svg": "/react-dash/static/media/reset.289eb4f5.svg",
-    "static/media/rotate.5c98fc4a.svg": "/react-dash/static/media/rotate.5c98fc4a.svg"
+    "static/media/rotate.5c98fc4a.svg": "/react-dash/static/media/rotate.5c98fc4a.svg",
+    "static/media/sample.mp4": "/react-dash/static/media/sample.a3ac7dda.mp4"
   },
   "entrypoints": [
     "static/js/runtime-main.e8a2aef4.js",
     "static/css/2.d9a8a5a7.chunk.css",
-    "static/js/2.968985cb.chunk.js",
-    "static/css/main.4346bace.chunk.css",
-    "static/js/main.9f7eb9c3.chunk.js"
+    "static/js/2.3cce5007.chunk.js",
+    "static/css/main.7ac86a91.chunk.css",
+    "static/js/main.6ca8aa2c.chunk.js"
   ]
 }
