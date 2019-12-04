@@ -66,12 +66,14 @@ class Traffic extends Component {
         isPlaying: false,
         speed: 1,
         speedModifier: 1
-      }
+      },
+      hovered: {}
     };
     this._onViewStateChange = this._onViewStateChange.bind(this);
     this._onUpdate = this._onUpdate.bind(this);
     this._openFullscreen = this._openFullscreen.bind(this);
     this._play = this._play.bind(this);
+    this._renderLayers = this._renderLayers.bind(this);
   }
 
   _renderLayers() {
@@ -94,7 +96,7 @@ class Traffic extends Component {
         pickable: true,
         onHover: f => {
           if (f.object && f.object.properties) {
-            console.log(f.object.properties);
+            this.setState({ hovered: f.object.properties });
           }
         }
 
@@ -178,7 +180,8 @@ class Traffic extends Component {
       activeDisplay,
       activeData,
       fullscreen,
-      time
+      time,
+      hovered
     } = this.state;
     return (
       <div className="traffic">
@@ -198,6 +201,11 @@ class Traffic extends Component {
                 <h2>{activeLocation.properties.parent || "Abidjan"}</h2>
               </section>
             ) : null}
+
+            <section className="mb-4">
+              <h5>Hovered</h5>
+              <h2>{hovered.id}</h2>
+            </section>
 
             <section className="mb-4">
               <h5>Dataset</h5>
