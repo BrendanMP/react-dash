@@ -9,12 +9,19 @@ import DeckGL, {
   FlyToInterpolator
 } from "deck.gl";
 import { StaticMap } from "react-map-gl";
+import bbox from "@turf/bbox";
+import WebMercatorViewport from "viewport-mercator-project";
 
-import PATHS from "../../data/adbijan/segment-routes";
+import COMMUNES_JSON from "../../data/adbijan/communes.json";
+import SUBCOMMUNES_JSON from "../../data/adbijan/sub_communes.json";
 
-import Fullscreen from "../../components/deck/Fullscreen";
-
-import videoSrc from "../../video/sample.mp4";
+SUBCOMMUNES_JSON.features.map(item => {
+  const parentName = item.properties.is_in || item.properties["is_in:city"];
+  const parentCommune = COMMUNES_JSON.features.find(
+    item => item.properties.name === parentName.split(";")[0]
+  );
+  item.parent = parentCommune.properties.commune_id;
+});
 
 const colorRange = [
   [1, 152, 189],
@@ -26,12 +33,11 @@ const colorRange = [
 ];
 
 const INITIAL_VIEWSTATE = {
-  latitude: 5.322635048060814,
-  longitude: -4.013425118889425,
-  zoom: 12,
+  latitude: 5.332866184343546,
+  longitude: -3.99515072893638,
+  zoom: 10.68209235813774,
   bearing: 0,
-  pitch: 12 * 3,
-  pitch_modifer: 3
+  pitch: 10.68209235813774
 };
 
 const MAPBOX_TOKEN =
@@ -50,8 +56,7 @@ class Traffic extends Component {
         latitude: INITIAL_VIEWSTATE.latitude,
         longitude: INITIAL_VIEWSTATE.longitude,
         zoom: INITIAL_VIEWSTATE.zoom,
-        bearing: 0,
-        pitch: INITIAL_VIEWSTATE.zoom * INITIAL_VIEWSTATE.pitch_modifer
+        bearing: 0
       },
       activeData: {},
       activeLocation: {
@@ -74,48 +79,37 @@ class Traffic extends Component {
     this._openFullscreen = this._openFullscreen.bind(this);
     this._play = this._play.bind(this);
     this._renderLayers = this._renderLayers.bind(this);
+    this._flyTo = this._flyTo.bind(this);
   }
 
   _renderLayers() {
     return [
       new GeoJsonLayer({
-        id: "geojson",
-        data: PATHS,
-        opacity: 1,
-        stroked: false,
+        id: "communes-stroke",
+        data: COMMUNES_JSON,
+        stroked: true,
         filled: false,
+        opacity: 0.4,
         lineWidthMinPixels: 2,
-        parameters: {
-          depthTest: false
-        },
-
-        getLineColor: f =>
-          colorRange[Math.floor(Math.random() * colorRange.length)],
-        getLineWidth: 10,
-
-        pickable: true,
-        onHover: f => {
-          if (f.object && f.object.properties) {
-            this.setState({ hovered: f.object.properties });
-          }
-        }
-
-        // updateTriggers: {
-        //   getLineColor: { year },
-        //   getLineWidth: { year }
-        // },
-        //
-        // transitions: {
-        //   getLineColor: 1000,
-        //   getLineWidth: 1000
-        // }
+        getLineColor: [32, 201, 151]
+      }),
+      new GeoJsonLayer({
+        id: "subcommunes-stroke",
+        data: SUBCOMMUNES_JSON,
+        stroked: true,
+        filled: false,
+        opacity: 0.4,
+        lineWidthMinPixels: 2,
+        getLineColor: [32, 201, 151]
       })
     ];
   }
 
-  _onViewStateChange({ viewState }) {
+  _onViewStateChange({ viewState, interactionState }) {
     const viewstate = viewState;
-    viewState.pitch = viewState.zoom * INITIAL_VIEWSTATE.pitch_modifer;
+
+    console.log(interactionState);
+
     this.setState({ viewState });
   }
 
@@ -131,7 +125,7 @@ class Traffic extends Component {
     }
 
     if (update.type === "location") {
-      console.log("yo");
+      this._flyTo(update.data);
       this.setState({ activeLocation: update.data });
     }
 
@@ -164,6 +158,24 @@ class Traffic extends Component {
     const elem = document.documentElement;
     elem.requestFullscreen();
     this.setState({ fullscreen: true });
+  }
+
+  _flyTo(feature) {
+    if (feature.properties.bounds) {
+      const { latitude, longitude, zoom } = feature.properties.bounds;
+
+      this.setState({
+        viewState: {
+          ...this.state.viewState,
+          longitude,
+          latitude,
+          zoom,
+          pitch: 0,
+          transitionInterpolator: new FlyToInterpolator({ curve: 5 }),
+          transitionDuration: 1000
+        }
+      });
+    }
   }
 
   componentDidMount() {
@@ -203,11 +215,6 @@ class Traffic extends Component {
             ) : null}
 
             <section className="mb-4">
-              <h5>Hovered</h5>
-              <h2>{hovered.id}</h2>
-            </section>
-
-            <section className="mb-4">
               <h5>Dataset</h5>
               <h2>{activeData.name || "None"}</h2>
             </section>
@@ -226,7 +233,10 @@ class Traffic extends Component {
           >
             <DeckGL
               viewState={viewState}
-              controller={{ type: MapController, doubleClickZoom: false }}
+              controller={{
+                type: MapController,
+                doubleClickZoom: false
+              }}
               layers={this._renderLayers()}
               onViewStateChange={this._onViewStateChange}
             >
@@ -242,9 +252,7 @@ class Traffic extends Component {
             className={`traffic__video ${
               activeDisplay === "video" ? "active" : ""
             }`}
-          >
-            <video src={videoSrc} />
-          </div>
+          ></div>
           <div className="traffic__timeline">{Number(time).toFixed(0)}</div>
         </main>
       </div>

@@ -33,6 +33,7 @@ class TrafficController extends Component {
       endpoint: "0.0.0.0:3030",
       communes: COMMUNES_JSON.features,
       subcommunes: SUBCOMMUNES_JSON.features,
+      filteredSubcommunes: [],
       segments: SEGMENTS_JSON.features,
       intersections: INTERSECTIONS_JSON.features,
       datasets: [
@@ -40,28 +41,36 @@ class TrafficController extends Component {
           name: "Traffic",
           sets: [
             {
-              name: "All"
+              name: "All",
+              key: "all"
             },
             {
-              name: "Private Vehicles"
+              name: "Private Vehicles",
+              key: "PRIVATE_VEHICLES"
             },
             {
-              name: "Red Taxi"
+              name: "Red Taxi",
+              key: "RED_TAXI"
             },
             {
-              name: "Commune Taxi"
+              name: "Commune Taxi",
+              key: "COMMUNE_TAXI"
             },
             {
-              name: "Gbaka"
+              name: "Gbaka",
+              key: "GBAKA"
             },
             {
-              name: "SOTRA"
+              name: "SOTRA",
+              key: "SOTRA"
             },
             {
-              name: "Trucks"
+              name: "Trucks",
+              key: "TRUCKS"
             },
             {
-              name: "Pedestrians"
+              name: "Pedestrians",
+              key: "PEDESTRIAN"
             }
           ]
         },
@@ -69,19 +78,24 @@ class TrafficController extends Component {
           name: "Infrastructure",
           sets: [
             {
-              name: "Road Conditions"
+              name: "Road Conditions",
+              key: "ROAD_CONDITIONS"
             },
             {
-              name: "Traffic Lights"
+              name: "Traffic Lights",
+              key: "TRAFFIC_LIGHTS"
             },
             {
-              name: "Street Lights"
+              name: "Street Lights",
+              key: "STREET_LIGHTS"
             },
             {
-              name: "Sidewalks"
+              name: "Sidewalks",
+              key: "SIDEWALKS"
             },
             {
-              name: "Drainage"
+              name: "Drainage",
+              key: "DRAINAGE"
             }
           ]
         }
@@ -150,6 +164,8 @@ class TrafficController extends Component {
     };
 
     this._update = this._update.bind(this);
+    this._selectCommune = this._selectCommune.bind(this);
+    this._clearSelection = this._clearSelection.bind(this);
   }
 
   _changeDisplay(type) {
@@ -160,11 +176,56 @@ class TrafficController extends Component {
     this._update("playback", action);
   }
 
-  _changeLocation(location) {
-    this._update("location", location);
+  _selectCommune(commune) {
+    const { communes, subcommunes } = this.state;
+    communes.map(item => {
+      item.selected = false;
+      item.compare = false;
+    });
+
+    const selectedCommune = communes.find(item => item === commune);
+    selectedCommune.selected = true;
+
+    const filteredSubcommunes = subcommunes.filter(
+      item => item.parent === selectedCommune.properties.commune_id
+    );
+
+    this.setState({ communes, filteredSubcommunes });
+    this._update("location", commune);
+  }
+
+  _compareCommune(commune) {
+    const { communes } = this.state;
+    communes.map(item => (item.selected = false));
+    const comparing = communes.filter(item => item.compare);
+    if (comparing.length > 1) communes.map(item => (item.compare = false));
+    commune.compare = !commune.compare;
+    this.setState({ communes });
+  }
+
+  _clearSelection() {
+    const { communes } = this.state;
+    const filteredSubcommunes = [];
+    communes.map(item => {
+      item.selected = false;
+      item.compare = false;
+    });
+    this.setState({ communes, filteredSubcommunes });
   }
 
   _changeData(data) {
+    const { datasets } = this.state;
+
+    datasets.map(set => {
+      set.sets.map(item => {
+        item.selected = false;
+      });
+    });
+
+    data.selected = true;
+
+    this.setState({ datasets });
+
     this._update("data", data);
   }
 
@@ -173,35 +234,25 @@ class TrafficController extends Component {
     socket.emit("update", { type, data });
   }
 
-  componentDidMount() {
-    const socket = socketIOClient(this.state.endpoint);
-    socket.on("update", update => {
-      console.log(update);
-    });
-  }
-
   render() {
-    const {
-      communes,
-      subcommunes,
-      segments,
-      intersections,
-      datasets
-    } = this.state;
+    const { communes, datasets, filteredSubcommunes } = this.state;
+    const activeCommune = communes.find(item => item.selected);
+
     return (
       <div className="traffic-controller">
         <div className="traffic-controller__main">
           <div className="container-fluid">
             <div className="row">
-              <div className="col">
+              <div className="col-5">
                 <h2 className="mb-5">Data</h2>
-                {datasets.map(item => (
-                  <section className="mb-5">
+                {datasets.map((item, i) => (
+                  <section className="mb-5" key={`set-${i}`}>
                     <header className="mb-3">{item.name}</header>
-                    {item.sets.map(set => (
+                    {item.sets.map((set, i) => (
                       <button
-                        className="btn"
-                        onClick={() => this._changeData(set)}
+                        className={`btn ${set.selected ? "active" : ""}`}
+                        key={`sets-${i}`}
+                        onClick={() => this._changeData(set, i)}
                       >
                         {set.name}
                       </button>
@@ -212,52 +263,64 @@ class TrafficController extends Component {
               <div className="col">
                 <h2 className="mb-5">Locations</h2>
                 <section className="mb-5">
-                  <header className="mb-3">Communes</header>
-                  <button className="btn">All</button>
+                  <header className="mb-3 d-flex justify-content-between align-items-center">
+                    <div>Communes</div>
+                    <button className="btn mb-0" onClick={this._clearSelection}>
+                      Reset
+                    </button>
+                  </header>
                   {communes.map(item => (
-                    <button
-                      className="btn"
-                      onClick={() => this._changeLocation(item)}
-                    >
-                      {item.properties.name}
-                    </button>
+                    <div className="d-flex align-items-center" key={item.id}>
+                      <div className="flex-grow-1">{item.properties.name}</div>
+                      <button
+                        className={`btn ${item.selected ? "active" : ""}`}
+                        onClick={() => this._selectCommune(item)}
+                      >
+                        Select
+                      </button>
+                      <button
+                        className={`btn ${item.compare ? "active" : ""}`}
+                        onClick={() => this._compareCommune(item)}
+                      >
+                        Compare
+                      </button>
+                    </div>
                   ))}
                 </section>
                 <section className="mb-5">
-                  <header className="mb-3">Sub Communes</header>
-                  {subcommunes.map(item => (
-                    <button
-                      className="btn"
-                      onClick={() => this._changeLocation(item)}
-                    >
-                      {item.properties.name}
+                  <header className="mb-3 d-flex justify-content-between align-items-center">
+                    <div>Sub-Communes</div>
+                    <button className="btn mb-0" onClick={this._clearSelection}>
+                      Reset
                     </button>
-                  ))}
-                </section>
-                <section className="mb-5">
-                  <header className="mb-3">Segments</header>
-                  {segments.map(item => (
-                    <button
-                      className="btn"
-                      onClick={() => this._changeLocation(item)}
-                    >
-                      {item.properties.name}
-                    </button>
-                  ))}
-                </section>
-                <section className="mb-5">
-                  <header className="mb-3">Intersections</header>
-                  {intersections.map(item => (
-                    <button
-                      className="btn"
-                      onClick={() => this._changeLocation(item)}
-                    >
-                      {item.properties.name}
-                    </button>
-                  ))}
+                  </header>
+                  {filteredSubcommunes.length
+                    ? filteredSubcommunes.map(item => (
+                        <div
+                          className="d-flex align-items-center"
+                          key={item.id}
+                        >
+                          <div className="flex-grow-1">
+                            {item.properties.name}
+                          </div>
+                          <button
+                            className={`btn ${item.selected ? "active" : ""}`}
+                            onClick={() => this._selectSubcommune(item)}
+                          >
+                            Select
+                          </button>
+                          <button
+                            className={`btn ${item.compare ? "active" : ""}`}
+                            onClick={() => this._compareSubcommune(item)}
+                          >
+                            Compare
+                          </button>
+                        </div>
+                      ))
+                    : null}
                 </section>
               </div>
-              <div className="col">
+              <div className="col-12">
                 <h2 className="mb-5">Controls</h2>
                 <section className="mb-5">
                   <header className="mb-3">Display</header>

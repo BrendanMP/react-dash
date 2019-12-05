@@ -5,7 +5,7 @@ const uuidv4 = require("uuid/v4");
 
 const geojsonArea = require("@mapbox/geojson-area");
 
-const communes = require("./communes");
+const communes = require("./--communes");
 const sub_communes = require("./sub_communes");
 
 let communes_result = [];

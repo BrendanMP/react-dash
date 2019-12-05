@@ -19,7 +19,8 @@
   &__sidebar {
     padding: 1rem;
     position: relative;
-    flex: 0 0 22vw;
+    flex: 0 0 auto;
+    width: 22vw;
     height: 100vh;
     background: $gray-900;
     display: flex;

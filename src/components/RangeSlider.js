@@ -1,16 +1,16 @@
-import React from 'react'
-import {addSeconds, format} from 'date-fns';
-import InputRange from 'react-input-range';
-import { ReactComponent as Play } from '../images/play.svg';
-import { ReactComponent as Pause } from '../images/pause.svg';
-import { ReactComponent as FullScreen } from '../images/fullscreen.svg';
+import React from "react";
+import { addSeconds, format } from "date-fns";
+import InputRange from "react-input-range";
+import { ReactComponent as Play } from "../images/play.svg";
+import { ReactComponent as Pause } from "../images/pause.svg";
+import { ReactComponent as FullScreen } from "../images/fullscreen.svg";
 
 class RangeSlider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       value: this.props.time,
-      date: new Date('2019-10-10 0:00'),
+      date: new Date("2019-10-10 0:00"),
       isPlaying: false,
       speed: this.props.speed,
       speedModifier: 1,
@@ -25,67 +25,75 @@ class RangeSlider extends React.Component {
   }
 
   _updateRange(value) {
-    this.setState({value})
+    this.setState({ value });
     this.props.rangeChange(value);
   }
 
   _animate = () => {
     if (this.state.value < 86400) {
-      this._updateRange(this.state.value + (this.state.speed * this.state.speedModifier || 1))
+      this._updateRange(
+        this.state.value + (this.state.speed * this.state.speedModifier || 1)
+      );
     } else {
-      this._updateRange(0)
+      this._updateRange(0);
     }
-    this._animationFrame = window.requestAnimationFrame(this._animate.bind(this));
-  }
+    this._animationFrame = window.requestAnimationFrame(
+      this._animate.bind(this)
+    );
+  };
 
   _toggle() {
     cancelAnimationFrame(this._animationFrame);
-    const {isPlaying} = this.state;
+    const { isPlaying } = this.state;
     if (!isPlaying) {
       this._animate();
     }
-    this.setState({isPlaying: !isPlaying});
+    this.setState({ isPlaying: !isPlaying });
   }
   _toggleSpeed() {
     if (this.state.speedModifier === 1) {
-      this.setState({speedModifier: 2})
+      this.setState({ speedModifier: 2 });
     } else {
-      this.setState({speedModifier: 1})
+      this.setState({ speedModifier: 1 });
     }
   }
 
   _openFullscreen() {
     const elem = document.documentElement;
     elem.requestFullscreen();
-    this.setState({fullScreen: true})
+    this.setState({ fullScreen: true });
   }
 
   render() {
-    const {isPlaying, fullScreen} = this.state;
+    const { isPlaying, fullScreen } = this.state;
     return (
-      <div className='d-flex flex-grow-1 align-content-center'>
-        <div className='mr-0'>
-          {
-            !fullScreen ?
-              <button className='btn mr-4' onClick={this._openFullscreen}>
-                <FullScreen/>
-              </button>
-              : null
-          }
+      <div className="d-flex flex-grow-1 align-content-center">
+        <div className="mr-0">
+          {!fullScreen ? (
+            <button className="btn mr-4" onClick={this._openFullscreen}>
+              <FullScreen />
+            </button>
+          ) : null}
           <button className="btn px-0" onClick={this._toggle}>
-            { !isPlaying ?
-              <div><Play/></div>
-              :
-              <div><Pause/></div>
-            }
+            {!isPlaying ? (
+              <div>
+                <Play width={20} height={20} />
+              </div>
+            ) : (
+              <div>
+                <Pause width={20} height={20} />
+              </div>
+            )}
           </button>
-          <button className='btn mx-4' onClick={this._toggleSpeed}>
+          <button className="btn mx-4" onClick={this._toggleSpeed}>
             {this.state.speedModifier}x
           </button>
         </div>
-        <div className='flex-grow-1 d-flex align-items-center'>
+        <div className="flex-grow-1 d-flex align-items-center">
           <InputRange
-            formatLabel={value => format(addSeconds(this.state.date, value || 0), 'h:mm a')}
+            formatLabel={value =>
+              format(addSeconds(this.state.date, value || 0), "h:mm a")
+            }
             minValue={0}
             maxValue={86400}
             value={this.state.value}
@@ -93,8 +101,8 @@ class RangeSlider extends React.Component {
           />
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default RangeSlider
+export default RangeSlider;

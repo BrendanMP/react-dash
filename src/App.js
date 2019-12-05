@@ -7,6 +7,11 @@ import TrafficController from "./pages/traffic/TrafficController";
 import Incidents from "./pages/incidents/Incidents";
 import Accidents from "./pages/accidents/Accidents";
 import Socket from "./pages/Socket";
+import Basic from "./pages/demo/Basic";
+import TrafficDemo from "./pages/demo/Traffic";
+import Construction from "./pages/demo/Construction";
+
+import Controller from "./components/controller/Controller";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -17,6 +22,18 @@ function App() {
         <Switch>
           <Route path="/finance/home">
             <Finance />
+          </Route>
+          <Route path="/demo/traffic">
+            <TrafficDemo controller={true} />
+          </Route>
+          <Route path="/demo/basic">
+            <Basic />
+          </Route>
+          <Route path="/demo/construction">
+            <Construction />
+          </Route>
+          <Route path="/traffic/layout">
+            <Controller></Controller>
           </Route>
           <Route path="/traffic/controller">
             <TrafficController />
