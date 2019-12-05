@@ -14,8 +14,9 @@ import { PhongMaterial } from "@luma.gl/core";
 
 import Fullscreen from "../../components/deck/Fullscreen";
 
-import CONSTRUCTION_JSON from "../../data/adbijan/reseau_arc";
+import CONSTRUCTION_POINTS_JSON from "../../data/adbijan/reseau_noeud";
 import COMMUNES_JSON from "../../data/adbijan/communes";
+import SUBCOMMUNES_JSON from "../../data/adbijan/sub_communes";
 
 const DAY = new Date("1-1-2020");
 
@@ -36,11 +37,7 @@ const INITIAL_VIEWSTATE = {
 
 const colorRange = [
   [1, 152, 189],
-  [73, 227, 206],
-  [216, 254, 181],
-  [254, 237, 177],
-  [254, 173, 84],
-  [254, 120, 78]
+  [73, 227, 206]
 ];
 
 const transitionInterpolator = new LinearInterpolator(["bearing"]);
@@ -65,13 +62,30 @@ class BasicMap extends Component {
         id: "communes-fills",
         data: COMMUNES_JSON,
         stroked: true,
+        filled: false,
+        opacity: 0,
+        lineWidthMinPixels: 0.5,
+        getLineColor: d => [32, 201, 151]
+      }),
+      new GeoJsonLayer({
+        id: "subcommunes-fills",
+        data: SUBCOMMUNES_JSON,
+        stroked: true,
+        filled: false,
+        opacity: 0,
+        lineWidthMinPixels: 0.5,
+        getLineColor: d => [32, 201, 151]
+      }),
+      new ScatterplotLayer({
+        id: "contrstuction-paths",
+        data: CONSTRUCTION_POINTS_JSON.features,
+        getPosition: d => d.geometry.coordinates,
+        stroked: false,
         filled: true,
-        opacity: 0.5,
-        lineWidthMinPixels: 2,
-        getLineColor: [255, 255, 255],
-        getFillColor: [32, 201, 151],
-        extruded: true,
-        getElevation: f => Math.sqrt(f.properties.population),
+        opacity: 1,
+        getRadius: d => Math.random() * (60 - 30) + 30,
+        getColor: d =>
+          colorRange[Math.floor(Math.random() * colorRange.length)],
         parameters: {
           depthTest: false
         }
@@ -92,11 +106,7 @@ class BasicMap extends Component {
     });
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      this._rotateCamera();
-    }, 200);
-  }
+  componentDidMount() {}
 
   render() {
     const { viewState } = this.state;
