@@ -88,6 +88,7 @@ class Incidents extends Component {
     this._flyToIncident = this._flyToIncident.bind(this);
     this._zoomOut = this._zoomOut.bind(this);
     this._flyTo = this._flyTo.bind(this);
+    this._rotateCamera = this._rotateCamera.bind(this);
   }
 
   _clickedSubMenu(name, view) {
@@ -276,11 +277,7 @@ class Incidents extends Component {
         transitionInterpolator: new FlyToInterpolator({ curve: 5 }),
         transitionEasing: t =>
           t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
-        onTransitionEnd: () => {
-          if (zoomOut) {
-            setTimeout(() => this._zoomOut(), 1200);
-          }
-        }
+        onTransitionEnd: this._rotateCamera
       }
     });
   }
@@ -346,6 +343,9 @@ class Incidents extends Component {
 
   componentDidMount() {
     this._updateTime(this.state.time);
+    setTimeout(() => {
+      this._rotateCamera();
+    }, 200);
   }
 
   render() {
