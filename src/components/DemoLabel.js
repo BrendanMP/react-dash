@@ -27,6 +27,7 @@ class DemoLabel extends Component {
   storeLabels() {
     localStorage.setItem("title", this.state.title);
     localStorage.setItem("sub_title", this.state.sub_title);
+    this.setState({ editting: false });
   }
 
   componentDidMount() {
