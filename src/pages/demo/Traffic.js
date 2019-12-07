@@ -21,6 +21,7 @@ import { useSpring, animated } from "react-spring";
 import TRIPS_JSON from "../../data/adbijan/trips.json";
 import RangeSlider from "../../components/RangeSlider";
 import COMMUNES_JSON from "../../data/adbijan/communes";
+import Label from "../../components/DemoLabel";
 
 function distanceBetween(lat1, lon1, lat2, lon2, unit) {
   if (lat1 === lat2 && lon1 === lon2) {
@@ -394,6 +395,9 @@ class Traffic extends Component {
             mapboxApiAccessToken={MAPBOX_TOKEN}
           />
         </DeckGL>
+        <div style={{ position: "fixed", top: "1rem", left: "1rem" }}>
+          <Label />
+        </div>
         {this.props.controller ? (
           <div
             style={{

@@ -13,6 +13,7 @@ import { StaticMap } from "react-map-gl";
 import { PhongMaterial } from "@luma.gl/core";
 
 import Fullscreen from "../../components/deck/Fullscreen";
+import Label from "../../components/DemoLabel";
 
 import CONSTRUCTION_JSON from "../../data/adbijan/reseau_arc";
 import CONSTRUCTION_POINTS_JSON from "../../data/adbijan/reseau_noeud";
@@ -147,6 +148,9 @@ class BasicMap extends Component {
           />
         </DeckGL>
         <div style={{ position: "fixed", top: "1rem", left: "1rem" }}>
+          <Label />
+        </div>
+        <div style={{ position: "fixed", top: "1rem", right: "1rem" }}>
           <Fullscreen />
         </div>
       </div>
