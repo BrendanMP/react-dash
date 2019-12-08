@@ -17,6 +17,7 @@ import Fullscreen from "../../components/deck/Fullscreen";
 import CONSTRUCTION_POINTS_JSON from "../../data/adbijan/reseau_noeud";
 import COMMUNES_JSON from "../../data/adbijan/communes";
 import SUBCOMMUNES_JSON from "../../data/adbijan/sub_communes";
+import Label from "../../components/DemoLabel";
 
 const DAY = new Date("1-1-2020");
 
@@ -126,8 +127,11 @@ class BasicMap extends Component {
             mapboxApiAccessToken={MAPBOX_TOKEN}
           />
         </DeckGL>
-        <div style={{ position: "fixed", top: "1rem", left: "1rem" }}>
+        <div style={{ position: "fixed", top: "1rem", right: "1rem" }}>
           <Fullscreen />
+        </div>
+        <div style={{ position: "fixed", top: "1rem", left: "1rem" }}>
+          <Label />
         </div>
       </div>
     );

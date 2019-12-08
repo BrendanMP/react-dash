@@ -38,13 +38,15 @@ class DemoLabel extends Component {
   }
 
   render() {
-    const { editting } = this.state;
+    const { title, sub_title, editting } = this.state;
     return (
       <div>
         <div className="panel" onClick={this.edit}>
           <div className="panel-body">
-            <h3 className="mb-2">{this.state.title || "Default"}</h3>
-            <h4 className="mb-0">{this.state.sub_title || "Default"}</h4>
+            {title ? (
+              <h3 className={`${sub_title ? "mb-3" : ""}`}>{title}</h3>
+            ) : null}
+            {sub_title ? <h4 className="mb-0">{sub_title}</h4> : null}
           </div>
         </div>
         {editting ? (
