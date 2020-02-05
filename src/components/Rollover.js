@@ -28,15 +28,10 @@ class Rollover extends Component {
             strings={[hover.toString()]}
             key={hover}
             showCursor={false}
-            typeSpeed={50}
+            typeSpeed={40}
           />
         ) : (
-          <Typed
-            strings={[init.toString()]}
-            key={init}
-            showCursor={false}
-            typeSpeed={50}
-          />
+          init
         )}
         &nbsp;
       </div>

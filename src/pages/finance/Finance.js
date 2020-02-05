@@ -167,6 +167,7 @@ class Finance extends Component {
   render() {
     const { views, data, ministries } = this.state;
     const active = views.find(view => view.active === true);
+    console.log(active);
     return (
       <Layout
         views={views}

@@ -151,7 +151,7 @@ class Ministries extends Component {
       <div>
         {active ? (
           <div>
-            <div className="dashboard__nav">
+            <div className="dashboard__nav" style={{ paddingTop: "3rem" }}>
               <h1 className="text-white mb-3">{active.labelfull}</h1>
             </div>
             <div className="dashboard__content py-5">
@@ -350,38 +350,56 @@ class Ministries extends Component {
                 </div>
                 <div className="col-3">
                   <div className="" style={{ position: "sticky", top: 85 }}>
-                    <div className="panel-body flex-grow-1">
+                    <div className="panel-body flex-grow-1 pb-4">
                       <div
                         className="img-square mb-4"
                         style={{ backgroundImage: `url(${active.image})` }}
                       ></div>
                       <h5>Minister</h5>
-                      <h2 className="mb-0 text-white">{active.ministername}</h2>
-                      <div className="mt-4">
-                        <h5>Time In Office</h5>
-                        <h2 className="text-white">
-                          {active.ministerterm} Months
-                        </h2>
+                      <h3 className="mb-0 text-white">{active.ministername}</h3>
+                      <div className="row">
+                        <div className="col">
+                          <div className="mt-4">
+                            <h5>Time In Office</h5>
+                            <h3 className="text-white">
+                              {active.ministerterm} Months
+                            </h3>
+                          </div>
+                        </div>
+                        <div className="col">
+                          <div className="mt-4">
+                            <h5>Metric</h5>
+                            <h3 className="text-white">+1</h3>
+                          </div>
+                        </div>
                       </div>
+
                       <div className="mt-4">
                         <h5>Minister's Chief of Staff</h5>
                         <div className="text-white">
                           <div className="d-flex justify-content-between">
-                            <span className="w-50">Name</span>
-                            <span>{active.ministercos}</span>
+                            <span>Name</span>
+                            <span style={{ whiteSpace: "nowrap" }}>
+                              {active.ministercos}
+                            </span>
                           </div>
                           <div className="d-flex justify-content-between">
-                            <span className="w-50">Email</span>
+                            <span>Email</span>
                             <span>Unknown</span>
                           </div>
                           <div className="d-flex justify-content-between">
-                            <span className="w-50">Phone</span>
+                            <span>Phone</span>
                             <span>Unknown</span>
                           </div>
                           <div className="d-flex justify-content-between">
-                            <span className="w-50">Secondary Phone</span>
+                            <span className="">Secondary Phone</span>
                             <span>Unknown</span>
                           </div>
+                        </div>
+                        <div className="mt-5 pt-3">
+                          <button className="btn btn-outline-primary rounded-0 w-100">
+                            View Rankings
+                          </button>
                         </div>
                       </div>
                     </div>

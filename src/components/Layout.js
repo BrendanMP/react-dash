@@ -10,6 +10,7 @@ import { ReactComponent as Rank } from "../images/rank.svg";
 import { ReactComponent as Rotate } from "../images/rotate.svg";
 import { ReactComponent as Reset } from "../images/reset.svg";
 import { ReactComponent as Ministries } from "../images/ministries.svg";
+import { ReactComponent as Ministers } from "../images/ministers.svg";
 import Fullscreen from "./deck/Fullscreen";
 import Timeline from "./deck/Timeline";
 
@@ -21,6 +22,8 @@ const renderNavIcons = name => {
       return <DashboardIcon />;
     case "ministries":
       return <Ministries />;
+    case "ministers":
+      return <Ministers />;
     default:
       return "";
   }
