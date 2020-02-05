@@ -9,6 +9,7 @@ import { ReactComponent as ArrowLeft } from "../images/arrow-left.svg";
 import { ReactComponent as Rank } from "../images/rank.svg";
 import { ReactComponent as Rotate } from "../images/rotate.svg";
 import { ReactComponent as Reset } from "../images/reset.svg";
+import { ReactComponent as Ministries } from "../images/ministries.svg";
 import Fullscreen from "./deck/Fullscreen";
 import Timeline from "./deck/Timeline";
 
@@ -18,6 +19,8 @@ const renderNavIcons = name => {
       return <MapIcon />;
     case "dashboard":
       return <DashboardIcon />;
+    case "ministries":
+      return <Ministries />;
     default:
       return "";
   }

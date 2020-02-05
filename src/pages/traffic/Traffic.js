@@ -50,7 +50,7 @@ class Traffic extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      endpoint: "0.0.0.0:3030",
+      endpoint: "https://tl-socket-server.herokuapp.com/",
       fullscreen: false,
       viewState: {
         latitude: INITIAL_VIEWSTATE.latitude,
@@ -107,9 +107,6 @@ class Traffic extends Component {
 
   _onViewStateChange({ viewState, interactionState }) {
     const viewstate = viewState;
-
-    console.log(interactionState);
-
     this.setState({ viewState });
   }
 

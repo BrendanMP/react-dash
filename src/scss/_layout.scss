@@ -81,13 +81,15 @@
     }
 
     button {
-      padding: 1.5rem 2rem 1.5rem 3rem;
+      padding: 1.5rem;
       font-size: 1.2rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       text-align: right;
-      min-width: 12vw;
+      width: 12vw;
       position: relative;
+      overflow: hidden;
+      text-overflow: ellipsis;
       &:hover {
         color: $gray-300;
         background: $gray-800;
@@ -147,6 +149,7 @@
     opacity: 0;
     transition: padding-left 300ms ease-in-out, opacity 300ms ease-in-out;
     pointer-events: none;
+    overflow: scroll;
     &.active {
       pointer-events: auto;
       opacity: 1;

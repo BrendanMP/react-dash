@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 import Layout from "../../components/Layout";
 import Dashboard from "../../components/Dashboard";
+import Ministries from "../../components/Ministries";
 
 import FINANCE_JSON from "../../data/finance/finance";
 
@@ -43,60 +45,70 @@ class Finance extends Component {
         {
           name: "dashboard",
           label: "Dashboard",
-          active: true,
+          active: false,
           submenuCollapsible: false,
           controls: [],
-          data: FINANCE_JSON.data
-        }
-      ],
-      submenu: [
-        {
-          name: "project_status",
-          label: "Status",
-          title: "Projects",
-          active: true,
-          sets: [
+          data: FINANCE_JSON.data,
+          submenu: [
             {
-              name: "all",
-              label: "All",
-              title: "All Projects",
+              name: "project_status",
+              label: "Status",
+              title: "Projects",
               active: true,
-              ranges: []
+              sets: [
+                {
+                  name: "all",
+                  label: "All",
+                  title: "All Projects",
+                  active: true,
+                  ranges: []
+                },
+                ...STATUS_SET
+              ]
             },
-            ...STATUS_SET
-          ]
-        },
-        {
-          name: "ministry",
-          label: "Ministry",
-          title: "Ministry of",
-          active: false,
-          sets: [
             {
-              name: "all",
-              label: "All",
-              title: "All Ministries",
-              active: true,
-              ranges: []
+              name: "ministry",
+              label: "Ministry",
+              title: "Ministry of",
+              active: false,
+              sets: [
+                {
+                  name: "all",
+                  label: "All",
+                  title: "All Ministries",
+                  active: true,
+                  ranges: []
+                },
+                ...MINISTSRIES_SET
+              ]
             },
-            ...MINISTSRIES_SET
-          ]
-        },
-        {
-          name: "frozen",
-          label: "Frozen",
-          active: false,
-          sets: [
             {
               name: "frozen",
               label: "Frozen",
-              title: "Frozen Projects",
-              active: true,
-              ranges: []
+              active: false,
+              sets: [
+                {
+                  name: "frozen",
+                  label: "Frozen",
+                  title: "Frozen Projects",
+                  active: true,
+                  ranges: []
+                }
+              ]
             }
           ]
+        },
+        {
+          name: "ministries",
+          label: "Ministries",
+          active: true,
+          submenuCollapsible: false,
+          controls: [],
+          data: FINANCE_JSON.data,
+          submenu: []
         }
-      ]
+      ],
+      data: []
     };
     this._changeView = this._changeView.bind(this);
     this._clickedSubMenu = this._clickedSubMenu.bind(this);
@@ -113,24 +125,52 @@ class Finance extends Component {
   }
 
   _clickedSubMenu(name, view) {
-    const { views, submenu } = this.state;
-    const active = submenu.find(view => view.active === true);
+    const { views } = this.state;
+    const active = views.find(view => view.active === true);
 
-    submenu.map(item => {
+    active.submenu.map(item => {
       item.name === name ? (item.active = true) : (item.active = false);
       return item;
     });
 
-    this.setState({ submenu });
+    this.setState({ views });
+  }
+
+  async componentDidMount() {
+    const { views } = this.state;
+    try {
+      const projects = await axios.get(
+        `https://tl-socket-server.herokuapp.com/api/projects`
+      );
+      const ministries = await axios.get(
+        `https://tl-socket-server.herokuapp.com/api/ministries`
+      );
+
+      const menu = ministries.data
+        .map(item => {
+          item.name = item.id;
+          item.label = item.labelshort;
+          return item;
+        })
+        .sort((a, b) => (a.labelshort > b.labelshort ? 1 : -1));
+
+      menu[0].active = true;
+
+      views.find(item => item.name === "ministries").submenu = menu;
+
+      this.setState({ data: projects.data, views });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   render() {
-    const { views, submenu, sets } = this.state;
+    const { views, data, ministries } = this.state;
     const active = views.find(view => view.active === true);
     return (
       <Layout
         views={views}
-        submenu={submenu}
+        submenu={active.submenu}
         controls={active.controls}
         changeView={this._changeView}
         clickedSubMenu={this._clickedSubMenu}
@@ -146,8 +186,12 @@ class Finance extends Component {
               <Dashboard
                 data={view.data}
                 type={"finance"}
-                views={submenu}
+                views={view.submenu}
               ></Dashboard>
+            ) : null}
+
+            {view.name === "ministries" ? (
+              <Ministries view={active} data={data} />
             ) : null}
           </div>
         ))}
