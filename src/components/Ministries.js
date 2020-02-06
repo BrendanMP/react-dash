@@ -49,9 +49,11 @@ class Ministries extends Component {
 
   toggleSidebar() {
     const { modalActive } = this.state;
+    const el = document.querySelector(".page__content-view.active");
     if (!modalActive) {
-      const el = document.querySelector(".page__content-view.active");
-      el.classList.toggle("sidebar-active");
+      el.classList.add("sidebar-active");
+    } else {
+      el.classList.remove("sidebar-active");
     }
     this.setState({ modalActive: !modalActive });
   }
@@ -362,11 +364,15 @@ class Ministries extends Component {
                                   </div>
                                   <div className="col-6">
                                     <h5>STATUS</h5>
-                                    <h4>{item.projectstatus}</h4>
+                                    <h5 className="text-white">
+                                      {item.projectstatus}
+                                    </h5>
                                   </div>
                                   <div className="col-6">
                                     <h5>MINISTRY</h5>
-                                    <h4>{item.projectministrylabel}</h4>
+                                    <h5 className="text-white">
+                                      {item.projectministrylabel}
+                                    </h5>
                                   </div>
                                 </div>
                               </div>
