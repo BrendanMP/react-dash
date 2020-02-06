@@ -344,6 +344,9 @@ a {
 
   perspective: 500rem;
 
+  &.active {
+    background: darken($gray-900, 2%);
+  }
 
   &--success {
     border-top: 2px solid transparent;
@@ -427,6 +430,12 @@ a {
     //flex-direction: column;
     //justify-content: center;
     padding: 2rem;
+  }
+
+  .panel-image {
+    width: 6rem;
+    background-position: center;
+    background-size: cover;
   }
 }
 
@@ -757,4 +766,62 @@ $deck-info-width: 18vw;
   width: 0.8em;
   height: 0.8em;
   margin-right: 0.25em;
+}
+
+.dash-modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 10000;
+  pointer-events: none;
+  width: 100vw;
+  height: 100vh;
+  width: 30rem;
+
+  &.active {
+    pointer-events: all;
+
+    .dash-modal__content {
+      opacity: 1;
+    }
+    .dash-modal__overlay {
+      opacity: 1;
+    }
+  }
+
+  &__content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 40rem;
+    background: $gray-800;
+    padding: 2rem 4rem 4rem;
+    overflow: scroll;
+    opacity: 0;
+  }
+  &__overlay {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba($black, 0.8);
+    opacity: 0;
+  }
+}
+
+
+.rankings-list {
+  .img-square {
+    width: 4rem;
+    height: 4rem;
+    padding: 0;
+  }
+}
+
+.sidebar-active {
+  height: 100vw;
+  overflow: hidden;
 }

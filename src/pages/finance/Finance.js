@@ -158,7 +158,11 @@ class Finance extends Component {
 
       views.find(item => item.name === "ministries").submenu = menu;
 
-      this.setState({ data: projects.data, views });
+      this.setState({
+        data: projects.data,
+        views,
+        ministries: ministries.data
+      });
     } catch (e) {
       console.log(e);
     }
@@ -167,7 +171,6 @@ class Finance extends Component {
   render() {
     const { views, data, ministries } = this.state;
     const active = views.find(view => view.active === true);
-    console.log(active);
     return (
       <Layout
         views={views}
@@ -192,7 +195,7 @@ class Finance extends Component {
             ) : null}
 
             {view.name === "ministries" ? (
-              <Ministries view={active} data={data} />
+              <Ministries view={active} data={data} ministries={ministries} />
             ) : null}
           </div>
         ))}

@@ -32,27 +32,33 @@ const getBorderColor = item => {
 
 const formatDollars = num => {
   if (isNaN(num)) return num;
-
-  if (num < 9999) {
-    return num;
-  }
-
-  if (num < 1000000) {
-    return Math.round(num / 1000) + "K";
-  }
-
-  if (num < 100000000000000) {
+  if (num < 9999) return num;
+  if (num < 1000000) return Math.round(num / 1000) + "K";
+  if (num < 100000000000000)
     return "$" + Math.round(num / 1000000).toLocaleString() + "M";
-  }
 };
 
 class Ministries extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      modalActive: false
+    };
+    this.toggleSidebar = this.toggleSidebar.bind(this);
+  }
+
+  toggleSidebar() {
+    const { modalActive } = this.state;
+    if (!modalActive) {
+      const el = document.querySelector(".page__content-view.active");
+      el.classList.toggle("sidebar-active");
+    }
+    this.setState({ modalActive: !modalActive });
   }
 
   render() {
-    const { view, data } = this.props;
+    const { view, data, ministries } = this.props;
+    const { modalActive } = this.state;
 
     const active = view.submenu.find(item => item.active);
 
@@ -134,7 +140,7 @@ class Ministries extends Component {
       labels: ["Completed", "In Progress", "Frozen"],
       datasets: [
         {
-          data: [completed, frozen, awaiting],
+          data: [completed, inProgress, awaiting],
           backgroundColor: [
             "rgba(32, 201, 151, 0.8)",
             "rgba(255, 193, 7, 0.8)",
@@ -230,7 +236,6 @@ class Ministries extends Component {
                                   }}
                                 ></span>
                                 {formatDollars(unfrozen)}
-                                {/*{unfrozen.toFixed(0)}*/}
                               </h1>
                             </div>
                             <div className="mb-4">
@@ -327,11 +332,12 @@ class Ministries extends Component {
                   </div>
                   <article className="mt-5">
                     <h3 className="header-label mb-4">Projects</h3>
+
                     <div className="row">
                       {filteredData.map(item => (
                         <div
                           key={item.id}
-                          className="col-4 mb-3 d-flex flex-column"
+                          className="col-6 mb-3 d-flex flex-column project"
                         >
                           <div
                             className={`panel flex-grow-1 ${getBorderColor(
@@ -339,8 +345,48 @@ class Ministries extends Component {
                             )}`}
                           >
                             <div className="panel-body flex-grow-1">
-                              <h5 className="text-white">{item.project}</h5>
-                              <p className="mb-0">{item.projectstatus}</p>
+                              <div className="project__header">
+                                <h2 className="mb-0">{item.project}</h2>
+                              </div>
+                              <div className="project__content">
+                                <div className="row">
+                                  <div className="col-6">
+                                    <h5>USD</h5>
+                                    <h4>
+                                      {formatDollars(item.projectcostusd)}
+                                    </h4>
+                                  </div>
+                                  <div className="col-6">
+                                    <h5>FCFA</h5>
+                                    <h4>{item.projectcostfcfabillions} CFCA</h4>
+                                  </div>
+                                  <div className="col-6">
+                                    <h5>STATUS</h5>
+                                    <h4>{item.projectstatus}</h4>
+                                  </div>
+                                  <div className="col-6">
+                                    <h5>MINISTRY</h5>
+                                    <h4>{item.projectministrylabel}</h4>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="project__progress">
+                                <h5>PROGRESS</h5>
+                                <div className="project__progress-bar">
+                                  <div
+                                    className="project__progress-bar--progress green"
+                                    style={{
+                                      width: `${item.projectcompletionpercentage}%`
+                                    }}
+                                  ></div>
+                                  <div className="project__progress-bar--progress-number">
+                                    {item.projectcompletionpercentage
+                                      ? item.projectcompletionpercentage
+                                      : "0"}
+                                    %
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -349,7 +395,7 @@ class Ministries extends Component {
                   </article>
                 </div>
                 <div className="col-3">
-                  <div className="" style={{ position: "sticky", top: 85 }}>
+                  <div className="">
                     <div className="panel-body flex-grow-1 pb-4">
                       <div
                         className="img-square mb-4"
@@ -367,7 +413,7 @@ class Ministries extends Component {
                           </div>
                         </div>
                         <div className="col">
-                          <div className="mt-4">
+                          <div className="mt-4 d-none">
                             <h5>Metric</h5>
                             <h3 className="text-white">+1</h3>
                           </div>
@@ -396,13 +442,56 @@ class Ministries extends Component {
                             <span>Unknown</span>
                           </div>
                         </div>
-                        <div className="mt-5 pt-3">
-                          <button className="btn btn-outline-primary rounded-0 w-100">
+                        <div className="mt-5 pt-4">
+                          <button
+                            className="btn btn-outline-primary rounded-0 w-100"
+                            onClick={this.toggleSidebar}
+                          >
                             View Rankings
                           </button>
                         </div>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={`dash-modal ${modalActive ? "active" : ""}`}>
+              <div
+                className="dash-modal__overlay"
+                onClick={this.toggleSidebar}
+              ></div>
+              <div className="dash-modal__content">
+                <div className="mt-4">
+                  <h2 className="text-white mb-4">Rankings</h2>
+                </div>
+                <div>
+                  <div className="list-unstyled rankings-list">
+                    {ministries
+                      .sort((a, b) => (a.minsterrank > b.minsterrank ? 1 : -1))
+                      .map(item => (
+                        <div
+                          className={`panel ${
+                            active.id === item.id ? "active" : null
+                          }`}
+                          key={item.id}
+                        >
+                          <div
+                            className="panel-image"
+                            style={{
+                              backgroundImage: `url(${images.find(str =>
+                                str.includes(item.name)
+                              )})`
+                            }}
+                          ></div>
+                          <div className="panel-body">
+                            <h3 className="text-white mb-2">
+                              {item.ministerrank}. {item.ministername}
+                            </h3>
+                            <p className="mb-0">{item.labelfull}</p>
+                          </div>
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>
