@@ -468,7 +468,9 @@ class Ministries extends Component {
                 <div>
                   <div className="list-unstyled rankings-list">
                     {ministries
-                      .sort((a, b) => (a.minsterrank > b.minsterrank ? 1 : -1))
+                      .sort((a, b) =>
+                        a.ministerrank > b.ministerrank ? 1 : -1
+                      )
                       .map(item => (
                         <div
                           className={`panel ${
