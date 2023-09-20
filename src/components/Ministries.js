@@ -414,7 +414,7 @@ class Ministries extends Component {
                           <div className="mt-4">
                             <h5>Time In Office</h5>
                             <h3 className="text-white">
-                              {active.ministerterm} Months
+                              {active.minister_term} Months
                             </h3>
                           </div>
                         </div>

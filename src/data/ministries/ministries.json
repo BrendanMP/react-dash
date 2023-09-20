@@ -1,0 +1,114 @@
+{
+  "data": [
+    {
+      "id": "agriculture",
+      "ministername": "M. Kobenan Kouassi ADJOUMANI",
+      "ministerterm": 6,
+      "ministerrank": 4,
+      "ministercos": "COULIBALY Siaka Minayaha",
+      "labelfull": "Ministry of Agriculture",
+      "labelshort": "Agriculture",
+      "ministerimage": "agriculture.jpg",
+      "ministerimagetype": "jpg"
+    },
+    {
+      "id": "construction_sanitation",
+      "ministername": "M. Bruno KONE",
+      "ministerterm": 19,
+      "ministerrank": 2,
+      "ministercos": "Kaladji DIABATE",
+      "labelfull": "Ministry of Construction and Sanitation",
+      "labelshort": "Construction",
+      "ministerimage": "construction_sanitation.png",
+      "ministerimagetype": "png"
+    },
+    {
+      "id": "education_higher",
+      "ministername": "M. Abdallah Albert Mabri TOIKEUSSE",
+      "ministerterm": 19,
+      "ministerrank": 3,
+      "ministercos": "YAPI Houphouët Félix",
+      "labelfull": "Ministry of Higher Education",
+      "labelshort": "EDU - Higher",
+      "ministerimage": "education_higher.jpg",
+      "ministerimagetype": "jpg"
+    },
+    {
+      "id": "education_technical",
+      "ministername": "Mme Kandia Kamissoko CAMARA",
+      "ministerterm": 110,
+      "ministerrank": 1,
+      "ministercos": "KABRAN ASSOUMOU",
+      "labelfull": "Ministry of Technical Education",
+      "labelshort": "EDU - Technical",
+      "ministerimage": "education_technical.jpg",
+      "ministerimagetype": "jpg"
+    },
+    {
+      "id": "energy",
+      "ministername": "M. Abdourahmane CISSE",
+      "ministerterm": 14,
+      "ministerrank": 5,
+      "ministercos": "AKA KADJO Jean-Baptiste",
+      "labelfull": "Ministry of  Energy",
+      "labelshort": "Energy",
+      "ministerimage": "energy.png",
+      "ministerimagetype": "png"
+    },
+    {
+      "id": "health",
+      "ministername": "M. Aoule Eugene AKA",
+      "ministerterm": 19,
+      "ministerrank": 6,
+      "ministercos": "ACKA KASSY Joseph",
+      "labelfull": "Ministry of Health",
+      "labelshort": "Health",
+      "ministerimage": "health.jpg",
+      "ministerimagetype": "jpg"
+    },
+    {
+      "id": "ict",
+      "ministername": "M. Sidi Tiemoko TOURE",
+      "ministerterm": 19,
+      "ministerrank": 7,
+      "ministercos": "Jean-Martial ADOU",
+      "labelfull": "Ministry of  Information and Communication Technology",
+      "labelshort": "Technology",
+      "ministerimage": "ict.jpg",
+      "ministerimagetype": "jpg"
+    },
+    {
+      "id": "infrastructure",
+      "ministername": "M. Amédé Koffi KOUAKOU",
+      "ministerterm": 37,
+      "ministerrank": 8,
+      "ministercos": "YAO Aristide Armand",
+      "labelfull": "Ministry of Infrastructure",
+      "labelshort": "Infrastructure",
+      "ministerimage": "infrastructure.png",
+      "ministerimagetype": "png"
+    },
+    {
+      "id": "justice",
+      "ministername": "M. Sansan KAMBILE",
+      "ministerterm": 49,
+      "ministerrank": 9,
+      "ministercos": "KOUASSI N’GUESSAN Bernard",
+      "labelfull": "Ministry of Justice",
+      "labelshort": "Justice",
+      "ministerimage": "justice.jpg",
+      "ministerimagetype": "jpg"
+    },
+    {
+      "id": "transport",
+      "ministername": "M. Amadou KONE",
+      "ministerterm": 37,
+      "ministerrank": 10,
+      "ministercos": "Mamadou DIOMANDE",
+      "labelfull": "Ministry of Transport",
+      "labelshort": "Transport",
+      "ministerimage": "transport.png",
+      "ministerimagetype": "png"
+    }
+  ]
+}

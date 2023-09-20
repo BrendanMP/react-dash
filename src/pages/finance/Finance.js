@@ -6,6 +6,8 @@ import Dashboard from "../../components/Dashboard";
 import Ministries from "../../components/Ministries";
 
 import FINANCE_JSON from "../../data/finance/finance";
+import MINISTRIES_JSON from "../../data/ministries/ministries";
+import PROJECTS_JSON from '../../data/projects/projects'
 
 const MINISTRIES = [
   ...new Set(FINANCE_JSON.data.map(item => item.project_ministry))
@@ -139,12 +141,8 @@ class Finance extends Component {
   async componentDidMount() {
     const { views } = this.state;
     try {
-      const projects = await axios.get(
-        `https://tl-socket-server.herokuapp.com/api/projects`
-      );
-      const ministries = await axios.get(
-        `https://tl-socket-server.herokuapp.com/api/ministries`
-      );
+      const projects = PROJECTS_JSON;
+      const ministries = MINISTRIES_JSON
 
       const menu = ministries.data
         .map(item => {
